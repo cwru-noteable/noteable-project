@@ -1,1 +1,44 @@
-# Frontend Folder
+# Frontend
+## Tools
+* **React.js** for Component Architecture.
+* **axios** for HTTP requests.
+## Architecture
+* Navigation
+  * LogOutButton
+  * MyCollectionButton
+  * BrowseButton
+  * InfoButton
+* Info
+  * Instructions
+* Login
+  * UsernameField
+  * PasswordField
+  * NoAccountButton
+* Register
+  * UsernameField
+  * PasswordField
+  * ConfirmPasswordField
+  * CreateAccountButton
+  * CancelButton
+* Collection
+  * CollectionTable
+    * CollectionTableRow
+    * CollectionTableColumn
+  * CollectionFilter
+    * CollectionFilterAttribute
+      * CollectionFilterAttributeLabel
+      * CollectionFilterAttributeValue
+* Browse
+  * BrowseTable
+    * BrowseTableRow
+    * BrowseTableColumn
+  * BrowseFilter
+    * BrowseFilterAttribute
+      * BrowseFilterAttributeLabel
+      * BrowseFilterAttributeValue
+* Item
+  * ItemAttribute
+    * ItemAttributeLabel
+    * ItemAttributeValue
+  * ItemEditButton
+  * ItemDeleteButton
