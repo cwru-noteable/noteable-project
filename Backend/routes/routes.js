@@ -88,14 +88,71 @@ const router = app => {
 
     app.get('/ImpColl/:id', (request, response) => {
         const id = request.params.id;
-        pool.query('SELECT * FROM Implement_Collection WHERE IC_ID = ?', id,
+        pool.query('SELECT FountainP.FP_Name FROM (Implement_Collection natural join IC_FP natural join FountainP) WHERE Implement_Collection.IC_ID = ? ', id,
+            (error, result) => {
+                if (error) throw error;
+                response.send(result);
+            });
+        pool.query('SELECT CartridgeP.CP_Name FROM (Implement_Collection natural join IC_CP natural join CartridgeP) WHERE Implement_Collection.IC_ID = ? ', id,
+            (error, result) => {
+                if (error) throw error;
+                response.send(result);
+            });
+        pool.query('SELECT WoodP.WP_Name FROM (Implement_Collection natural join IC_WP natural join WoodP) WHERE Implement_Collection.IC_ID = ? ', id,
+            (error, result) => {
+                if (error) throw error;
+                response.send(result);
+            });
+        pool.query('SELECT MechanicalP.MP_Name FROM (Implement_Collection natural join IC_MP natural join MechanicalP ) WHERE Implement_Collection.IC_ID = ? ', id,
             (error, result) => {
                 if (error) throw error;
                 response.send(result);
             });
     });
+    //inner join IC_FP on IC_FP.IC_ID = Implement_Collection.IC_ID) inner join FountainP on IC_FP.FP_ID = FountainP.FP_ID)
+    // ************OTHER COLLECTION****************
+
+    app.get('/OthColl', (request, response) => {
+        pool.query('SELECT * FROM Other_Collection', (error, result) => {
+            if (error) throw error;
+            response.send(result);
+        });
+    });
+    app.post('/OthColl', (request, response) => {
+        pool.query('INSERT INTO Other_Collection SET ?', request.body,
+            (error, result) => {
+                if (error) throw error;
+                response.status(201).send
+                    ('Other Collection added with ID: ${result.insertID}');
+            });
+    });
+
+    app.put('/OthColl/:id', (request, response) => {
+        const id = request.params.id;
+        pool.query('UPDATE Other_Collection SET ? WHERE OC_ID = ?', [request.body, id]
+            , (error, result) => {
+                if (error) throw error;
+                response.send('Other Collection updated successfully.');
+            });
+    });
+
+    app.delete('/OthColl/:id', (request, response) => {
+        const id = request.params.id;
+        pool.query('DELETE FROM Other_Collection WHERE OC_ID = ?', id,
+            (error, result) => {
+                if (error) throw error;
+                response.send('Other Collection deleted.');
+            });
+    });
+
+    app.get('/OthColl/:id', (request, response) => {
+        const id = request.params.id;
+        pool.query('SELECT * FROM ((Other_Collection inner join OC_L on OC_L.OC_ID=Other_Collection.OC_ID) inner join Lead on OC_L.L_ID = Lead.L_ID) WHERE Other_Collection.OC_ID = ?', id, (error, result) => {
+            if (error) throw error;
+            response.send(result);
+        });
+    });
 
 }
 
 module.exports = router;
-
