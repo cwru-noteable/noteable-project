@@ -1,0 +1,17 @@
+{
+  "name": "noteable-backend",
+  "version": "1.0.0",
+  "description": "Backend JSON interface between Noteable frontend and Noteable server (team_7@eecslab-9.case.edu)",
+  "main": "app.js",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.16.4",
+    "request": "^2.88.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Zubair Mukhi",
+  "license": "ISC"
+}
