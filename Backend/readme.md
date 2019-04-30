@@ -1,6 +1,8 @@
 # Backend Folder
 ## Tools
-* ReactJS
+* ExpressJS
 * mySQL
+* axios
+* bodyParser
 ## Architecture
-**TODO**
+* Built on ExpressJS backend run RESTfully. 
