@@ -204,6 +204,61 @@ const router = app => {
             });
     });
 
+    // ************Mechanical P**********
+    //list all Mechanical Pencils [COMPLETE]
+    app.get('/MechP', (request, response) => {
+        pool.query('SELECT * FROM MechanicalP', (error, result) => {
+            if (error) throw error;
+            response.send(result);
+        });
+    });
+
+    //add Mechanical Pencil [COMPLETE]
+    app.post('/MechP', (request, response) => {
+        pool.query('INSERT INTO MechanicalP SET ?', request.body,
+            (error, result) => {
+                if (error) throw error;
+                response.status(201).send
+                    ('Mechanical Pencil added!\n');
+            });
+    });
+
+    //edit Mechanical Pencil [COMPLETE]
+    app.put('/MechP/:id', (request, response) => {
+        const id = request.params.id;
+        pool.query('UPDATE MechanicalP SET ? WHERE MP_ID = ?', [request.body, id]
+            , (error, result) => {
+                if (error) throw error;
+                response.send('Mechanical Pencil updated successfully.\n');
+            });
+    });
+
+    //delete Mechanical Pencil [COMPLETE]
+    app.delete('/MechP/:id', (request, response) => {
+        const id = request.params.id;
+        pool.query('DELETE FROM MechanicalP WHERE MP_ID = ? ', id,
+            (error, result) => {
+                if (error) throw error;
+                response.send('Mechanical Pencil deleted.\n');
+
+            });
+    });
+
+    // ************Fountain P**********
+
+    // ************Cartridge P**********
+
+    // ************Wood P**********
+
+    // ************Lead************
+
+    // ************Replacements************
+
+    // ************Ink************
+
+    // ************Pen Cartridge************
+
+    // ************Utility************
 }
 
 module.exports = router;
