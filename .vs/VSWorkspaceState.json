@@ -2,6 +2,7 @@
   "ExpandedNodes": [
     "",
     "\\Backend",
+    "\\Backend\\data",
     "\\Backend\\routes"
   ],
   "SelectedNode": "\\Backend\\routes\\routes.js",

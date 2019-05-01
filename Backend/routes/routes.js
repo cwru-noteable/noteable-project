@@ -19,7 +19,7 @@ const router = app => {
 		});
     });
 
-    // add a user [INCOMPLETE]
+    // add a user [INCOMPLETE] //TODO: Finish linking collections to user automatically
 	app.post('/users', (request, response) => {
 		pool.query('INSERT INTO user SET ?', request.body,
 			(error, result) => {
@@ -29,30 +29,30 @@ const router = app => {
 		});
 	});
 
-    //edit a user [INCOMPLETE]
+    //edit a user [COMPLETE]
 	app.put('/users/:id', (request, response) => {
 		const id = request.params.id;
-		pool.query('UPDATE user SET ? WHERE id = ?', [request.body, id]
+		pool.query('UPDATE user SET ? WHERE U_ID = ?', [request.body, id]
 		, (error, result) => {
 			if(error) throw error;
-			response.send('User updated successfully.');
+			response.send('User updated successfully.\n');
 		});
 	});
 
-    //delete a user [INCOMPLETE]
+    //delete a user [COMPLETE]
 	app.delete('/users/:id', (request, response) => {
 		 const id = request.params.id;
-		pool.query('DELETE FROM user WHERE id = ?', id,
+		pool.query('DELETE FROM user WHERE U_ID = ?', id,
 		 (error, result) => {
 			if (error) throw error;
-			response.send('User deleted.');
+             response.send('User deleted.\n');
 		});
 	});
 
     //display a specific user [COMPLETE]
 	app.get('/users/:id', (request, response) => {
 		const id = request.params.id;
-		pool.query('SELECT * FROM user WHERE id = ?', id, 
+		pool.query('SELECT * FROM user WHERE U_ID = ?', id, 
 			(error, result) => {
 			if (error) throw error;
 			response.send(result);
@@ -86,18 +86,20 @@ const router = app => {
         pool.query('UPDATE Implement_Collection SET ? WHERE IC_ID = ?', [request.body, id]
             , (error, result) => {
                 if (error) throw error;
-                response.send('Implement Collection updated successfully.');
+                response.send('Implement Collection updated successfully.\n');
             });
     });
 
-    //delete table of implement collections [INCOMPLETE]
+    //delete Implement Collection [INCOMPLETE]
     app.delete('/ImpColl/:id', (request, response) => {
         const id = request.params.id;
-        pool.query('DELETE FROM Implement_Collection WHERE IC_ID = ?', id,
-            (error, result) => {
-                if (error) throw error;
-                response.send('Implement Collection deleted.');
-            });
+        pool.query('UPDATE Implement_Collection set U_ID = null where IC_ID = ?', id, (error, result) => {
+            pool.query('DELETE FROM Implement_Collection WHERE IC_ID = ? ', id,
+                (error, result) => {
+                    if (error) throw error;
+                    response.send('Implement Collection deleted.\n');
+                });
+        });
     });
 
     //get a list of items (currently selecting names) in an implement collection [COMPLETE] (weird null set handling)
@@ -137,7 +139,7 @@ const router = app => {
         });
     });
 
-    //add Other Collection [INCOMPLETE]
+    //add Other Collection [COMPLETE]
     app.post('/OthColl', (request, response) => {
         pool.query('INSERT INTO Other_Collection SET ?', request.body,
             (error, result) => {
@@ -147,24 +149,27 @@ const router = app => {
             });
     });
 
-    //edit Other Collection [INCOMPLETE]
+    //edit Other Collection [COMPLETE]
     app.put('/OthColl/:id', (request, response) => {
         const id = request.params.id;
         pool.query('UPDATE Other_Collection SET ? WHERE OC_ID = ?', [request.body, id]
             , (error, result) => {
                 if (error) throw error;
-                response.send('Other Collection updated successfully.');
+                response.send('Other Collection updated successfully.\n');
             });
     });
 
-    //delete Other Collection [INCOMPLETE]
+    //delete Other Collection [COMPLETE]
     app.delete('/OthColl/:id', (request, response) => {
         const id = request.params.id;
-        pool.query('DELETE FROM Other_Collection WHERE OC_ID = ?', id,
+        pool.query('UPDATE Other_Collection set U_ID = null where OC_ID = ?', id,(error, result) => {
+            pool.query('DELETE FROM Other_Collection WHERE OC_ID = ? ', id, 
             (error, result) => {
                 if (error) throw error;
-                response.send('Other Collection deleted.');
+                response.send('Other Collection deleted.\n');
+
             });
+        });
     });
 
     //get a list of items in an other collection [COMPLETE] (weird null set handling)
