@@ -25,7 +25,7 @@ const router = app => {
 			(error, result) => {
 				if (error) throw error;
 				response.status(201).send
-				('User added with ID: ${result.insertID}');
+				('User added with new collections!\n');
 		});
 	});
 
@@ -76,7 +76,7 @@ const router = app => {
             (error, result) => {
                 if (error) throw error;
                 response.status(201).send
-                    ('Implement Collection added!');
+                    ('Implement Collection added!\n');
             });
     });
 
@@ -143,7 +143,7 @@ const router = app => {
             (error, result) => {
                 if (error) throw error;
                 response.status(201).send
-                    ('Other Collection added with ID: ${result.insertID}');
+                    ('Other Collection added!\n');
             });
     });
 
