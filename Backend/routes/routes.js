@@ -245,10 +245,125 @@ const router = app => {
     });
 
     // ************Fountain P**********
+    //list all Fountain Pens [COMPLETE]
+    app.get('/FountP', (request, response) => {
+        pool.query('SELECT * FROM FountainP', (error, result) => {
+            if (error) throw error;
+            response.send(result);
+        });
+    });
+
+    //add Fountain Pen [COMPLETE]
+    app.post('/FountP', (request, response) => {
+        pool.query('INSERT INTO FountainP SET ?', request.body,
+            (error, result) => {
+                if (error) throw error;
+                response.status(201).send
+                    ('Fountain Pen added!\n');
+            });
+    });
+
+    //edit Fountain Pen [COMPLETE]
+    app.put('/FountP/:id', (request, response) => {
+        const id = request.params.id;
+        pool.query('UPDATE FountainP SET ? WHERE FP_ID = ?', [request.body, id]
+            , (error, result) => {
+                if (error) throw error;
+                response.send('Fountain Pen updated successfully.\n');
+            });
+    });
+
+    //delete Fountain Pen [COMPLETE]
+    app.delete('/FountP/:id', (request, response) => {
+        const id = request.params.id;
+        pool.query('DELETE FROM FountainP WHERE FP_ID = ? ', id,
+            (error, result) => {
+                if (error) throw error;
+                response.send('Fountain Pen deleted.\n');
+
+            });
+    });
+
 
     // ************Cartridge P**********
+    //list all Cartridge Pens [COMPLETE]
+    app.get('/CartP', (request, response) => {
+        pool.query('SELECT * FROM CartridgeP', (error, result) => {
+            if (error) throw error;
+            response.send(result);
+        });
+    });
+
+    //add Cartridge Pen [COMPLETE]
+    app.post('/CartP', (request, response) => {
+        pool.query('INSERT INTO CartridgeP SET ?', request.body,
+            (error, result) => {
+                if (error) throw error;
+                response.status(201).send
+                    ('Cartridge Pen added!\n');
+            });
+    });
+
+    //edit Cartridge Pen [COMPLETE]
+    app.put('/CartP/:id', (request, response) => {
+        const id = request.params.id;
+        pool.query('UPDATE CartridgeP SET ? WHERE CP_ID = ?', [request.body, id]
+            , (error, result) => {
+                if (error) throw error;
+                response.send('Cartridge Pen updated successfully.\n');
+            });
+    });
+
+    //delete Cartridge Pen [COMPLETE]
+    app.delete('/CartP/:id', (request, response) => {
+        const id = request.params.id;
+        pool.query('DELETE FROM CartridgeP WHERE CP_ID = ? ', id,
+            (error, result) => {
+                if (error) throw error;
+                response.send('Cartridge Pen deleted.\n');
+
+            });
+    });
 
     // ************Wood P**********
+    //list all Wood Pencils [COMPLETE]
+    app.get('/WoodP', (request, response) => {
+        pool.query('SELECT * FROM WoodP', (error, result) => {
+            if (error) throw error;
+            response.send(result);
+        });
+    });
+
+    //add Wood Pencil [COMPLETE]
+    app.post('/WoodP', (request, response) => {
+        pool.query('INSERT INTO WoodP SET ?', request.body,
+            (error, result) => {
+                if (error) throw error;
+                response.status(201).send
+                    ('Wood Pencil added!\n');
+            });
+    });
+
+    //edit Wood Pencil [COMPLETE]
+    app.put('/WoodP/:id', (request, response) => {
+        const id = request.params.id;
+        pool.query('UPDATE WoodP SET ? WHERE WP_ID = ?', [request.body, id]
+            , (error, result) => {
+                if (error) throw error;
+                response.send('Wood Pencil updated successfully.\n');
+            });
+    });
+
+    //delete Mechanical Pencil [COMPLETE]
+    app.delete('/WoodP/:id', (request, response) => {
+        const id = request.params.id;
+        pool.query('DELETE FROM WoodP WHERE WP_ID = ? ', id,
+            (error, result) => {
+                if (error) throw error;
+                response.send('Wood Pencil deleted.\n');
+
+            });
+    });
 
     // ************Lead************
 
