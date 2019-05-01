@@ -88,25 +88,27 @@ const router = app => {
 
     app.get('/ImpColl/:id', (request, response) => {
         const id = request.params.id;
+        var responses = [];
         pool.query('SELECT FountainP.FP_Name FROM (Implement_Collection natural join IC_FP natural join FountainP) WHERE Implement_Collection.IC_ID = ? ', id,
             (error, result) => {
                 if (error) throw error;
-                response.send(result);
-            });
-        pool.query('SELECT CartridgeP.CP_Name FROM (Implement_Collection natural join IC_CP natural join CartridgeP) WHERE Implement_Collection.IC_ID = ? ', id,
-            (error, result) => {
-                if (error) throw error;
-                response.send(result);
-            });
-        pool.query('SELECT WoodP.WP_Name FROM (Implement_Collection natural join IC_WP natural join WoodP) WHERE Implement_Collection.IC_ID = ? ', id,
-            (error, result) => {
-                if (error) throw error;
-                response.send(result);
-            });
-        pool.query('SELECT MechanicalP.MP_Name FROM (Implement_Collection natural join IC_MP natural join MechanicalP ) WHERE Implement_Collection.IC_ID = ? ', id,
-            (error, result) => {
-                if (error) throw error;
-                response.send(result);
+                responses.push(result);
+                pool.query('SELECT CartridgeP.CP_Name FROM (Implement_Collection natural join IC_CP natural join CartridgeP) WHERE Implement_Collection.IC_ID = ? ', id,
+                    (error, result) => {
+                        if (error) throw error;
+                        responses.push(result);
+                        pool.query('SELECT WoodP.WP_Name FROM (Implement_Collection natural join IC_WP natural join WoodP) WHERE Implement_Collection.IC_ID = ? ', id,
+                            (error, result) => {
+                                if (error) throw error;
+                                responses.push(result);
+                                pool.query('SELECT MechanicalP.MP_Name FROM (Implement_Collection natural join IC_MP natural join MechanicalP ) WHERE Implement_Collection.IC_ID = ? ', id,
+                                    (error, result) => {
+                                        if (error) throw error;
+                                        responses.push(result);
+                                        response.send(responses);
+                                    });
+                            });
+                    });
             });
     });
     //inner join IC_FP on IC_FP.IC_ID = Implement_Collection.IC_ID) inner join FountainP on IC_FP.FP_ID = FountainP.FP_ID)

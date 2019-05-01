@@ -5,7 +5,8 @@ const config = {
 	host: 'eecslab-9.case.edu',
 	user: 'team_7',
 	password: 'e6444a4a',
-	database: 'team_7',
+    database: 'team_7',
+    multipleStatements: true
 };
 
 const pool = mysql.createPool(config);
