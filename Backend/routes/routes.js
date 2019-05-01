@@ -70,13 +70,13 @@ const router = app => {
         });
     });
 
-    //edit table of implement collections [INCOMPLETE]
+    //add table of implement collections [COMPLETE]
     app.post('/ImpColl', (request, response) => {
         pool.query('INSERT INTO Implement_Collection SET ?', request.body,
             (error, result) => {
                 if (error) throw error;
                 response.status(201).send
-                    ('Implement Collection added with ID: ${result.insertID}');
+                    ('Implement Collection added!');
             });
     });
 
