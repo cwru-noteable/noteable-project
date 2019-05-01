@@ -80,7 +80,7 @@ const router = app => {
             });
     });
 
-    //update table of implement collections [INCOMPLETE]
+    //update table of implement collections [COMPLETE]
     app.put('/ImpColl/:id', (request, response) => {
         const id = request.params.id;
         pool.query('UPDATE Implement_Collection SET ? WHERE IC_ID = ?', [request.body, id]
@@ -90,7 +90,7 @@ const router = app => {
             });
     });
 
-    //delete Implement Collection [INCOMPLETE]
+    //delete Implement Collection [COMPLETE]
     app.delete('/ImpColl/:id', (request, response) => {
         const id = request.params.id;
         pool.query('UPDATE Implement_Collection set U_ID = null where IC_ID = ?', id, (error, result) => {
