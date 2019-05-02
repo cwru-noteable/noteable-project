@@ -62,36 +62,29 @@ const router = app => {
     });
 
     //display a user's collection [INCOMPLETE]?	
-    app.get('/users/:id/collection', (request, response) => {
+    	app.get('/users/:id/collection', (request, response) => {
+		const id = request.params.id;
         var aggregate = [];
-        var id1 = false;
-        var id2 = false;
-        var id3 = false;
-        var id4 = false;
-        var id5 = false;
-        var id6 = false;
-        var id7 = false;
-        var id8 = false;
-        var id9 = false;
-        if (request.body.mechP)
-            id1 = request.body.mechP;
+	query = 'SELECT FountainP.FP_Name FROM (Implement_Collection natural join IC_FP natural join FountainP)WHERE Implement_Collection.IC_ID = -1'
         if (request.body.fountainPens)
-            id2 = request.body.fountainPens;
+            query = query + 'UNION ALL SELECT FountainP.FP_Name FROM (Implement_Collection natural join IC_FP natural join FountainP) WHERE Implement_Collection.IC_ID = ?';
         if (request.body.cartridgePens)
-            id3 = request.body.cartridgePens;
+            query = query + 'UNION ALL SELECT CartridgeP.CP_Name FROM (Implement_Collection natural join IC_CP natural join CartridgeP) WHERE Implement_Collection.IC_ID = ?';
+        if (request.body.mechP)
+            query = query + 'UNION ALL SELECT MechanicalP.MP_Name FROM (Implement_Collection natural join IC_MP natural join MechanicalP) WHERE Implement_Collection.IC_ID = ?';
         if (request.body.woodPencils)
-            id4 = request.body.woodPencils;
+            query = query + 'UNION ALL SELECT WoodP.WP_Name FROM (Implement_Collection natural join IC_WP natural join WoodP) WHERE Implement_Collection.IC_ID = ?';
         if (request.body.lead)
-            id5 = request.body.lead;
+            query = query + 'UNION ALL SELECT Lead.L_Name FROM (Other_Collection natural join OC_L natural join Lead) WHERE Other_Collection.OC_ID = ?';
         if (request.body.replacements)
-            id6 = request.body.replacements;
+            query = query + 'UNION ALL SELECT Replacements.R_Name FROM (Other_Collection natural join OC_R natural join Replacements) WHERE Other_Collection.OC_ID = ?';
         if (request.body.ink)
-            id7 = request.body.ink;
+            query = query + ' UNION ALL SELECT Ink.I_Name FROM (Other_Collection natural join OC_I natural join Ink) WHERE Other_Collection.OC_ID = ?';
         if (request.body.penCartridge)
-            id8 = request.body.penCartridge;
+            query = query + 'UNION ALL SELECT Pen_Cartridge.PC_Name FROM (Other_Collection natural join OC_PC natural join Pen_Cartridge) WHERE Other_Collection.OC_ID = ?';
         if (request.body.utility)
-            id9 = request.body.utility;
-        pool.query('SELECT FountainP.FP_Name FROM (Implement_Collection natural join IC_FP natural join FountainP) WHERE Implement_Collection.IC_ID = ? UNION ALL SELECT CartridgeP.CP_Name FROM (Implement_Collection natural join IC_CP natural join CartridgeP) WHERE Implement_Collection.IC_ID = ? UNION ALL SELECT MechanicalP.MP_Name FROM (Implement_Collection natural join IC_MP natural join MechanicalP) WHERE Implement_Collection.IC_ID = ? UNION ALL SELECT WoodP.WP_Name FROM (Implement_Collection natural join IC_WP natural join WoodP) WHERE Implement_Collection.IC_ID = ? UNION ALL SELECT Utility.U_Name FROM (Other_Collection natural join OC_U natural join Utility) WHERE Other_Collection.OC_ID = ? UNION ALL SELECT Ink.I_Name FROM (Other_Collection natural join OC_I natural join Ink) WHERE Other_Collection.OC_ID = ? UNION ALL SELECT Lead.L_Name FROM (Other_Collection natural join OC_L natural join Lead) WHERE Other_Collection.OC_ID = ? UNION ALL SELECT Replacements.R_Name FROM (Other_Collection natural join OC_R natural join Replacements) WHERE Other_Collection.OC_ID = ? UNION ALL SELECT Pen_Cartridge.PC_Name FROM (Other_Collection natural join OC_PC natural join Pen_Cartridge) WHERE Other_Collection.OC_ID = ?', [id1, id2, id3, id4, id5, id6, id7, id8, id9],
+            query = query + 'UNION ALL SELECT Utility.U_Name FROM (Other_Collection natural join OC_U natural join Utility) WHERE Other_Collection.OC_ID = ?';
+        pool.query(query, [id, id, id, id, id, id, id, id, id],
             (error, result) => {
                 if (error) throw error;
                 response.send(result);
