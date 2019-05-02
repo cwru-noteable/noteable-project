@@ -1,5 +1,7 @@
 //get the server config from ../data/config.js
 const pool = require('../data/config');
+const request = require('request');
+const mysql = require('mysql');
 
 //Homepage JSON message
 const router = app => {
