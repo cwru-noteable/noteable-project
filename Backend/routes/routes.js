@@ -61,7 +61,7 @@ const router = app => {
 		});
     });
 
-    //display a user's collection [INCOMPLETE]?	
+    //display a user's collection [COMPLETE]	
     	app.get('/users/:id/collection', (request, response) => {
 		const id = request.params.id;
         var aggregate = [];

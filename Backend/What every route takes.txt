@@ -19,7 +19,7 @@
 			}
 		DELETE, no args
 	/users/:id/collection
-		GET(Display collection), in progress
+		GET(Display collection)
 			{ "mechP": bool,
 			"fountainPens": bool,
 			"cartridgePens": bool,
@@ -33,17 +33,19 @@
     // ************IMPLEMENT COLLECTION ****************
 
 	/ImpColl
-		POST args: (IC_ID = x, U_ID = y)
-		GET
-    //get table of users to implement collections, route /ImpColl, no args
-
-    //add table of implement collections, route /ImpColl, takes args "IC_ID=x&U_ID=y"
-
-    //update table of implement collections, route /ImpColl/:id, takes PUT -d "DATA" -d "DATA"
-
-    //delete Implement Collection, route /ImpColl/:id, takes DELETE /ImpColl/:id
-
-    //get a list of items (currently selecting names) in an implement collection, route /ImpColl/:id
+		POST (Create new)
+			{IC_ID = int,
+			U_ID = int}
+		GET (display list of collections)
+		
+	
+	/ImpColl/:id
+		GET (list of items)
+		PUT (update item)
+			{"IC_ID": int,
+			"U_ID": int,
+			}
+		DELETE (delete referenced item)
  
     // ************OTHER COLLECTION****************
 
