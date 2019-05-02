@@ -1,4 +1,9 @@
-class LoginForm extends React.Component {
+import React, { Component } from "react";
+import {
+  Link
+} from "react-router-dom";
+
+class LoginForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -23,7 +28,9 @@ class LoginForm extends React.Component {
   }
 
   render() {
+
     return (
+      <div>
       <form onSubmit={this.handleSubmit}>
         <label>
           Username:
@@ -43,17 +50,22 @@ class LoginForm extends React.Component {
             onChange={this.handleInputChange}
           />
         </label>
-        <input
-          type="submit"
-          value="Log in"
-        />
+        <Link to="/Hub">
+          <button
+            type="submit"
+            value="Log in"
+          >
+          Log in
+          </button>
+        </Link>
       </form>
+      </div>
 
     );
   }
 }
 
-class RegisterButton extends React.Component {
+class RegisterButton extends Component {
   constructor(props) {
     super(props);
 
@@ -72,7 +84,7 @@ class RegisterButton extends React.Component {
   }
 }
 
-class LoginPage extends React.Component {
+class LoginPage extends Component {
   render() {
     return (
       <div className="login-page">
@@ -87,7 +99,9 @@ class LoginPage extends React.Component {
   }
 }
 
-ReactDOM.render(
-  <LoginPage />,
-  document.getElementById('root')
-);
+// ReactDOM.render(
+//   <LoginPage />,
+//   document.getElementById('root')
+// );
+
+export default LoginPage;
