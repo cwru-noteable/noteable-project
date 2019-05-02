@@ -1,12 +1,12 @@
 const request = require('request');
 
 const json = {
-    "mechP": false,
-    "fountainPens": false,
+    "mechP": true,
+    "fountainPens": true,
     "cartridgePens": false,
     "woodPencils": false,
     "lead": false,
-    "ink": false,
+    "ink": true,
     "penCartridge": false,
     "utility": false,
 };

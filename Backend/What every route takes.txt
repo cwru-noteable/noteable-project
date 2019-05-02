@@ -20,10 +20,15 @@
 		DELETE, no args
 	/users/:id/collection
 		GET(Display collection), in progress
-			{"FountainP": bool,
-			"MechanicalP": bool,
-			"CartridgeP": bool,
-			"WoodP": bool}
+			{ "mechP": bool,
+			"fountainPens": bool,
+			"cartridgePens": bool,
+			"woodPencils": bool,
+			"lead": bool,
+			"ink": bool,
+			"penCartridge": bool,
+			"utility": bool,
+			}
 
     // ************IMPLEMENT COLLECTION ****************
 
