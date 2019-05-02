@@ -489,7 +489,7 @@ const router = app => {
 
     // ************Utility************
     //list all Utility [COMPLETE]
-    app.get('/Util', (request, response) => {
+    app.get('/Utility', (request, response) => {
         pool.query('SELECT * FROM Utility', (error, result) => {
             if (error) throw error;
             response.send(result);
@@ -497,7 +497,7 @@ const router = app => {
     });
 
     //add Utility [COMPLETE]
-    app.post('/Util', (request, response) => {
+    app.post('/Utility', (request, response) => {
         pool.query('INSERT INTO Utility SET ?', request.body,
             (error, result) => {
                 if (error) throw error;
@@ -507,7 +507,7 @@ const router = app => {
     });
 
     //edit Utility [COMPLETE]
-    app.put('/Util/:id', (request, response) => {
+    app.put('/Utility/:id', (request, response) => {
         const id = request.params.id;
         pool.query('UPDATE Util SET ? WHERE U_ID = ?', [request.body, id]
             , (error, result) => {
@@ -517,7 +517,7 @@ const router = app => {
     });
 
     //delete Utility [COMPLETE]
-    app.delete('/Util/:id', (request, response) => {
+    app.delete('/Utility/:id', (request, response) => {
         const id = request.params.id;
         pool.query('DELETE FROM Utility WHERE U_ID = ? ', id,
             (error, result) => {
