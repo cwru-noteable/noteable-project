@@ -151,7 +151,7 @@
 			L_Manufacturer: <string>}
 		GET (list of items)
 		
-	/LeadP:id
+	/Lead:id
 		PUT (update item) (dunno params) *************
 		
 		DELETE (removes item)
@@ -167,15 +167,15 @@
     // ************Replacements************
     
     
-        /
+        /Repl
     		POST (Create new)
-			{L_ID: int,
-			L_Name: <string>,
-			L_Size: double,
-			L_Manufacturer: <string>}
+			{R_ID: int,
+			R_Name: <string>,
+			R_Type: <string>,
+			R_Manufacturer: <string>}
 		GET (list of items)
 		
-	/LeadP:id
+	/Repl:id
 		PUT (update item) (dunno params) *************
 		
 		DELETE (removes item)
@@ -189,6 +189,22 @@
     //delete Replacements /Repl/:id, takes DELETE, no args
 
     // ************Ink************
+    
+    
+    
+        /Ink
+    		POST (Create new)
+			{I_ID: int,
+			I_Name: <string>,
+			I_Color: <string>,
+			I_Manufacturer: <string>}
+		GET (list of items)
+		
+	/Ink:id
+		PUT (update item) (dunno params) *************
+		
+		DELETE (removes item)
+		
 	//list all Ink, route /Ink
 
     //add Ink, route /Ink, takes POST "I_ID=?&..."
@@ -198,6 +214,18 @@
     //delete Ink /Ink/:id, takes DELETE, no args
 
     // ************Pen Cartridge************
+    
+        /PenC
+    		POST (Create new)
+			{PC_ID: int,
+			PC_Name: <string>,
+			PC_Manufacturer: <string>}
+		GET (list of items)
+		
+	/PenC:id
+		PUT (update item) (dunno params) *************
+		
+		DELETE (removes item)
     //list all Pen Cartridges, route /PenC
 
     //add Pen Cartridge, route /PenC, takes POST "PC_ID=?&..."
@@ -207,6 +235,20 @@
     //delete Pen Cartridge, route /PenC/:id, takes DELETE, no args
 
     // ************Utility************
+    
+            /Utility
+    		POST (Create new)
+			{U_ID: int,
+			U_Name: <string>,
+			U_Type: <string>,
+			U_Manufacturer: <string>}
+		GET (list of items)
+		
+	/Utility:id
+		PUT (update item) (dunno params) *************
+		
+		DELETE (removes item)
+    
     //list all Utility, route /Utility
 
     //add Utility, route /Utility, takes POST "U_ID=?&..."
