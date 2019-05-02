@@ -6,15 +6,20 @@
 /ImpColl													List, add user-implement collection relations
 /ImpColl/:id											Delete, edit, full list in Implement Collection
 
-/OthColl													Same as ImpColl
+/OthColl
+/OthColl/:id												Same as ImpColl
 
-/MechP													Mechanical Pencils
-/FountP													Fountain Pens
-/CartP													Cartridge Pens
-/WoodP													Wood Pencils
+/MechP
+/MechP/:id												Mechanical Pencils
+/FountP	
+/FountP/:id												Fountain Pens
+/CartP		
+/CartP/:id													Cartridge Pens
+/WoodP		
+/WoodP/:id												Wood Pencils
 
-/Lead														Same syntax as ImpColl
-/Repl														Same syntax as ImpColl
+/Lead													Same syntax as ImpColl
+/Repl													Same syntax as ImpColl
 /Ink														Same syntax as ImpColl
 /PenC													Same syntax as ImpColl
 /Utility													Same syntax as ImpColl
