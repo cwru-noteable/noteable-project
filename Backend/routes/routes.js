@@ -354,7 +354,7 @@ const router = app => {
             });
     });
 
-    //delete Mechanical Pencil [COMPLETE]
+    //delete Wood Pencil [COMPLETE]
     app.delete('/WoodP/:id', (request, response) => {
         const id = request.params.id;
         pool.query('DELETE FROM WoodP WHERE WP_ID = ? ', id,
@@ -366,14 +366,204 @@ const router = app => {
     });
 
     // ************Lead************
+    //list all Lead [COMPLETE]
+    app.get('/Lead', (request, response) => {
+        pool.query('SELECT * FROM Lead', (error, result) => {
+            if (error) throw error;
+            response.send(result);
+        });
+    });
+
+    //add Lead [COMPLETE]
+    app.post('/Lead', (request, response) => {
+        pool.query('INSERT INTO Lead SET ?', request.body,
+            (error, result) => {
+                if (error) throw error;
+                response.status(201).send
+                    ('Lead added!\n');
+            });
+    });
+
+    //edit Lead [COMPLETE]
+    app.put('/Lead/:id', (request, response) => {
+        const id = request.params.id;
+        pool.query('UPDATE Lead SET ? WHERE L_ID = ?', [request.body, id]
+            , (error, result) => {
+                if (error) throw error;
+                response.send('Lead updated successfully.\n');
+            });
+    });
+
+    //delete Lead [COMPLETE]
+    app.delete('/Lead/:id', (request, response) => {
+        const id = request.params.id;
+        pool.query('DELETE FROM Lead WHERE L_ID = ? ', id,
+            (error, result) => {
+                if (error) throw error;
+                response.send('Lead deleted.\n');
+
+            });
+    });
 
     // ************Replacements************
+    //list all Replacements [COMPLETE]
+    app.get('/Repl', (request, response) => {
+        pool.query('SELECT * FROM Replacements', (error, result) => {
+            if (error) throw error;
+            response.send(result);
+        });
+    });
+
+    //add Replacement [COMPLETE]
+    app.post('/Repl', (request, response) => {
+        pool.query('INSERT INTO Replacements SET ?', request.body,
+            (error, result) => {
+                if (error) throw error;
+                response.status(201).send
+                    ('Replacement added!\n');
+            });
+    });
+
+    //edit Replacement [COMPLETE]
+    app.put('/Repl/:id', (request, response) => {
+        const id = request.params.id;
+        pool.query('UPDATE Replacement SET ? WHERE R_ID = ?', [request.body, id]
+            , (error, result) => {
+                if (error) throw error;
+                response.send('Replacement updated successfully.\n');
+            });
+    });
+
+    //delete Replacement [COMPLETE]
+    app.delete('/Repl/:id', (request, response) => {
+        const id = request.params.id;
+        pool.query('DELETE FROM Replacement WHERE R_ID = ? ', id,
+            (error, result) => {
+                if (error) throw error;
+                response.send('Replacement deleted.\n');
+
+            });
+    });
 
     // ************Ink************
+    //list all Ink [COMPLETE]
+    app.get('/Ink', (request, response) => {
+        pool.query('SELECT * FROM Ink', (error, result) => {
+            if (error) throw error;
+            response.send(result);
+        });
+    });
+
+    //add Ink [COMPLETE]
+    app.post('/Ink', (request, response) => {
+        pool.query('INSERT INTO Ink SET ?', request.body,
+            (error, result) => {
+                if (error) throw error;
+                response.status(201).send
+                    ('Ink added!\n');
+            });
+    });
+
+    //edit Ink [COMPLETE]
+    app.put('/Ink/:id', (request, response) => {
+        const id = request.params.id;
+        pool.query('UPDATE Ink SET ? WHERE I_ID = ?', [request.body, id]
+            , (error, result) => {
+                if (error) throw error;
+                response.send('Ink updated successfully.\n');
+            });
+    });
+
+    //delete Ink [COMPLETE]
+    app.delete('/Ink/:id', (request, response) => {
+        const id = request.params.id;
+        pool.query('DELETE FROM Ink WHERE I_ID = ? ', id,
+            (error, result) => {
+                if (error) throw error;
+                response.send('Ink deleted.\n');
+
+            });
+    });
 
     // ************Pen Cartridge************
+    //list all Pen Cartridges [COMPLETE]
+    app.get('/PenC', (request, response) => {
+        pool.query('SELECT * FROM Pen_Cartridge', (error, result) => {
+            if (error) throw error;
+            response.send(result);
+        });
+    });
+
+    //add Pen Cartridge [COMPLETE]
+    app.post('/PenC', (request, response) => {
+        pool.query('INSERT INTO Pen_Cartridge SET ?', request.body,
+            (error, result) => {
+                if (error) throw error;
+                response.status(201).send
+                    ('Pen Cartridge added!\n');
+            });
+    });
+
+    //edit Pen Cartridge [COMPLETE]
+    app.put('/PenC/:id', (request, response) => {
+        const id = request.params.id;
+        pool.query('UPDATE Pen_Cartridge SET ? WHERE PC_ID = ?', [request.body, id]
+            , (error, result) => {
+                if (error) throw error;
+                response.send('Pen Cartridge updated successfully.\n');
+            });
+    });
+
+    //delete Mechanical Pencil [COMPLETE]
+    app.delete('/PenC/:id', (request, response) => {
+        const id = request.params.id;
+        pool.query('DELETE FROM Pen_Cartridge WHERE PC_ID = ? ', id,
+            (error, result) => {
+                if (error) throw error;
+                response.send('Pen Cartridge deleted.\n');
+
+            });
+    });
 
     // ************Utility************
+    //list all Utility [COMPLETE]
+    app.get('/Util', (request, response) => {
+        pool.query('SELECT * FROM Utility', (error, result) => {
+            if (error) throw error;
+            response.send(result);
+        });
+    });
+
+    //add Utility [COMPLETE]
+    app.post('/Util', (request, response) => {
+        pool.query('INSERT INTO Utility SET ?', request.body,
+            (error, result) => {
+                if (error) throw error;
+                response.status(201).send
+                    ('Utility added!\n');
+            });
+    });
+
+    //edit Utility [COMPLETE]
+    app.put('/Util/:id', (request, response) => {
+        const id = request.params.id;
+        pool.query('UPDATE Util SET ? WHERE U_ID = ?', [request.body, id]
+            , (error, result) => {
+                if (error) throw error;
+                response.send('Utility updated successfully.\n');
+            });
+    });
+
+    //delete Mechanical Pencil [COMPLETE]
+    app.delete('/Util/:id', (request, response) => {
+        const id = request.params.id;
+        pool.query('DELETE FROM Utility WHERE U_ID = ? ', id,
+            (error, result) => {
+                if (error) throw error;
+                response.send('Utility deleted.\n');
+
+            });
+    });
 }
 
 module.exports = router;
