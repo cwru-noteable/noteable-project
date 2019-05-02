@@ -14,16 +14,27 @@ import {
 } from "react-router-dom";
 
 class Collection extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      itemId: 0,
+      itemName: '',
+      itemQuantity: 0,
+    };
+
+    this.onViewItem = this.onViewItem.bind(this);
+  }
+
   render() {
     return (
       <HashRouter>
         <h2>Your Collection!</h2>
           <div class = 'leftDiv'>
             <CollectionFilter/>
-            <CollectionList username={this.props.username}/>
+            <CollectionList onViewItem={this.onViewItem} username={this.props.username}/>
           </div>
           <div class = 'rightDiv'>
-            <Route path={'/hub/collections/' + this.props.username + '/item'} render={(props) => <CollectionItemView username={this.props.username}/>}/>
+            <Route path={'/hub/collections/' + this.props.username + '/item'} render={(props) => <CollectionItemView username={this.props.username} id={this.state.itemId} name={this.state.itemName} quantity={this.state.itemQuantity}/>}/>
           </div>
       </HashRouter>
     );
@@ -39,6 +50,12 @@ class Collection extends Component {
     const base = '';
     return axios.get(base + '/ImpColl/' + id)
     .then(response => console.log(response));
+  }
+
+  onViewItem(item) {
+    this.state.itemId = item.id;
+    this.state.itemName = item.name;
+    this.state.itemQuantity = item.quantity;
   }
 
 }

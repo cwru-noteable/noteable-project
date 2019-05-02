@@ -15,6 +15,7 @@ class CollectionItem extends Component {
       quantity: props.quantity,
     };
 
+    this.onViewItem = this.onViewItem.bind(this);
   }
 
   render() {
@@ -24,9 +25,13 @@ class CollectionItem extends Component {
         <p>NAME:{this.state.name}</p>
         <p>ID:{this.state.id}</p>
         <p>QUANTITY:{this.state.quantity}</p>
-        <Link to={'/hub/collections/' + this.props.username + '/item/' + this.state.id}> <button>View</button> </Link>
+        <Link to={'/hub/collections/' + this.props.username + '/item/' + this.state.id}> <button onClick={this.onViewItem}>View</button> </Link>
       </div>
     );
+  }
+
+  onViewItem() {
+    this.props.onViewItem(this.state);
   }
 
 
