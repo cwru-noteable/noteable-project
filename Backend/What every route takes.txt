@@ -1,0 +1,120 @@
+//Homepage is /
+
+    // ********USERS********
+
+    // list all users Route: users/, takes no args
+
+    // add a user [INCOMPLETE] Route: users/  //TODO: Finish linking collections to user automatically (Will port once routing is done)
+	
+    //edit a user, takes PUT -d "DATA" -d "DATA" ... http://localhost:3002/users/:id
+
+    //delete a user, takes DELETE http://localhost:3002/users/:id
+
+    //display a specific user, takes GET http://localhost:3002/users/:id
+	
+	//display a user's combined collections [INCOMPLETE], takes GET http://localhost:3002/users/:id/collection
+
+    // ************IMPLEMENT COLLECTION ****************
+
+    //get table of users to implement collections, route /ImpColl, no args
+
+    //add table of implement collections, route /ImpColl, takes args "IC_ID=x&U_ID=y"
+
+    //update table of implement collections, route /ImpColl/:id, takes PUT -d "DATA" -d "DATA"
+
+    //delete Implement Collection, route /ImpColl/:id, takes DELETE /ImpColl/:id
+
+    //get a list of items (currently selecting names) in an implement collection, route /ImpColl/:id
+ 
+    // ************OTHER COLLECTION****************
+
+    //list all Other Collections, route /OthColl 
+
+     //add table of implement collections, route /OthColl, takes args "OC_ID=x&U_ID=y"
+
+    //edit Other Collection, route /OthColl/:id, takes PUT -d "DATA" ...
+
+    //delete Other Collection, route /OthColl/:id, takes DELETE /OthColl/:id 
+
+    //get a list of items in an other collection, route /OthColl/:id
+
+    // ************Mechanical P**********
+    //list all Mechanical Pencils, route /MechP
+
+    //add Mechanical Pencil, route /MechP, takes POST "MP_ID=?&...", fill out all fields
+
+    //edit Mechanical Pencil, route /MechP/:id, takes PUT -d "DATA" ...
+
+    //delete Mechanical Pencil, route /MechP/:id, takes DELETE, no args
+
+    // ************Fountain P**********
+    //list all Fountain Pens, route /FountP
+
+    //add Fountain Pen, route /FountP, takes POST "FP_ID=?&...", fill out all fields
+
+    //edit Fountain Pen, route /FountP/:id, takes PUT -d "DATA" ...
+
+    //delete Fountain Pen, route /FountP/:id, takes DELETE, no args
+
+    // ************Cartridge P**********
+    //list all Cartridge Pens, route /CartP
+
+    //add Cartridge Pen, route /CartP, takes POST "CP_ID=?&...", fill out all fields
+
+    //edit Cartridge Pen, route /CartP/:id, takes PUT -d "DATA" ...
+
+    //delete Cartridge Pen, route /CartP/:id, takes DELETE, no args
+
+    // ************Wood P**********
+    //list all Wood Pencils, route /WoodP
+
+    //add Wood Pencil, route /WoodP, takes POST "MP_ID=?&...", fill out all fields
+
+    //edit Wood Pencil, route /WoodP/:id, takes PUT -d "DATA" ...
+
+    //delete Wood Pencil, route /WoodP/:id, takes DELETE, no args
+
+    // ************Lead************
+    //list all Lead, route /Lead
+
+    //add Lead, route /Lead, takes POST "L_ID=?&..."
+
+    //edit Lead, route /Lead/:id, takes PUT -d "DATA"...
+
+    //delete Lead /Lead/:id, takes DELETE, no args
+
+    // ************Replacements************
+    //list all Replacements, route /Repl
+
+    //add Replacements, route /Repl, takes POST "R_ID=?&..."
+
+    //edit Replacements, route /Repl/:id, takes PUT -d "DATA"...
+
+    //delete Replacements /Repl/:id, takes DELETE, no args
+
+    // ************Ink************
+	//list all Ink, route /Ink
+
+    //add Ink, route /Ink, takes POST "I_ID=?&..."
+
+    //edit Ink, route /Ink/:id, takes PUT -d "DATA"...
+
+    //delete Ink /Ink/:id, takes DELETE, no args
+
+    // ************Pen Cartridge************
+    //list all Pen Cartridges, route /PenC
+
+    //add Pen Cartridge, route /PenC, takes POST "PC_ID=?&..."
+
+    //edit Pen Cartridge, route /PenC/:id, takes PUT -d "DATA"...
+
+    //delete Pen Cartridge, route /PenC/:id, takes DELETE, no args
+
+    // ************Utility************
+    //list all Utility, route /Utility
+
+    //add Utility, route /Utility, takes POST "U_ID=?&..."
+
+    //edit Utility, route /Utility/:id, takes PUT -d "DATA"...
+
+    //delete Utility /Utility/:id, takes DELETE, no args

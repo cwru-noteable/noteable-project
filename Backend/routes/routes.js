@@ -407,7 +407,7 @@ const router = app => {
             });
     });
 
-    // ************Ink************
+    // ************Ink*************
     //list all Ink [COMPLETE]
     app.get('/Ink', (request, response) => {
         pool.query('SELECT * FROM Ink', (error, result) => {
