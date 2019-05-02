@@ -102,30 +102,13 @@ const router = app => {
         });
     });
 
-    //get a list of items (currently selecting names) in an implement collection [COMPLETE] (weird null set handling)
+    //get a list of items (currently selecting names) in an implement collection [COMPLETE]
     app.get('/ImpColl/:id', (request, response) => {
         const id = request.params.id;
-        var aggregate = [];
-        pool.query('SELECT FountainP.FP_Name FROM (Implement_Collection natural join IC_FP natural join FountainP) WHERE Implement_Collection.IC_ID = ? ', id,
+        pool.query('SELECT FountainP.FP_Name FROM (Implement_Collection natural join IC_FP natural join FountainP) WHERE Implement_Collection.IC_ID = ? UNION ALL SELECT CartridgeP.CP_Name FROM (Implement_Collection natural join IC_CP natural join CartridgeP) WHERE Implement_Collection.IC_ID = ? UNION ALL SELECT MechanicalP.MP_Name FROM (Implement_Collection natural join IC_MP natural join MechanicalP) WHERE Implement_Collection.IC_ID = ? UNION ALL SELECT WoodP.WP_Name FROM (Implement_Collection natural join IC_WP natural join WoodP) WHERE Implement_Collection.IC_ID = ?', [id, id, id , id],
             (error, result) => {
-                if (error) throw error;
-                aggregate.push(result);
-                pool.query('SELECT CartridgeP.CP_Name FROM (Implement_Collection natural join IC_CP natural join CartridgeP) WHERE Implement_Collection.IC_ID = ? ', id,
-                    (error, result) => {
-                        if (error) throw error;
-                        aggregate.push(result);
-                        pool.query('SELECT WoodP.WP_Name FROM (Implement_Collection natural join IC_WP natural join WoodP) WHERE Implement_Collection.IC_ID = ? ', id,
-                            (error, result) => {
-                                if (error) throw error;
-                                aggregate.push(result);
-                                pool.query('SELECT MechanicalP.MP_Name FROM (Implement_Collection natural join IC_MP natural join MechanicalP ) WHERE Implement_Collection.IC_ID = ? ', id,
-                                    (error, result) => {
-                                        if (error) throw error;
-                                        aggregate.push(result);
-                                        response.send(aggregate);
-                                    });
-                            });
-                    });
+                if (error) throw error;              
+                response.send(result);
             });
     });
  
@@ -172,35 +155,14 @@ const router = app => {
         });
     });
 
-    //get a list of items in an other collection [COMPLETE] (weird null set handling)
+    //get a list of items in an other collection [COMPLETE]
     app.get('/OthColl/:id', (request, response) => {
         const id = request.params.id;
         var aggregate = [];
-        pool.query('SELECT Lead.L_Name FROM (Other_Collection natural join OC_L natural join Lead) WHERE Other_Collection.OC_ID = ? ', id,
+        pool.query('SELECT Utility.U_Name FROM (Other_Collection natural join OC_U natural join Utility) WHERE Other_Collection.OC_ID = ? UNION ALL SELECT Ink.I_Name FROM (Other_Collection natural join OC_I natural join Ink) WHERE Other_Collection.OC_ID = ? UNION ALL SELECT Lead.L_Name FROM (Other_Collection natural join OC_L natural join Lead) WHERE Other_Collection.OC_ID = ? UNION ALL SELECT Replacements.R_Name FROM (Other_Collection natural join OC_R natural join Replacements) WHERE Other_Collection.OC_ID = ? UNION ALL SELECT Pen_Cartridge.PC_Name FROM (Other_Collection natural join OC_PC natural join Pen_Cartridge) WHERE Other_Collection.OC_ID = ?', [id, id, id, id, id],
             (error, result) => {
                 if (error) throw error;
-                aggregate.push(result);
-                pool.query('SELECT Replacements.R_Name FROM (Other_Collection natural join OC_R natural join Replacements) WHERE Other_Collection.OC_ID = ? ', id,
-                    (error, result) => {
-                        if (error) throw error;
-                        aggregate.push(result);
-                        pool.query('SELECT Ink.I_Name FROM (Other_Collection natural join OC_I natural join Ink) WHERE Other_Collection.OC_ID = ? ', id,
-                            (error, result) => {
-                                if (error) throw error;
-                                aggregate.push(result);
-                                pool.query('SELECT Pen_Cartridge.PC_Name FROM (Other_Collection natural join OC_PC natural join Pen_Cartridge) WHERE Other_Collection.OC_ID = ? ', id,
-                                    (error, result) => {
-                                        if (error) throw error;
-                                        aggregate.push(result);
-                                        pool.query('SELECT Utility.U_Name FROM (Other_Collection natural join OC_U natural join Utility) WHERE Other_Collection.OC_ID = ? ', id,
-                                            (error, result) => {
-                                                if (error) throw error;
-                                                aggregate.push(result);
-                                                response.send(aggregate);
-                                            });
-                                    });
-                            });
-                    });
+                response.send(result);
             });
     });
 
@@ -514,7 +476,7 @@ const router = app => {
             });
     });
 
-    //delete Mechanical Pencil [COMPLETE]
+    //delete Pen Cartridge [COMPLETE]
     app.delete('/PenC/:id', (request, response) => {
         const id = request.params.id;
         pool.query('DELETE FROM Pen_Cartridge WHERE PC_ID = ? ', id,
@@ -554,7 +516,7 @@ const router = app => {
             });
     });
 
-    //delete Mechanical Pencil [COMPLETE]
+    //delete Utility [COMPLETE]
     app.delete('/Util/:id', (request, response) => {
         const id = request.params.id;
         pool.query('DELETE FROM Utility WHERE U_ID = ? ', id,
