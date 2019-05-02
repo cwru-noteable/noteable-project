@@ -34,8 +34,8 @@
 
 	/ImpColl
 		POST (Create new)
-			{IC_ID = int,
-			U_ID = int}
+			{IC_ID: int,
+			U_ID: int}
 		GET (display list of collections)
 		
 	
@@ -50,52 +50,112 @@
     // ************OTHER COLLECTION****************
 
     //list all Other Collections, route /OthColl 
-
-     //add table of implement collections, route /OthColl, takes args "OC_ID=x&U_ID=y"
-
+    
+    	/OthColl
+    		POST (create new)
+			{OC_ID: int,
+			U_ID: int}
+		GET (list of collections)
+	/OthColl/:id
+		GET (list of items)
+		PUT (update item inclusion) (not sure bout params) ********
+		
+		DELETE
+		
     //edit Other Collection, route /OthColl/:id, takes PUT -d "DATA" ...
 
-    //delete Other Collection, route /OthColl/:id, takes DELETE /OthColl/:id 
-
-    //get a list of items in an other collection, route /OthColl/:id
 
     // ************Mechanical P**********
-    //list all Mechanical Pencils, route /MechP
-
-    //add Mechanical Pencil, route /MechP, takes POST "MP_ID=?&...", fill out all fields
+    
+    	/MechP
+    		POST (Create new)
+			{MP_ID: int,
+			MP_Name: <string>,
+			MP_Material: <string>,
+			MP_Lead_Size: double,
+			MP_Manufacturer: <string>}
+		GET (list of items)
+		
+	/MechP:id
+		PUT (update item) (dunno params) *************
+		
+		DELETE (removes item)
 
     //edit Mechanical Pencil, route /MechP/:id, takes PUT -d "DATA" ...
 
-    //delete Mechanical Pencil, route /MechP/:id, takes DELETE, no args
-
     // ************Fountain P**********
-    //list all Fountain Pens, route /FountP
-
-    //add Fountain Pen, route /FountP, takes POST "FP_ID=?&...", fill out all fields
-
+    
+    
+    
+        /FountP
+    		POST (Create new)
+			{FP_ID: int,
+			FP_Name: <string>,
+			FP_Material: <string>,
+			FP_Ink_Type: <string>,
+			MP_Manufacturer: <string>}
+		GET (list of items)
+		
+	/FountP:id
+		PUT (update item) (dunno params) *************
+		
+		DELETE (removes item)
+		
     //edit Fountain Pen, route /FountP/:id, takes PUT -d "DATA" ...
-
-    //delete Fountain Pen, route /FountP/:id, takes DELETE, no args
-
+    
+    
     // ************Cartridge P**********
-    //list all Cartridge Pens, route /CartP
-
-    //add Cartridge Pen, route /CartP, takes POST "CP_ID=?&...", fill out all fields
+    
+        /CartP
+    		POST (Create new)
+			{CP_ID: int,
+			CP_Name: <string>,
+			CP_Material: <string>,
+			CP_Manufacturer: <string>}
+		GET (list of items)
+		
+	/CartP:id
+		PUT (update item) (dunno params) *************
+		
+		DELETE (removes item)
 
     //edit Cartridge Pen, route /CartP/:id, takes PUT -d "DATA" ...
 
-    //delete Cartridge Pen, route /CartP/:id, takes DELETE, no args
-
     // ************Wood P**********
-    //list all Wood Pencils, route /WoodP
-
-    //add Wood Pencil, route /WoodP, takes POST "MP_ID=?&...", fill out all fields
-
+    
+    
+        /WoodP
+    		POST (Create new)
+			{WP_ID: int,
+			WP_Name: <string>,
+			WP_Material: <string>,
+			WP_Manufacturer: <string>}
+		GET (list of items)
+		
+	/WoodP:id
+		PUT (update item) (dunno params) *************
+		
+		DELETE (removes item)
+		
     //edit Wood Pencil, route /WoodP/:id, takes PUT -d "DATA" ...
 
-    //delete Wood Pencil, route /WoodP/:id, takes DELETE, no args
 
     // ************Lead************
+    
+    
+        /Lead
+    		POST (Create new)
+			{L_ID: int,
+			L_Name: <string>,
+			L_Size: double,
+			L_Manufacturer: <string>}
+		GET (list of items)
+		
+	/LeadP:id
+		PUT (update item) (dunno params) *************
+		
+		DELETE (removes item)
+		
     //list all Lead, route /Lead
 
     //add Lead, route /Lead, takes POST "L_ID=?&..."
@@ -105,6 +165,21 @@
     //delete Lead /Lead/:id, takes DELETE, no args
 
     // ************Replacements************
+    
+    
+        /
+    		POST (Create new)
+			{L_ID: int,
+			L_Name: <string>,
+			L_Size: double,
+			L_Manufacturer: <string>}
+		GET (list of items)
+		
+	/LeadP:id
+		PUT (update item) (dunno params) *************
+		
+		DELETE (removes item)
+		
     //list all Replacements, route /Repl
 
     //add Replacements, route /Repl, takes POST "R_ID=?&..."
