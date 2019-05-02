@@ -97,7 +97,11 @@
 		GET (list of items)
 		
 	/FountP:id
-		PUT (update item) (dunno params) *************
+		PUT (update item)
+		{FP_Name: <string>,
+		FP_Material: <string>,
+		FP_Ink_Type: <string>,
+		FP_Manufacturer: <string>}
 		
 		DELETE (removes item)
 		
