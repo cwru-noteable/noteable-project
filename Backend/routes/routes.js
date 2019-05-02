@@ -389,7 +389,7 @@ const router = app => {
     //edit Replacement [COMPLETE]
     app.put('/Repl/:id', (request, response) => {
         const id = request.params.id;
-        pool.query('UPDATE Replacement SET ? WHERE R_ID = ?', [request.body, id]
+        pool.query('UPDATE Replacements SET ? WHERE R_ID = ?', [request.body, id]
             , (error, result) => {
                 if (error) throw error;
                 response.send('Replacement updated successfully.\n');
