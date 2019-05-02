@@ -399,7 +399,7 @@ const router = app => {
     //delete Replacement [COMPLETE]
     app.delete('/Repl/:id', (request, response) => {
         const id = request.params.id;
-        pool.query('DELETE FROM Replacement WHERE R_ID = ? ', id,
+        pool.query('DELETE FROM Replacements WHERE R_ID = ? ', id,
             (error, result) => {
                 if (error) throw error;
                 response.send('Replacement deleted.\n');
