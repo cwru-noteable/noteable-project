@@ -1,15 +1,18 @@
 const request = require('request');
 
 const json = {
-    "FP_ID": 3,
-    "FP_Name": "Faber-Castell Basic",
-    "FP_Material": "Plastic",
-    "FP_Manufacturer": "Faber-Castell",
-    "FP_Ink_Type": "Normal",
+    "mechP": false,
+    "fountainPens": false,
+    "cartridgePens": false,
+    "woodPencils": false,
+    "lead": false,
+    "ink": false,
+    "penCartridge": false,
+    "utility": false,
 };
 
-request.post({
-    url: 'http://localhost:3002/FountP',
+request.get({
+    url: 'http://localhost:3002/users/2/collection',
     body: json,
     json: true,
 }, function (error, response, body) {

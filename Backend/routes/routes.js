@@ -61,6 +61,43 @@ const router = app => {
 		});
     });
 
+    //display a user's collection [INCOMPLETE]?	
+    app.get('/users/:id/collection', (request, response) => {
+        var aggregate = [];
+        var id1 = false;
+        var id2 = false;
+        var id3 = false;
+        var id4 = false;
+        var id5 = false;
+        var id6 = false;
+        var id7 = false;
+        var id8 = false;
+        var id9 = false;
+        if (request.body.mechP)
+            id1 = request.body.mechP;
+        if (request.body.fountainPens)
+            id2 = request.body.fountainPens;
+        if (request.body.cartridgePens)
+            id3 = request.body.cartridgePens;
+        if (request.body.woodPencils)
+            id4 = request.body.woodPencils;
+        if (request.body.lead)
+            id5 = request.body.lead;
+        if (request.body.replacements)
+            id6 = request.body.replacements;
+        if (request.body.ink)
+            id7 = request.body.ink;
+        if (request.body.penCartridge)
+            id8 = request.body.penCartridge;
+        if (request.body.utility)
+            id9 = request.body.utility;
+        pool.query('SELECT FountainP.FP_Name FROM (Implement_Collection natural join IC_FP natural join FountainP) WHERE Implement_Collection.IC_ID = ? UNION ALL SELECT CartridgeP.CP_Name FROM (Implement_Collection natural join IC_CP natural join CartridgeP) WHERE Implement_Collection.IC_ID = ? UNION ALL SELECT MechanicalP.MP_Name FROM (Implement_Collection natural join IC_MP natural join MechanicalP) WHERE Implement_Collection.IC_ID = ? UNION ALL SELECT WoodP.WP_Name FROM (Implement_Collection natural join IC_WP natural join WoodP) WHERE Implement_Collection.IC_ID = ? UNION ALL SELECT Utility.U_Name FROM (Other_Collection natural join OC_U natural join Utility) WHERE Other_Collection.OC_ID = ? UNION ALL SELECT Ink.I_Name FROM (Other_Collection natural join OC_I natural join Ink) WHERE Other_Collection.OC_ID = ? UNION ALL SELECT Lead.L_Name FROM (Other_Collection natural join OC_L natural join Lead) WHERE Other_Collection.OC_ID = ? UNION ALL SELECT Replacements.R_Name FROM (Other_Collection natural join OC_R natural join Replacements) WHERE Other_Collection.OC_ID = ? UNION ALL SELECT Pen_Cartridge.PC_Name FROM (Other_Collection natural join OC_PC natural join Pen_Cartridge) WHERE Other_Collection.OC_ID = ?', [id1, id2, id3, id4, id5, id6, id7, id8, id9],
+            (error, result) => {
+                if (error) throw error;
+                response.send(result);
+            });
+    });
+
 
     // ************IMPLEMENT COLLECTION ****************
 
@@ -528,51 +565,7 @@ const router = app => {
 
             });
     });
-//filter potentially?	
-app.get('/ImpColl/:id,/OthColl/:id', (request, response) => {
-	var aggregate = [];
-	if (mechanicalPencils) 
-		id1 = request.params.id;
-	else
-		id1 = '';
-	if (fountainPens) 
-		id2 = request.params.id;
-	else
-		id2 = '';
-	if (cartragePens)
-		id3 = request.params.id;
-	else
-		id3 = '';
-	if (woodPencils) 
-		id4 = request.params.id;
-	else
-		id4 = '';
-	if (lead) 
-		id5 = request.params.id;
-	else
-		id5 = '';
-	if (replacements)
-		id6 = request.params.id;
-	else
-		id6 = '';
-	if (ink) 
-		id7 = request.params.id;
-	else
-		id7 = '';
-	if (penCartridge) 
-		id8 = request.params.id;
-	else
-		id8 = '';
-	if (utility) 
-		id9 = request.params.id
-	else
-		id9 = '';
-	pool.query('SELECT FountainP.FP_Name FROM (Implement_Collection natural join IC_FP natural join FountainP) WHERE Implement_Collection.IC_ID = ? UNION ALL SELECT CartridgeP.CP_Name FROM (Implement_Collection natural join IC_CP natural join CartridgeP) WHERE Implement_Collection.IC_ID = ? UNION ALL SELECT MechanicalP.MP_Name FROM (Implement_Collection natural join IC_MP natural join MechanicalP) WHERE Implement_Collection.IC_ID = ? UNION ALL SELECT WoodP.WP_Name FROM (Implement_Collection natural join IC_WP natural join WoodP) WHERE Implement_Collection.IC_ID = ? UNION ALL SELECT Utility.U_Name FROM (Other_Collection natural join OC_U natural join Utility) WHERE Other_Collection.OC_ID = ? UNION ALL SELECT Ink.I_Name FROM (Other_Collection natural join OC_I natural join Ink) WHERE Other_Collection.OC_ID = ? UNION ALL SELECT Lead.L_Name FROM (Other_Collection natural join OC_L natural join Lead) WHERE Other_Collection.OC_ID = ? UNION ALL SELECT Replacements.R_Name FROM (Other_Collection natural join OC_R natural join Replacements) WHERE Other_Collection.OC_ID = ? UNION ALL SELECT Pen_Cartridge.PC_Name FROM (Other_Collection natural join OC_PC natural join Pen_Cartridge) WHERE Other_Collection.OC_ID = ?', [id1, id2, id3, id4, id5, id6, id7, id8, id9],
-	(error, result) => {
-			if (error) throw error;              
-			response.send(result);
-			});
-	});
+
 }
 
 module.exports = router;

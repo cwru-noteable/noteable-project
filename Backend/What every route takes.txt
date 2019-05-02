@@ -1,21 +1,35 @@
 //Homepage is /
 
     // ********USERS********
-
-    // list all users Route: users/, takes no args
-
-    // add a user [INCOMPLETE] Route: users/  //TODO: Finish linking collections to user automatically (Will port once routing is done)
 	
-    //edit a user, takes PUT -d "DATA" -d "DATA" ... http://localhost:3002/users/:id
-
-    //delete a user, takes DELETE http://localhost:3002/users/:id
-
-    //display a specific user, takes GET http://localhost:3002/users/:id
+	/users
+		POST (in progress) 
+			{"U_ID": int,
+			"U_Name": <string>,
+			"IC_ID": int,
+			"OC_ID":int,}
+		GET (show all users)
 	
-	//display a user's combined collections [INCOMPLETE], takes GET http://localhost:3002/users/:id/collection
+	/users/:id
+		GET (display user)
+		PUT
+			{"U_Name": <string>,
+			"IC_ID": int,
+			"OC_ID": int
+			}
+		DELETE, no args
+	/users/:id/collection
+		GET(Display collection), in progress
+			{"FountainP": bool,
+			"MechanicalP": bool,
+			"CartridgeP": bool,
+			"WoodP": bool}
 
     // ************IMPLEMENT COLLECTION ****************
 
+	/ImpColl
+		POST args: (IC_ID = x, U_ID = y)
+		GET
     //get table of users to implement collections, route /ImpColl, no args
 
     //add table of implement collections, route /ImpColl, takes args "IC_ID=x&U_ID=y"
