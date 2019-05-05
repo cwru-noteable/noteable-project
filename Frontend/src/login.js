@@ -1,100 +1,50 @@
 import React, { Component } from "react";
 import {
-  Link
+  Link,
+  NavLink,
+  Route
 } from "react-router-dom";
+
+import Hub from "./Hub"
 
 class LoginForm extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      username: '',
-      password: '',
-    };
 
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleUsernameChange = this.handleUsernameChange.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
   }
 
-  handleInputChange(event) {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
-    this.setState({[name]: value});
+  handleUsernameChange(event) {
+    this.props.handleUsernameChange(event);
   }
 
-  handleSubmit(event) {
-    alert('Username: ' + this.state.username + '\nPassword: ' + this.state.password);
-    event.preventDefault();
+  handleLogin() {
+    this.props.handleLogin();
   }
 
   render() {
 
     return (
       <div>
-      <form onSubmit={this.handleSubmit}>
-        <label>
-          Username:
+      <form>
+          <div>
+          <h1>Username:</h1>
+
           <input
             type="text"
             name="username"
-            value={this.state.username}
-            onChange={this.handleInputChange}
+            value={this.props.username}
+            onChange={this.handleUsernameChange}
           />
-        </label>
-        <label>
-          Password:
-          <input
-            type="text"
-            name="password"
-            value={this.state.password}
-            onChange={this.handleInputChange}
-          />
-        </label>
-        <Link to="/Hub">
-          <button
-            type="submit"
-            value="Log in"
-          >
-          Log in
-          </button>
-        </Link>
+
+          <Link to='/hub'><button
+            onClick={this.handleLogin}>Log in</button></Link>
+
+          </div>
       </form>
       </div>
 
-    );
-  }
-}
-
-class RegisterButton extends Component {
-  constructor(props) {
-    super(props);
-
-    this.handleClick = this.handleClick.bind(this);
-  }
-
-  render() {
-    return (
-      <button onClick={this.handleClick}>Register</button>
-    );
-  }
-
-  handleClick() {
-    alert('Going to Registration Now!');
-    /* TODO: go to registration! */
-  }
-}
-
-class LoginPage extends Component {
-  render() {
-    return (
-      <div className="login-page">
-        <div className="login-form">
-          <LoginForm />
-        </div>
-        <div className="register-button">
-          <RegisterButton />
-        </div>
-      </div>
     );
   }
 }
@@ -104,4 +54,4 @@ class LoginPage extends Component {
 //   document.getElementById('root')
 // );
 
-export default LoginPage;
+export default LoginForm;

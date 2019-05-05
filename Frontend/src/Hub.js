@@ -21,15 +21,15 @@ class Hub extends Component {
         <div>
           <h1>Hub</h1>
           <ul className="header">
-            <li><NavLink exact to="/hub">Home</NavLink></li>
-            <li><NavLink to={'/hub/collections/'+this.props.username}>My Collection</NavLink></li>
-            <li><NavLink to="/hub/gallery">Gallery</NavLink></li>
+            <li><NavLink exact to={"/hub/"+this.props.username}>Home</NavLink></li>
+            <li><NavLink to={'/hub/'+this.props.username+'/collections'}>My Collection</NavLink></li>
+            <li><NavLink to={'/hub/'+this.props.username+'/gallery'}>Gallery</NavLink></li>
             <li><Link to="/entry">Log Out</Link></li>
           </ul>
           <div className="content">
-            <Route exact path="/hub" render={(props) => <Home username={this.props.username}/>}/>
-            <Route path={'/hub/collections/'+this.props.username} render={(props) => <Collection username={this.props.username}/>}/>
-            <Route path="/hub/gallery" component={Gallery}/>
+            <Route exact path={'/hub/:username'} render={(props) => <Home username={this.props.username}/>}/>
+            <Route path={'/hub/:username/collections'} render={(props) => <Collection username={this.props.username}/>}/>
+            <Route path={'/hub/:username/gallery'} component={Gallery}/>
           </div>
         </div>
       </HashRouter>

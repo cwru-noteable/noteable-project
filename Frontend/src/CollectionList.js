@@ -11,13 +11,18 @@ class CollectionList extends Component {
   }
 
   render() {
-    const items = [{id: 1, name: 'pen', quantity: 1},
-                  {id: 2, name: 'pencil', quantity: 2},
-                  {id: 3, name: 'mechanical pencil', quantity: 1}];
+
+
     return (
-      <div>
+      <div class='normalDiv'>
         <h2>Collection List</h2>
-        {items.map((item, i) => React.createElement(CollectionItem, {onViewItem:this.onViewItem, id:item.id, name:item.name, quantity:item.quantity, username: this.props.username, key: i}))}
+        <ul>
+        {this.props.items.map((item, i) => (<li class='item'> <CollectionItem
+          onViewItem={this.onViewItem}
+          item={item}
+          username={this.props.username}
+          key={i}/></li>))}
+        </ul>
       </div>
     );
   }

@@ -1,10 +1,11 @@
 body {
-  background-color: #FFCC00;
+  background-color: #4C8495;
   padding: 20px;
   margin: 0;
 }
-h1, h2, p, ul, li {
+h1, h2, h3, p, ul, li {
   font-family: sans-serif;
+  color: #A4C1CA;
 }
 ul.header li {
   display: inline;
@@ -12,26 +13,57 @@ ul.header li {
   margin: 0;
 }
 ul.header {
-  background-color: #111;
+  background-color: #00222E;
   padding: 0;
 }
 ul.header li a {
-  color: #FFF;
+  color: #A4C1CA;
   font-weight: bold;
   text-decoration: none;
   padding: 20px;
   display: inline-block;
 }
-.leftDiv div {
-    float: left;
-    clear: none;
+
+div.itemDiv {
+  background-color: #00222E
 }
-.rightDiv div {
-    float: right;
-    clear: none;
+
+div.leftDiv  {
+  float: left;
+  clear: none;
 }
+div.rightDiv{
+  float: right;
+  clear: none;
+}
+div.leftDiv.leftDivPadded {
+  padding: 10px;
+}
+div.rightDiv.rightDivPadded {
+  padding: 10px;
+}
+
+div.itemViewDiv {
+  width: 50.00%;
+  padding: 20px;
+}
+
+div.collectionViewDiv {
+  width: 50.00%;
+  padding: 20px;
+}
+
+.container{
+  display: flex;
+}
+.flex-item{
+  flex-grow: 1;
+  padding: 10px;
+}
+
+
 .content {
-  background-color: #FFF;
+  background-color: #3E494D;
   padding: 20px;
 }
 .content h2 {
@@ -41,6 +73,13 @@ ul.header li a {
 .content li {
   margin-bottom: 10px;
 }
+li.item {
+  display:block;
+ float:none;
+ width:300px;
+ height:50px;
+ padding: 5px;
+}
 .active {
-  background-color: #0099FF;
+  background-color: #4C8495;
 }
