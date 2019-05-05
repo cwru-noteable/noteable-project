@@ -21,7 +21,7 @@ Homepage is /
 
 	/users/:id/collection
 		GET(Display collection, takes booleans per category)
-			{ "mechP": bool,
+			{"mechP": bool,
 			"fountainPens": bool,
 			"cartridgePens": bool,
 			"woodPencils": bool,
