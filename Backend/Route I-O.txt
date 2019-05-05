@@ -1,0 +1,267 @@
+//Homepage is /
+
+// ********USERS********
+	/users
+		GET (show all users)
+	
+		POST (in progress) 
+			{"U_ID": int,
+			"U_Name": <string>,
+			"IC_ID": int,
+			"OC_ID":int,
+			}
+
+	/users/:id
+		GET (display user and collection IDs)
+
+		PUT (edit)
+			{"U_Name": <string>,
+			"IC_ID": int,
+			"OC_ID": int,
+			}
+
+		DELETE, no args
+
+	/users/:id/collection
+		GET(Display collection, takes booleans per category)
+			{ "mechP": bool,
+			"fountainPens": bool,
+			"cartridgePens": bool,
+			"woodPencils": bool,
+			"lead": bool,
+			"ink": bool,
+			"penCartridge": bool,
+			"utility": bool,
+			}
+
+// ************IMPLEMENT COLLECTION ****************
+
+	/ImpColl
+		GET (display list of collections)
+		
+		POST (Create new)
+		{IC_ID: int,
+		U_ID: int,
+		}
+	
+	/ImpColl/:id
+		GET (list of items)
+
+		PUT (update item)
+			{"IC_ID": int,
+			"U_ID": int,
+			}
+
+		DELETE (delete referenced item)
+ 
+// ************OTHER COLLECTION****************
+    
+	/OthColl
+		GET (list of collections)
+
+		POST (create new)
+			{OC_ID: int,
+			U_ID: int,
+			}
+
+	/OthColl/:id
+		GET (list of items)
+
+		PUT (update item inclusion)
+			{OC_ID: int,
+			U_ID: int,
+			}
+		
+		DELETE
+
+// ************Mechanical P**********
+    
+	/MechP
+		GET (list of items)
+		
+		POST (Create new)
+			{MP_ID: int,
+			MP_Name: <string>,
+			MP_Material: <string>,
+			MP_Lead_Size: double,
+			MP_Manufacturer: <string>,
+			}
+
+	/MechP:id
+		PUT (update item)
+			{MP_Name: <string>,
+			MP_Material: <string>,
+			MP_Lead_Size: double,
+			MP_Manufacturer: <string>,
+			}
+		
+		DELETE (removes item)
+
+// ************Fountain P**********    
+    
+	/FountP
+		GET (list of items)
+		
+		POST (Create new)
+			{FP_ID: int,
+			FP_Name: <string>,
+			FP_Material: <string>,
+			FP_Ink_Type: <string>,
+			MP_Manufacturer: <string>,
+			}
+		
+	/FountP:id
+		PUT (update item)
+			{FP_Name: <string>,
+			FP_Material: <string>,
+			FP_Ink_Type: <string>,
+			FP_Manufacturer: <string>,
+			}
+		
+		DELETE (removes item)    
+    
+// ************Cartridge P**********
+    
+	/CartP
+		GET (list of items)
+		
+		POST (Create new)
+			{CP_ID: int,
+			CP_Name: <string>,
+			CP_Material: <string>,
+			CP_Manufacturer: <string>,
+			}
+
+	/CartP:id
+		PUT (update item) 
+			{CP_Name: <string>,
+			CP_Material: <string>,
+			CP_Manufacturer: <string>,
+			}
+		
+		DELETE (removes item)
+
+
+    // ************Wood P**********
+        
+	/WoodP
+		GET (list of items)
+		
+		POST (Create new)
+			{WP_ID: int,
+			WP_Name: <string>,
+			WP_Material: <string>,
+			WP_Manufacturer: <string>,
+			}
+
+	/WoodP:id
+		PUT (update item)
+			{WP_Name: <string>,
+			WP_Material: <string>,
+			WP_Manufacturer: <string>,
+			}
+		
+		DELETE (removes item)
+
+// ************Lead************    
+    
+	/Lead
+		GET (list of items)
+		
+		POST (Create new)
+			{L_ID: int,
+			L_Name: <string>,
+			L_Size: double,
+			L_Manufacturer: <string>,
+			}
+
+	/Lead:id
+		PUT (update item)
+			{L_Name: <string>,
+			L_Size: double,
+			L_Manufacturer: <string>,
+			}
+
+		DELETE (removes item)
+
+// ************Replacements************
+        
+	/Repl
+		GET (list of items)
+		
+		POST (Create new)
+			{R_ID: int,
+			R_Name: <string>,
+			R_Type: <string>,
+			R_Manufacturer: <string>,
+			}
+
+	/Repl:id
+		PUT (update item) 
+			{R_Name: <string>,
+			R_Type: <string>,
+			R_Manufacturer: <string>,
+			}
+		
+		DELETE (removes item)
+		
+// ************Ink************    
+    
+	/Ink
+		GET (list of items)
+		
+		POST (Create new)
+			{I_ID: int,
+			I_Name: <string>,
+			I_Color: <string>,
+			I_Manufacturer: <string>,
+			}
+
+	/Ink:id
+		PUT (update item)
+			{I_Name: <string>,
+			I_Color: <string>,
+			I_Manufacturer: <string>,
+			}
+		
+		DELETE (removes item)
+		
+// ************Pen Cartridge************
+    
+	/PenC
+		GET (list of items)
+		
+		POST (Create new)
+			{PC_ID: int,
+			PC_Name: <string>,
+			PC_Manufacturer: <string>,
+			}
+
+	/PenC:id
+		PUT (update item)
+			{PC_Name: <string>,
+			PC_Manufacturer: <string>,
+			}
+
+		DELETE (removes item)
+
+// ************Utility************
+    
+	/Utility
+		GET (list of items)
+		
+		POST (Create new)
+			{U_ID: int,
+			U_Name: <string>,
+			U_Type: <string>,
+			U_Manufacturer: <string>,
+			}
+
+	/Utility:id
+		PUT (update item)
+			{U_Name: <string>,
+			U_Type: <string>,
+			U_Manufacturer: <string>,
+			}
+
+		DELETE (removes item)

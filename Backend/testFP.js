@@ -3,12 +3,12 @@ const request = require('request');
 const json = {
     "mechP": true,
     "fountainPens": true,
-    "cartridgePens": false,
-    "woodPencils": false,
-    "lead": false,
+    "cartridgePens": true,
+    "woodPencils": true,
+    "lead": true,
     "ink": true,
-    "penCartridge": false,
-    "utility": false,
+    "penCartridge": true,
+    "utility": true,
 };
 
 request.get({
