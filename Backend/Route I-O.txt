@@ -94,12 +94,12 @@ Homepage is /
 
 	/collection/:u_name/item
 		GET (Display information for single item given ID)
-			desired input:
+			input:
 				{
 					"itemId": int,
 					"type": string
 				}
-			desired output:
+			output:
 				{
 					"itemId": string,
 					"itemName": string,

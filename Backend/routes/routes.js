@@ -687,19 +687,6 @@ const router = app => {
     });
     /*
 	    /collection/:u_name/item
-		GET (Display information for single item given ID)
-			desired input:
-				{
-					"itemId": int,
-					"type": string
-				}
-			desired output:
-				{
-					"itemId": string,
-					"itemName": string,
-					"manufacturer": string,
-					"stats": object
-				}
 
 		POST (Create an item and add to user's collection)
 			desired input:
