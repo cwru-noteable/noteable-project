@@ -1,0 +1,46 @@
+CartridgePen:
+{
+  material: string
+}
+
+FountainPen:
+{
+  material: string,
+  inkType: string
+}
+
+Ink:
+{
+  color: string,
+}
+
+Lead:
+{
+  leadSize: int,
+}
+
+MechanicalPencil:
+{
+  material: string,
+  leadSize: int,
+}
+
+PenCartridge:
+{
+  cartridgeType: int,
+}
+
+ReplacementStats:
+{
+  replacementType: string,
+}
+
+UtilityStats:
+{
+  utilityType: string,
+}
+
+WoodPencil:
+{
+  material: string
+}

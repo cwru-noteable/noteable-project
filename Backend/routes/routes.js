@@ -62,14 +62,14 @@ const router = app => {
     //display a specific user [COMPLETE]
 	app.get('/users/:id', (request, response) => {
 		const id = request.params.id;
-		pool.query('SELECT * FROM user WHERE U_ID = ?', id, 
+		pool.query('SELECT * FROM user WHERE U_ID = ?', id,
 			(error, result) => {
 			if (error) throw error;
 			response.send(result);
 		});
     });
 
-    //display a user's collection [COMPLETE]	
+    //display a user's collection [COMPLETE]
     app.get('/users/:id/collection', (request, response) => {
 		const id = request.params.id;
 	    query = '(SELECT FountainP.FP_Name, FountainP.FP_ID, FountainP.FP_Manufacturer FROM (Implement_Collection natural join IC_FP natural join FountainP)WHERE Implement_Collection.IC_ID = -1)'
@@ -145,7 +145,7 @@ const router = app => {
         const id = request.params.id;
         pool.query('SELECT FountainP.FP_Name FROM (Implement_Collection natural join IC_FP natural join FountainP) WHERE Implement_Collection.IC_ID = ? UNION ALL SELECT CartridgeP.CP_Name FROM (Implement_Collection natural join IC_CP natural join CartridgeP) WHERE Implement_Collection.IC_ID = ? UNION ALL SELECT MechanicalP.MP_Name FROM (Implement_Collection natural join IC_MP natural join MechanicalP) WHERE Implement_Collection.IC_ID = ? UNION ALL SELECT WoodP.WP_Name FROM (Implement_Collection natural join IC_WP natural join WoodP) WHERE Implement_Collection.IC_ID = ?', [id, id, id , id],
             (error, result) => {
-                if (error) throw error;              
+                if (error) throw error;
                 response.send(result);
             });
     });
@@ -197,7 +197,7 @@ const router = app => {
             res.send({message: 'Category not found.'});
         }
     });
- 
+
     // ************OTHER COLLECTION****************
 
     //list all Other Collections [COMPLETE]
@@ -232,7 +232,7 @@ const router = app => {
     app.delete('/OthColl/:id', (request, response) => {
         const id = request.params.id;
         pool.query('UPDATE Other_Collection set U_ID = null where OC_ID = ?', id,(error, result) => {
-            pool.query('DELETE FROM Other_Collection WHERE OC_ID = ? ', id, 
+            pool.query('DELETE FROM Other_Collection WHERE OC_ID = ? ', id,
             (error, result) => {
                 if (error) throw error;
                 response.send('Other Collection deleted.\n');
