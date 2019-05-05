@@ -71,10 +71,9 @@ const router = app => {
     });
 
     //display a user's collection [COMPLETE]	
-    	app.get('/users/:id/collection', (request, response) => {
+    app.get('/users/:id/collection', (request, response) => {
 		const id = request.params.id;
-        var aggregate = [];
-	query = '(SELECT FountainP.FP_Name, FountainP.FP_ID, FountainP.FP_Manufacturer FROM (Implement_Collection natural join IC_FP natural join FountainP)WHERE Implement_Collection.IC_ID = -1)'
+	    query = '(SELECT FountainP.FP_Name, FountainP.FP_ID, FountainP.FP_Manufacturer FROM (Implement_Collection natural join IC_FP natural join FountainP)WHERE Implement_Collection.IC_ID = -1)'
         if (request.body.fountainPens)
             query = query + 'UNION ALL (SELECT FountainP.FP_Name, FountainP.FP_ID, FountainP.FP_Manufacturer FROM (Implement_Collection natural join IC_FP natural join FountainP) WHERE Implement_Collection.IC_ID = ?)';
         if (request.body.cartridgePens)
@@ -93,11 +92,11 @@ const router = app => {
             query = query + 'UNION ALL (SELECT Pen_Cartridge.PC_Name, Pen_Cartridge.PC_ID, Pen_Cartridge.PC_Manufacturer FROM (Other_Collection natural join OC_PC natural join Pen_Cartridge) WHERE Other_Collection.OC_ID = ?)';
         if (request.body.utility)
             query = query + 'UNION ALL (SELECT Utility.U_Name, Utility.U_ID, Utility.U_Manufacturer FROM (Other_Collection natural join OC_U natural join Utility) WHERE Other_Collection.OC_ID = ?)';
-        pool.query(query, [id, id, id, id, id, id, id, id, id],
-            (error, result) => {
-                if (error) throw error;
-                response.send(result);
-            });
+            pool.query(query, [id, id, id, id, id, id, id, id, id],
+                (error, result) => {
+                    if (error) throw error;
+                    response.send(result);
+                });
     });
 
 
@@ -151,6 +150,54 @@ const router = app => {
                 if (error) throw error;              
                 response.send(result);
             });
+    });
+
+    //Add to implement collection (using a string)
+    app.post('/ImpColl/:id/add', (request, response) => {
+        const iid = request.params.id;
+        const target = request.body.target;
+        const name = request.body.name;
+        if (target == "MechanicalP") {
+            pool.query('SELECT MP_ID FROM MechanicalP WHERE MP_Name = ?', name, (error, response) => {
+                var targid = response[0].MP_ID;
+                pool.query('INSERT INTO IC_MP VALUES (IC_ID, MP_ID) SET (?, ?)', [iid, targid], (error, response) => {
+                    if (error) throw error;
+                    response.send("Added Mechanical Pencil to Collection!");
+                });
+            });
+        }
+        else if (target == "FountainP") {
+            pool.query('SELECT FP_ID FROM FountainP WHERE FP_Name = ?', name, (error, response) => {
+                var targid = response[0].MP_ID;
+                pool.query('INSERT INTO IC_FP VALUES (IC_ID, FP_ID) SET (?, ?)', [iid, targid], (error, response) => {
+                    if (error) throw error;
+                    response.send("Added Fountain Pen to Collection!");
+                });
+            });
+        }
+        else if (target == "WoodP") {
+            pool.query('SELECT WP_ID FROM WoodP WHERE WP_Name = ?', name, (error, response) => {
+                var targid = response[0].MP_ID;
+                pool.query('INSERT INTO IC_WP VALUES (IC_ID, WP_ID) SET (?, ?)', [iid, targid], (error, response) => {
+                    if (error) throw error;
+                    response.send("Added Wood Pencil to Collection!");
+                });
+            });
+
+        }
+        else if (target == "CartridgeP") {
+            pool.query('SELECT CP_ID FROM CartridgeP WHERE CP_Name = ?', name, (error, response) => {
+                var targid = response[0].MP_ID;
+                pool.query('INSERT INTO IC_CP VALUES (IC_ID, CP_ID) SET (?, ?)', [iid, targid], (error, response) => {
+                    if (error) throw error;
+                    response.send("Added Cartridge Pen to Collection!");
+                });
+            });
+
+        }
+        else {
+            response.send({message: 'Category not found.'});
+        }
     });
  
     // ************OTHER COLLECTION****************
