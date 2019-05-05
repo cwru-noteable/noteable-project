@@ -8,7 +8,12 @@ class CollectionAddItemView extends Component {
     super(props);
 
     this.state = {
-      type: '',
+      basicAtts: {
+        itemName: '',
+        manufacturer: '',
+        type: ''
+      },
+      stats: {}
     };
 
 
@@ -30,12 +35,12 @@ class CollectionAddItemView extends Component {
         <div class='rightDiv'>
           <div class="leftDiv">
             <h2>Name:<input type='text'
-              name={'newItemName'}
-              value={this.state.newItemName}
+              name={'itemName'}
+              value={this.state.basicAtts.itemName}
               onChange={this.onInputChangeEvent}/></h2>
 
             <h3>Type:</h3>
-            <select value={this.state.type} onChange={this.onDropdownChange}>
+            <select value={this.state.basicAtts.type} onChange={this.onDropdownChange}>
               <option value="mechanicalPencil">mechanicalPencil</option>
               <option value="fountainPen">fountainPen</option>
               <option value="cartridgePen">cartridgePen</option>
@@ -47,7 +52,7 @@ class CollectionAddItemView extends Component {
               <option value="utility">utility</option>
             </select>
 
-            <CollectionAddItemContainer onInputChange={this.onInputChange} type={this.state.type}/>
+            <CollectionAddItemContainer onInputChange={this.onInputChange} type={this.state.basicAtts.type}/>
 
           </div>
           <div class="rightDiv">

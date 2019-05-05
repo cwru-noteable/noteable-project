@@ -107,7 +107,6 @@ Homepage is /
 			desired input:
 				{
 			   basicAtts: {
-				 	itemId: int,
 					itenName: string,
 					type: string,
 					manufacturer: string
