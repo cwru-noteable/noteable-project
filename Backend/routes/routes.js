@@ -43,8 +43,7 @@ const router = app => {
     //edit a user [COMPLETE]
 	app.put('/users/:id', (request, response) => {
 		const id = request.params.id;
-		pool.query('UPDATE user SET ? WHERE U_ID = ?', [request.body, id]
-		, (error, result) => {
+		pool.query('UPDATE user SET ? WHERE U_ID = ?', [request.body, id], (error, result) => {
 			if(error) throw error;
 			response.send('User updated successfully.\n');
 		});
@@ -99,7 +98,6 @@ const router = app => {
                 });
     });
 
-
     // ************IMPLEMENT COLLECTION ****************
 
     //get table of users to implement collections [COMPLETE]
@@ -153,44 +151,44 @@ const router = app => {
     });
 
     //Add to implement collection (using a string)
-    app.post('/ImpColl/:id/add', (request, response) => {
+    app.post('/ImpColl/:id/add', (request, res) => {
         const iid = request.params.id;
         const target = request.body.target;
         const name = request.body.name;
         if (target == "MechanicalP") {
             pool.query('SELECT MP_ID FROM MechanicalP WHERE MP_Name = ?', name, (error, response) => {
                 var targid = response[0].MP_ID;
-                pool.query('INSERT INTO IC_MP VALUES (IC_ID, MP_ID) SET (?, ?)', [iid, targid], (error, response) => {
+                pool.query('INSERT INTO IC_MP (IC_ID, MP_ID) VALUES (?, ?)', [iid, targid], (error, result) => {
                     if (error) throw error;
-                    response.send("Added Mechanical Pencil to Collection!");
+                    res.send('Collection updated successfully.\n');
                 });
             });
         }
         else if (target == "FountainP") {
             pool.query('SELECT FP_ID FROM FountainP WHERE FP_Name = ?', name, (error, response) => {
-                var targid = response[0].MP_ID;
-                pool.query('INSERT INTO IC_FP VALUES (IC_ID, FP_ID) SET (?, ?)', [iid, targid], (error, response) => {
+                var targid = response[0].FP_ID;
+                pool.query('INSERT INTO IC_FP (IC_ID, FP_ID) VALUES (?, ?)', [iid, targid], (error, response) => {
                     if (error) throw error;
-                    response.send("Added Fountain Pen to Collection!");
+                    res.send("Added Fountain Pen to Collection!");
                 });
             });
         }
         else if (target == "WoodP") {
             pool.query('SELECT WP_ID FROM WoodP WHERE WP_Name = ?', name, (error, response) => {
-                var targid = response[0].MP_ID;
-                pool.query('INSERT INTO IC_WP VALUES (IC_ID, WP_ID) SET (?, ?)', [iid, targid], (error, response) => {
+                var targid = response[0].WP_ID;
+                pool.query('INSERT INTO IC_WP (IC_ID, WP_ID) VALUES (?, ?)', [iid, targid], (error, response) => {
                     if (error) throw error;
-                    response.send("Added Wood Pencil to Collection!");
+                    res.send("Added Wood Pencil to Collection!");
                 });
             });
 
         }
         else if (target == "CartridgeP") {
             pool.query('SELECT CP_ID FROM CartridgeP WHERE CP_Name = ?', name, (error, response) => {
-                var targid = response[0].MP_ID;
-                pool.query('INSERT INTO IC_CP VALUES (IC_ID, CP_ID) SET (?, ?)', [iid, targid], (error, response) => {
+                var targid = response[0].CP_ID;
+                pool.query('INSERT INTO IC_CP (IC_ID, CP_ID) VALUES (?, ?)', [iid, targid], (error, response) => {
                     if (error) throw error;
-                    response.send("Added Cartridge Pen to Collection!");
+                    res.send("Added Cartridge Pen to Collection!");
                 });
             });
 
