@@ -323,7 +323,7 @@ const router = app => {
             pool.query('SELECT * FROM (SELECT L_ID FROM Lead ORDER BY L_ID DESC) AS A LIMIT 1', (error, result) => {
                 const id = result[0].L_ID + 1;
                 const size = request.body.stats.size;
-                pool.query('INSERT INTO Lead (L_ID, L_Name, L_Manufacturer, L_Size, ) VALUES (?, ?, ?, ?)', [id, name, manufacturer, size], (error, result) => {
+                pool.query('INSERT INTO Lead (L_ID, L_Name, L_Manufacturer, L_Size) VALUES (?, ?, ?, ?)', [id, name, manufacturer, size], (error, result) => {
                     if (error) throw error;
                     response.status(201).send('Added Lead to Gallery!.\n');
                 });
@@ -409,6 +409,78 @@ const router = app => {
                     if (error) throw error;
                     response.status(201).send('Added Wood Pencil to Gallery!.\n');
                 });
+            });
+        }
+    });
+
+    app.put('/gallery', (request, response) => {
+        const type = request.body.basicAtts.type;
+        const name = request.body.basicAtts.itemName;
+        const manufacturer = request.body.basicAtts.manufacturer;
+        const id = request.body.basicAtts.itemID;
+        if (type == "Lead") {
+            const size = request.body.stats.size;
+            pool.query('UPDATE Lead SET L_Name = ?, L_Manufacturer = ?, L_Size = ? WHERE L_ID = ?', [name, manufacturer, size, id], (error, result) => {
+                if (error) throw error;
+                response.status(200).send('Updated Lead!\n');
+            });
+        }
+        else if (type == "Replacements") {
+            const rtype = request.body.stats.replacementType;
+            pool.query('UPDATE Replacements SET R_Name = ?, R_Manufacturer = ?, R_Type = ? WHERE R_ID = ?', [name, manufacturer, rtype, id], (error, result) => {                if (error) throw error;
+                if (error) throw error;
+                response.status(200).send('Updated Replacement!\n');
+            });
+        }
+        else if (type == "Ink") {
+            const color = request.body.stats.color;
+            pool.query('UPDATE Ink SET I_Name = ?, I_Manufacturer = ?, I_Color = ? WHERE I_ID = ?', [name, manufacturer, color, id], (error, result) => {
+                if (error) throw error;
+                response.status(200).send('Updated Ink!\n');
+            });
+        }
+        else if (type == "penCartridge") {
+            const pcType = request.body.stats.cartridgeType;
+            pool.query('UPDATE Pen_Cartridge SET PC_Name = ?, PC_Manufacturer = ?, PC_Type = ? WHERE PC_ID = ?', [name, manufacturer, pcType, id], (error, result) => {
+                if (error) throw error;
+                response.status(200).send('Updated Pen Cartridge!\n');
+            });
+        }
+        else if (type == "Utility") {
+            const uType = request.body.stats.utilityType;
+            pool.query('UPDATE Utility SET U_Name = ?, U_Manufacturer = ?, U_Type = ? WHERE U_ID = ?', [name, manufacturer, uType, id], (error, result) => {
+                if (error) throw error;
+                response.status(200).send('Updated Utility!\n');
+            });
+        }
+        else if (type == "mechanicalPencil") {
+            const material = request.body.stats.material;
+            const size = request.body.stats.leadSize;
+            pool.query('UPDATE MechanicalP SET MP_Name = ?, MP_Manufacturer = ?, MP_Material = ?, MP_Lead_Size = ? WHERE PC_ID = ?', [name, manufacturer, material, size, id], (error, result) => {
+                if (error) throw error;
+                response.status(200).send('Updated Mechanical Pencil!\n');
+            });
+        }
+        else if (type == "fountainPen") {
+            const material = request.body.stats.material;
+            const inkType = request.body.stats.inkType;
+            pool.query('UPDATE FountainP SET FP_Name = ?, FP_Manufacturer = ?, FP_Material = ?, FP_Ink_Type = ? WHERE FP_ID = ?', [name, manufacturer, material, inkType, id], (error, result) => {
+                if (error) throw error;
+                response.status(200).send('Updated Fountain Pen!\n');
+            });
+        }
+        else if (type == "cartridgePen") {
+            const material = request.body.stats.material;
+            pool.query('UPDATE CartridgeP SET CP_Name = ?, CP_Manufacturer = ?, CP_Material = ?, WHERE CP_ID = ?', [name, manufacturer, material, id], (error, result) => {
+                if (error) throw error;
+                response.status(200).send('Updated Cartridge Pen!\n');
+            });
+        }
+        else if (type == "woodPencil") {
+            const material = request.body.stats.material;
+            pool.query('UPDATE WoodP SET WP_Name = ?, WP_Manufacturer = ?, WP_Material = ?, WHERE WP_ID = ?', [name, manufacturer, material, id], (error, result) => {
+                if (error) throw error;
+                response.status(200).send('Updated Wood Pencil!\n');
             });
         }
     });

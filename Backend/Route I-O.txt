@@ -40,6 +40,19 @@ Homepage is /
 ********GALLERY********
 
 	/gallery
+		GET (Get list of al items)
+			input:
+				{"mechanicalPencil": bool,
+				"fountainPens": bool,
+				"cartridgePens": bool,
+				"woodPencils": bool,
+				"lead": bool,
+				"ink": bool,
+				"penCartridge": bool,
+				"utility": bool,
+				"replacements" bool
+				}
+
 		POST (create a new item)
 			input:
 				{
@@ -52,7 +65,7 @@ Homepage is /
 				}
 
 		PUT (edit an existing item) (TODO)
-			desired input:
+			input:
 				{
 				 basicAtts: {
 						itemId: int,
@@ -63,7 +76,7 @@ Homepage is /
 				 stats: object
 				}
 
-********GENERAL COLLECTION*******
+********GENERAL COLLECTION******* (TODO)
 
 	/collection/:u_name
 		GET (Display collection, takes booleans per category) (TODO)
