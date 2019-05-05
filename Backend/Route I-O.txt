@@ -111,14 +111,14 @@ Homepage is /
 			desired input:
 				{
 			   basicAtts: {
-					itenName: string,
+					itemName: string,
 					type: string,
 					manufacturer: string
 				 },
 			   stats: object
 				}
 
-		DELETE (Delete an item)
+		DELETE (Delete an item from user's collection)
 			desired input:
 				{
 					"itemId": int,
