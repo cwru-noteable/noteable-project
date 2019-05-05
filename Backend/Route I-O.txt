@@ -1,14 +1,11 @@
-//Homepage is /
+Homepage is /
 
-// ********USERS********
+********USERS********
 	/users
 		GET (show all users)
 	
-		POST (in progress) 
-			{"U_ID": int,
-			"U_Name": <string>,
-			"IC_ID": int,
-			"OC_ID":int,
+		POST (create new user, autocreates U_ID and 2 collections) 
+			{"U_Name": <string>,
 			}
 
 	/users/:id
@@ -34,7 +31,7 @@
 			"utility": bool,
 			}
 
-// ************IMPLEMENT COLLECTION ****************
+********IMPLEMENT COLLECTION********
 
 	/ImpColl
 		GET (display list of collections)
@@ -54,7 +51,7 @@
 
 		DELETE (delete referenced item)
  
-// ************OTHER COLLECTION****************
+********OTHER COLLECTION********
     
 	/OthColl
 		GET (list of collections)
@@ -74,7 +71,7 @@
 		
 		DELETE
 
-// ************Mechanical P**********
+********Mechanical P********
     
 	/MechP
 		GET (list of items)
@@ -97,8 +94,8 @@
 		
 		DELETE (removes item)
 
-// ************Fountain P**********    
-    
+********Fountain P********
+
 	/FountP
 		GET (list of items)
 		
@@ -120,7 +117,7 @@
 		
 		DELETE (removes item)    
     
-// ************Cartridge P**********
+********Cartridge P********
     
 	/CartP
 		GET (list of items)
@@ -142,7 +139,7 @@
 		DELETE (removes item)
 
 
-    // ************Wood P**********
+********Wood P********
         
 	/WoodP
 		GET (list of items)
@@ -163,7 +160,7 @@
 		
 		DELETE (removes item)
 
-// ************Lead************    
+********Lead********
     
 	/Lead
 		GET (list of items)
@@ -184,7 +181,7 @@
 
 		DELETE (removes item)
 
-// ************Replacements************
+********Replacements********
         
 	/Repl
 		GET (list of items)
@@ -205,7 +202,7 @@
 		
 		DELETE (removes item)
 		
-// ************Ink************    
+********Ink********
     
 	/Ink
 		GET (list of items)
@@ -226,7 +223,7 @@
 		
 		DELETE (removes item)
 		
-// ************Pen Cartridge************
+********Pen Cartridge********
     
 	/PenC
 		GET (list of items)
@@ -245,7 +242,7 @@
 
 		DELETE (removes item)
 
-// ************Utility************
+********Utility********
     
 	/Utility
 		GET (list of items)
