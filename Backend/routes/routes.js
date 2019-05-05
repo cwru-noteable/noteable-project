@@ -69,7 +69,7 @@ const router = app => {
 		});
     });
 
-    //display a user's collection [COMPLETE] (wow this is broken)
+    //display a user's collection [COMPLETE] (deprecated in favor of /collection/:u_name)
     app.get('/users/:id/collection', (request, response) => {
 		const id = request.params.id;
 	    query = '(SELECT FountainP.FP_Name, FountainP.FP_ID, FountainP.FP_Manufacturer FROM (Implement_Collection natural join IC_FP natural join FountainP)WHERE Implement_Collection.IC_ID = -1)'
@@ -319,7 +319,7 @@ const router = app => {
         const type = request.body.basicAtts.type;
         const name = request.body.basicAtts.ItemName;
         const manufacturer = request.body.basicAtts.manufacturer;
-        if (type == "Lead") {
+        if (type == "lead") {
             pool.query('SELECT * FROM (SELECT L_ID FROM Lead ORDER BY L_ID DESC) AS A LIMIT 1', (error, result) => {
                 const id = result[0].L_ID + 1;
                 const size = request.body.stats.size;
@@ -329,7 +329,7 @@ const router = app => {
                 });
             });
         }
-        else if (type == "Replacements") {
+        else if (type == "replacements") {
             pool.query('SELECT * FROM (SELECT R_ID FROM Replacements ORDER BY R_ID DESC) AS A LIMIT 1', (error, result) => {
                 const id = result[0].R_ID + 1;
                 const rtype = request.body.stats.replacementType;
@@ -339,7 +339,7 @@ const router = app => {
                 });
             });
         }
-        else if (type == "Ink") {
+        else if (type == "ink") {
             pool.query('SELECT * FROM (SELECT I_ID FROM Ink ORDER BY I_ID DESC) AS A LIMIT 1', (error, result) => {
                 const id = result[0].I_ID + 1;
                 const color = request.body.stats.color;
@@ -359,7 +359,7 @@ const router = app => {
                 });
             });
         }
-        else if (type == "Utility") {
+        else if (type == "utility") {
             pool.query('SELECT * FROM (SELECT U_ID FROM Utility ORDER BY U_ID DESC) AS A LIMIT 1', (error, result) => {
                 const id = result[0].UC_ID + 1;
                 const uType = request.body.stats.utilityType;
@@ -418,21 +418,21 @@ const router = app => {
         const name = request.body.basicAtts.itemName;
         const manufacturer = request.body.basicAtts.manufacturer;
         const id = request.body.basicAtts.itemID;
-        if (type == "Lead") {
+        if (type == "lead") {
             const size = request.body.stats.size;
             pool.query('UPDATE Lead SET L_Name = ?, L_Manufacturer = ?, L_Size = ? WHERE L_ID = ?', [name, manufacturer, size, id], (error, result) => {
                 if (error) throw error;
                 response.status(200).send('Updated Lead!\n');
             });
         }
-        else if (type == "Replacements") {
+        else if (type == "replacements") {
             const rtype = request.body.stats.replacementType;
             pool.query('UPDATE Replacements SET R_Name = ?, R_Manufacturer = ?, R_Type = ? WHERE R_ID = ?', [name, manufacturer, rtype, id], (error, result) => {                if (error) throw error;
                 if (error) throw error;
                 response.status(200).send('Updated Replacement!\n');
             });
         }
-        else if (type == "Ink") {
+        else if (type == "ink") {
             const color = request.body.stats.color;
             pool.query('UPDATE Ink SET I_Name = ?, I_Manufacturer = ?, I_Color = ? WHERE I_ID = ?', [name, manufacturer, color, id], (error, result) => {
                 if (error) throw error;
@@ -446,7 +446,7 @@ const router = app => {
                 response.status(200).send('Updated Pen Cartridge!\n');
             });
         }
-        else if (type == "Utility") {
+        else if (type == "utility") {
             const uType = request.body.stats.utilityType;
             pool.query('UPDATE Utility SET U_Name = ?, U_Manufacturer = ?, U_Type = ? WHERE U_ID = ?', [name, manufacturer, uType, id], (error, result) => {
                 if (error) throw error;
@@ -487,7 +487,7 @@ const router = app => {
 
     // ************Collections**********
     app.get('/collection/:u_name', (request, response) => {
-        pool.query('SELECT U_ID FROM user where U_Name = ?', request.params.u_name, (request, response) => {
+        pool.query('SELECT U_ID FROM user WHERE U_Name = ?', request.params.u_name, (request, response) => {
             const uid = response[0].U_ID;
             pool.query('SELECT IC_ID, OC_ID FROM user WHERE U_ID = ?', uid, (request, response) => {
                 const iid = response[0].IC_ID;
@@ -521,6 +521,161 @@ const router = app => {
 
     app.get('/collection/:u_name/item', (request, response) => {
         //todo, get specific item
+        const id = request.body.itemID;
+        const type = request.body.type;
+        if (type == "mechanicalPencil") {
+            pool.query('select * from MechanicalP where MP_ID = ?', id, (error, result) => {
+                if (error) throw error;
+                result.map((item, i) => ({
+                    basicAtts: {
+                        itemName: item.MP_Name,
+                        itemId: item.MP_ID,
+                        manufacturer: item.MP_Manufacturer,
+                        stats: {
+                            material: item.MP_Material,
+                            leadSize: item.MP_Lead_Size,
+                        }
+
+                    }
+                }));
+                response.send(result);
+            });
+        }
+        else if (type == "woodPencil") {
+            pool.query('select * from WoodP where WP_ID = ?', id, (error, result) => {
+                if (error) throw error;
+                result.map((item, i) => ({
+                    basicAtts: {
+                        itemName: item.WP_Name,
+                        itemId: item.WP_ID,
+                        manufacturer: item.WP_Manufacturer,
+                        stats: {
+                            material: item.WP_Material,
+                        }
+
+                    }
+                }));
+                response.send(result);
+            });
+        }
+        else if (type == "fountainPen") {
+            pool.query('select * from FountainP where FP_ID = ?', id, (error, result) => {
+                if (error) throw error;
+                result.map((item, i) => ({
+                    basicAtts: {
+                        itemName: item.FP_Name,
+                        itemId: item.FP_ID,
+                        manufacturer: item.FP_Manufacturer,
+                        stats: {
+                            material: item.FP_Material,
+                            inkType: item.FP_Ink_Type,
+                        }
+                    }
+                }));
+                response.send(result);
+            });
+        }
+        else if (type == "cartridgePen") {
+            pool.query('select * from CartridgeP where CP_ID = ?', id, (error, result) => {
+                if (error) throw error;
+                result.map((item, i) => ({
+                    basicAtts: {
+                        itemName: item.CP_Name,
+                        itemId: item.CP_ID,
+                        manufacturer: item.CP_Manufacturer,
+                        stats: {
+                            material: item.CP_Material,
+                        }
+                    }
+                }));
+                response.send(result);
+            });
+        }
+        else if (type == "ink") {
+            pool.query('select * from Ink where I_ID = ?', id, (error, result) => {
+                if (error) throw error;
+                result.map((item, i) => ({
+                    basicAtts: {
+                        itemName: item.I_Name,
+                        itemId: item.I_ID,
+                        manufacturer: item.I_Manufacturer,
+                        stats: {
+                            color: item.I_Color,
+                        }
+
+                    }
+                }));
+                response.send(result);
+            });
+        }
+        else if (type == "lead") {
+            pool.query('select * from Lead where L_ID = ?', id, (error, result) => {
+                if (error) throw error;
+                result.map((item, i) => ({
+                    basicAtts: {
+                        itemName: item.L_Name,
+                        itemId: item.L_ID,
+                        manufacturer: item.L_Manufacturer,
+                        stats: {
+                            leadSize: item.L_Size,
+                        }
+
+                    }
+                }));
+                response.send(result);
+            });
+        }
+        else if (type == "replacements") {
+            pool.query('select * from Replacements where R_ID = ?', id, (error, result) => {
+                if (error) throw error;
+                result.map((item, i) => ({
+                    basicAtts: {
+                        itemName: item.R_Name,
+                        itemId: item.R_ID,
+                        manufacturer: item.R_Manufacturer,
+                        stats: {
+                            replacementType: item.R_Type,
+                        }
+
+                    }
+                }));
+                response.send(result);
+            });
+        }
+        else if (type == "utility") {
+            pool.query('select * from Utility where U_ID = ?', id, (error, result) => {
+                if (error) throw error;
+                result.map((item, i) => ({
+                    basicAtts: {
+                        itemName: item.U_Name,
+                        itemId: item.U_ID,
+                        manufacturer: item.U_Manufacturer,
+                        stats: {
+                            utilityType: item.U_Type,
+                        }
+
+                    }
+                }));
+                response.send(result);
+            });
+        }
+        else if (type == "penCartridge") {
+            pool.query('select * from Pen_Cartridge where PC_ID = ?', id, (error, result) => {
+                if (error) throw error;
+                result.map((item, i) => ({
+                    basicAtts: {
+                        itemName: item.PC_Name,
+                        itemId: item.PC_ID,
+                        manufacturer: item.PC_Manufacturer,
+                        stats: {
+                            cartridgeType: item.PC_Type,
+                        }
+
+                    }
+                }));
+                response.send(result);
+            });
+        }
     });
 
     app.post('/collection/:u_name/item', (request, response) => {
