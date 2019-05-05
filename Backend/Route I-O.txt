@@ -26,16 +26,6 @@ Homepage is /
 	/users/:id/collection
 		GET(Display collection, takes booleans per category)
 			input:
-				{"mechP": bool,
-				"fountainPens": bool,
-				"cartridgePens": bool,
-				"woodPencils": bool,
-				"lead": bool,
-				"ink": bool,
-				"penCartridge": bool,
-				"utility": bool,
-				}
-			desired input:
 				{"mechanicalPencil": bool,
 				"fountainPens": bool,
 				"cartridgePens": bool,
@@ -50,14 +40,25 @@ Homepage is /
 ********GALLERY********
 
 	/gallery
-		PUT (edit an existing item)
+		POST (create a new item)
+			input:
+				{
+					basicAtts: {
+						itemName: string,
+						type: string,
+						manufacturer: string,
+					},
+					stats: object
+				}
+
+		PUT (edit an existing item) (TODO)
 			desired input:
 				{
 				 basicAtts: {
-					itemId: int,
-					itenName: string,
-					type: string,
-					manufacturer: string
+						itemId: int,
+						itemName: string,
+						type: string,
+						manufacturer: string,
 				 },
 				 stats: object
 				}
@@ -65,18 +66,8 @@ Homepage is /
 ********GENERAL COLLECTION*******
 
 	/collection/:u_name
-		GET (Display collection, takes booleans per category)
+		GET (Display collection, takes booleans per category) (TODO)
 			input:
-				{"mechP": bool,
-				"fountainPens": bool,
-				"cartridgePens": bool,
-				"woodPencils": bool,
-				"lead": bool,
-				"ink": bool,
-				"penCartridge": bool,
-				"utility": bool,
-				}
-			desired input:
 				{"mechanicalPencil": bool,
 				"fountainPens": bool,
 				"cartridgePens": bool,

@@ -29,7 +29,7 @@ const router = app => {
                 var oid = result[0].OC_ID + 1;
                 pool.query('SELECT * FROM (SELECT IC_ID FROM Implement_Collection ORDER BY IC_ID DESC) AS A LIMIT 1', (error, result) => {
                     var iid = result[0].IC_ID + 1;
-                    pool.query('INSERT INTO Implement_Collection VALUES(?,null);INSERT INTO Other_Collection VALUES(?,null);INSERT INTO user VALUES(?,?,?,?);UPDATE Other_Collection SET U_ID = ? WHERE OC_ID = ?;UPDATE Implement_Collection SET U_ID = ? WHERE IC_ID = ?;', [iid, oid, uid, request.body.U_Name, iid, oid, uid, oid, uid, iid],
+                    pool.query('INSERT INTO Implement_Collection VALUES(?,null);INSERT INTO Other_Collection VALUES(?,null);INSERT INTO user VALUES(?,?,?,?);UPDATE Other_Collection SET U_ID = ? WHERE OC_ID = ?;UPDATE Implement_Collection SET U_ID = ? WHERE IC_ID = ?;', [iid, oid, uid, request.body.username, iid, oid, uid, oid, uid, iid],
                         (error, result) => {
                             if (error) throw error;
                             response.status(201).send
@@ -77,7 +77,7 @@ const router = app => {
             query = query + 'UNION ALL (SELECT FountainP.FP_Name, FountainP.FP_ID, FountainP.FP_Manufacturer FROM (Implement_Collection natural join IC_FP natural join FountainP) WHERE Implement_Collection.IC_ID = ?)';
         if (request.body.cartridgePens)
             query = query + 'UNION ALL (SELECT CartridgeP.CP_Name, CartridgeP.CP_ID, CartridgeP.CP_Manufacturer FROM (Implement_Collection natural join IC_CP natural join CartridgeP) WHERE Implement_Collection.IC_ID = ?)';
-        if (request.body.mechP)
+        if (request.body.mechanicalPencils)
             query = query + 'UNION ALL (SELECT MechanicalP.MP_Name, MechanicalP.MP_ID, MechanicalP.MP_Manufacturer FROM (Implement_Collection natural join IC_MP natural join MechanicalP) WHERE Implement_Collection.IC_ID = ?)';
         if (request.body.woodPencils)
             query = query + 'UNION ALL (SELECT WoodP.WP_Name, WoodP.WP_ID, WoodP.WP_Manufacturer FROM (Implement_Collection natural join IC_WP natural join WoodP) WHERE Implement_Collection.IC_ID = ?)';
@@ -316,13 +316,13 @@ const router = app => {
     });
 
     app.post('/gallery', (request, response) => {
-        const type = request.body.type;
-        const name = request.body.name;
-        const manufacturer = request.body.manufacturer;
+        const type = request.body.basicAtts.type;
+        const name = request.body.basicAtts.ItemName;
+        const manufacturer = request.body.basicAtts.manufacturer;
         if (type == "Lead") {
             pool.query('SELECT * FROM (SELECT L_ID FROM Lead ORDER BY L_ID DESC) AS A LIMIT 1', (error, result) => {
                 const id = result[0].L_ID + 1;
-                const size = request.body.size;
+                const size = request.body.stats.size;
                 pool.query('INSERT INTO Lead (L_ID, L_Name, L_Manufacturer, L_Size, ) VALUES (?, ?, ?, ?)', [id, name, manufacturer, size], (error, result) => {
                     if (error) throw error;
                     response.status(201).send('Added Lead to Gallery!.\n');
@@ -332,7 +332,7 @@ const router = app => {
         else if (type == "Replacements") {
             pool.query('SELECT * FROM (SELECT R_ID FROM Replacements ORDER BY R_ID DESC) AS A LIMIT 1', (error, result) => {
                 const id = result[0].R_ID + 1;
-                const rtype = request.body.replacementType;
+                const rtype = request.body.stats.replacementType;
                 pool.query('INSERT INTO Replacements (R_ID, R_Name, R_Manufacturer, R_Type) VALUES (?, ?, ?, ?)', [id, name, manufacturer, rtype], (error, result) => {
                     if (error) throw error;
                     response.status(201).send('Added Replacement to Gallery!.\n');
@@ -342,7 +342,7 @@ const router = app => {
         else if (type == "Ink") {
             pool.query('SELECT * FROM (SELECT I_ID FROM Ink ORDER BY I_ID DESC) AS A LIMIT 1', (error, result) => {
                 const id = result[0].I_ID + 1;
-                const color = request.body.color;
+                const color = request.body.stats.color;
                 pool.query('INSERT INTO Ink (I_ID, I_Name, I_Manufacturer, I_Color) VALUES (?, ?, ?, ?)', [id, name, manufacturer, color], (error, result) => {
                     if (error) throw error;
                     response.status(201).send('Added Ink to Gallery!.\n');
@@ -352,7 +352,7 @@ const router = app => {
         else if (type == "penCartridge") {
             pool.query('SELECT * FROM (SELECT PC_ID FROM Pen_Cartridge ORDER BY PC_ID DESC) AS A LIMIT 1', (error, result) => {
                 const id = result[0].PC_ID + 1;
-                const pcType = request.body.cartridgeType;
+                const pcType = request.body.stats.cartridgeType;
                 pool.query('INSERT INTO Pen_Cartridge (PC_ID, PC_Name, PC_Manufacturer, PC_Type) VALUES (?, ?, ?, ?)', [id, name, manufacturer, pcType], (error, result) => {
                     if (error) throw error;
                     response.status(201).send('Added Pen Cartridge to Gallery!.\n');
@@ -362,7 +362,7 @@ const router = app => {
         else if (type == "Utility") {
             pool.query('SELECT * FROM (SELECT U_ID FROM Utility ORDER BY U_ID DESC) AS A LIMIT 1', (error, result) => {
                 const id = result[0].UC_ID + 1;
-                const uType = request.body.utilityType;
+                const uType = request.body.stats.utilityType;
                 pool.query('INSERT INTO Utility (U_ID, U_Name, U_Manufacturer, U_Type) VALUES (?, ?, ?, ?)', [id, name, manufacturer, pcType], (error, result) => {
                     if (error) throw error;
                     response.status(201).send('Added Utility to Gallery!.\n');
@@ -372,8 +372,8 @@ const router = app => {
         else if (type == "mechanicalPencil") {
             pool.query('SELECT * FROM (SELECT MP_ID FROM MechanicalP ORDER BY MP_ID DESC) AS A LIMIT 1', (error, result) => {
                 const id = result[0].MP_ID + 1;
-                const material = request.body.material;
-                const size = request.body.leadSize;
+                const material = request.body.stats.material;
+                const size = request.body.stats.leadSize;
                 pool.query('INSERT INTO MechanicalP (MP_ID, MP_Name, MP_Manufacturer, MP_Material, MP_Lead_Size) VALUES (?, ?, ?, ?)', [id, name, manufacturer, material, size], (error, result) => {
                     if (error) throw error;
                     response.status(201).send('Added Mechanical Pencil to Gallery!.\n');
@@ -383,8 +383,8 @@ const router = app => {
         else if (type == "fountainPen") {
             pool.query('SELECT * FROM (SELECT FP_ID FROM FountainP ORDER BY FP_ID DESC) AS A LIMIT 1', (error, result) => {
                 const id = result[0].FP_ID + 1;
-                const material = request.body.material;
-                const inkType = request.body.inkType;
+                const material = request.body.stats.material;
+                const inkType = request.body.stats.inkType;
                 pool.query('INSERT INTO FountainP (FP_ID, FP_Name, FP_Manufacturer, FP_Material, FP_Ink_Type) VALUES (?, ?, ?, ?)', [id, name, manufacturer, material, inkType], (error, result) => {
                     if (error) throw error;
                     response.status(201).send('Added Fountain Pen to Gallery!.\n');
@@ -394,7 +394,7 @@ const router = app => {
         else if (type == "cartridgePen") {
             pool.query('SELECT * FROM (SELECT CP_ID FROM CartridgeP ORDER BY CP_ID DESC) AS A LIMIT 1', (error, result) => {
                 const id = result[0].CP_ID + 1;
-                const material = request.body.material;
+                const material = request.body.stats.material;
                 pool.query('INSERT INTO CartridgeP (CP_ID, CP_Name, CP_Manufacturer, CP_Material) VALUES (?, ?, ?, ?)', [id, name, manufacturer, material], (error, result) => {
                     if (error) throw error;
                     response.status(201).send('Added Cartridge Pen to Gallery!.\n');
@@ -404,7 +404,7 @@ const router = app => {
         else if (type == "woodPencil") {
             pool.query('SELECT * FROM (SELECT WP_ID FROM WoodP ORDER BY WP_ID DESC) AS A LIMIT 1', (error, result) => {
                 const id = result[0].WP_ID + 1;
-                const material = request.body.material;
+                const material = request.body.stats.material;
                 pool.query('INSERT INTO WoodP (WP_ID, WP_Name, WP_Manufacturer, WP_Material) VALUES (?, ?, ?, ?)', [id, name, manufacturer, material], (error, result) => {
                     if (error) throw error;
                     response.status(201).send('Added Wood Pencil to Gallery!.\n');
