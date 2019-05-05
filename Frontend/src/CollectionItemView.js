@@ -30,6 +30,7 @@ class CollectionItemView extends Component {
             <div class="leftDiv">
               <h1>{this.props.basicAtts.itemName}</h1>
               <h2>ID: {this.props.basicAtts.itemId}</h2>
+              <h2>Type: {this.props.basicAtts.type}</h2>
             </div>
             <div class="rightDiv">
               <button onClick={this.onCloseItem}>Close</button>
@@ -53,6 +54,7 @@ class CollectionItemView extends Component {
                 value={this.state.newBasicAtts.itemName}
                 onChange={this.onInputChangeEvent}/>
               <h2>ID: {this.state.newBasicAtts.itemId}</h2>
+              <h2>Type: {this.props.basicAtts.type}</h2>
               <h2>Manufacturer:</h2>
               <input
                 type='text'
