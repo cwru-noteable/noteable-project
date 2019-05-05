@@ -3,8 +3,9 @@
     "",
     "\\Backend",
     "\\Backend\\data",
-    "\\Backend\\routes"
+    "\\Backend\\routes",
+    "\\DB Config"
   ],
-  "SelectedNode": "\\Backend\\What every route takes.txt",
+  "SelectedNode": "\\Backend\\routes\\routes.js",
   "PreviewInSolutionExplorer": false
 }

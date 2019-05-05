@@ -254,13 +254,13 @@ const router = app => {
 
     //Add to other collection (using a string) [UNTESTED]
     app.post('/OthColl/:id/add', (request, res) => {
-        const iid = request.params.id;
+        const id = request.params.id;
         const target = request.body.target;
         const name = request.body.name;
         if (target == "Lead") {
             pool.query('SELECT L_ID FROM Lead WHERE L_Name = ?', name, (error, response) => {
                 var targid = response[0].L_ID;
-                pool.query('INSERT INTO OC_L (OC_ID, L_ID) VALUES (?, ?)', [iid, targid], (error, result) => {
+                pool.query('INSERT INTO OC_L (OC_ID, L_ID) VALUES (?, ?)', [id, targid], (error, result) => {
                     if (error) throw error;
                     res.send('Added Lead to Collection!.\n');
                 });
@@ -269,7 +269,7 @@ const router = app => {
         else if (target == "Replacements") {
             pool.query('SELECT R_ID FROM Replacements WHERE R_Name = ?', name, (error, response) => {
                 var targid = response[0].FP_ID;
-                pool.query('INSERT INTO OC_R (OC_ID, R_ID) VALUES (?, ?)', [iid, targid], (error, response) => {
+                pool.query('INSERT INTO OC_R (OC_ID, R_ID) VALUES (?, ?)', [id, targid], (error, response) => {
                     if (error) throw error;
                     res.send("Added Replacement to Collection!");
                 });
@@ -278,7 +278,7 @@ const router = app => {
         else if (target == "Ink") {
             pool.query('SELECT I_ID FROM Ink WHERE I_Name = ?', name, (error, response) => {
                 var targid = response[0].WP_ID;
-                pool.query('INSERT INTO OC_I (OC_ID, I_ID) VALUES (?, ?)', [iid, targid], (error, response) => {
+                pool.query('INSERT INTO OC_I (OC_ID, I_ID) VALUES (?, ?)', [id, targid], (error, response) => {
                     if (error) throw error;
                     res.send("Added Ink to Collection!");
                 });
@@ -288,7 +288,7 @@ const router = app => {
         else if (target == "Pen_Cartridge") {
             pool.query('SELECT PC_ID FROM Pen_Cartridge WHERE PC_Name = ?', name, (error, response) => {
                 var targid = response[0].PC_ID;
-                pool.query('INSERT INTO OC_PC (OC_ID, PC_ID) VALUES (?, ?)', [iid, targid], (error, response) => {
+                pool.query('INSERT INTO OC_PC (OC_ID, PC_ID) VALUES (?, ?)', [id, targid], (error, response) => {
                     if (error) throw error;
                     res.send("Added Pen Cartridge to Collection!");
                 });
@@ -298,7 +298,7 @@ const router = app => {
         else if (target == "Utility") {
             pool.query('SELECT U_ID FROM Utility WHERE U_Name = ?', name, (error, response) => {
                 var targid = response[0].U_ID;
-                pool.query('INSERT INTO OC_U (OC_ID, U_ID) VALUES (?, ?)', [iid, targid], (error, response) => {
+                pool.query('INSERT INTO OC_U (OC_ID, U_ID) VALUES (?, ?)', [id, targid], (error, response) => {
                     if (error) throw error;
                     res.send("Added Utility to Collection!");
                 });
@@ -309,6 +309,114 @@ const router = app => {
             res.send({ message: 'Category not found.' });
         }
     });
+
+    // ************GALLERY**********
+    app.get('/gallery', (request, response) => {
+        //TO BE DONE (takes the same boolean from specific users)
+    });
+
+    app.post('/gallery', (request, response) => {
+        const type = request.body.type;
+        const name = request.body.name;
+        const manufacturer = request.body.manufacturer;
+        if (type == "Lead") {
+            pool.query('SELECT * FROM (SELECT L_ID FROM Lead ORDER BY L_ID DESC) AS A LIMIT 1', (error, result) => {
+                const id = result[0].L_ID + 1;
+                const size = request.body.size;
+                pool.query('INSERT INTO Lead (L_ID, L_Name, L_Manufacturer, L_Size, ) VALUES (?, ?, ?, ?)', [id, name, manufacturer, size], (error, result) => {
+                    if (error) throw error;
+                    response.status(201).send('Added Lead to Gallery!.\n');
+                });
+            });
+        }
+        else if (type == "Replacements") {
+            pool.query('SELECT * FROM (SELECT R_ID FROM Replacements ORDER BY R_ID DESC) AS A LIMIT 1', (error, result) => {
+                const id = result[0].R_ID + 1;
+                const rtype = request.body.replacementType;
+                pool.query('INSERT INTO Replacements (R_ID, R_Name, R_Manufacturer, R_Type) VALUES (?, ?, ?, ?)', [id, name, manufacturer, rtype], (error, result) => {
+                    if (error) throw error;
+                    response.status(201).send('Added Replacement to Gallery!.\n');
+                });
+            });
+        }
+        else if (type == "Ink") {
+            pool.query('SELECT * FROM (SELECT I_ID FROM Ink ORDER BY I_ID DESC) AS A LIMIT 1', (error, result) => {
+                const id = result[0].I_ID + 1;
+                const color = request.body.color;
+                pool.query('INSERT INTO Ink (I_ID, I_Name, I_Manufacturer, I_Color) VALUES (?, ?, ?, ?)', [id, name, manufacturer, color], (error, result) => {
+                    if (error) throw error;
+                    response.status(201).send('Added Ink to Gallery!.\n');
+                });
+            });
+        }
+        else if (type == "penCartridge") {
+            pool.query('SELECT * FROM (SELECT PC_ID FROM Pen_Cartridge ORDER BY PC_ID DESC) AS A LIMIT 1', (error, result) => {
+                const id = result[0].PC_ID + 1;
+                const pcType = request.body.cartridgeType;
+                pool.query('INSERT INTO Pen_Cartridge (PC_ID, PC_Name, PC_Manufacturer, PC_Type) VALUES (?, ?, ?, ?)', [id, name, manufacturer, pcType], (error, result) => {
+                    if (error) throw error;
+                    response.status(201).send('Added Pen Cartridge to Gallery!.\n');
+                });
+            });
+        }
+        else if (type == "Utility") {
+            pool.query('SELECT * FROM (SELECT U_ID FROM Utility ORDER BY U_ID DESC) AS A LIMIT 1', (error, result) => {
+                const id = result[0].UC_ID + 1;
+                const uType = request.body.utilityType;
+                pool.query('INSERT INTO Utility (U_ID, U_Name, U_Manufacturer, U_Type) VALUES (?, ?, ?, ?)', [id, name, manufacturer, pcType], (error, result) => {
+                    if (error) throw error;
+                    response.status(201).send('Added Utility to Gallery!.\n');
+                });
+            });
+        }
+        else if (type == "mechanicalPencil") {
+            pool.query('SELECT * FROM (SELECT MP_ID FROM MechanicalP ORDER BY MP_ID DESC) AS A LIMIT 1', (error, result) => {
+                const id = result[0].MP_ID + 1;
+                const material = request.body.material;
+                const size = request.body.leadSize;
+                pool.query('INSERT INTO MechanicalP (MP_ID, MP_Name, MP_Manufacturer, MP_Material, MP_Lead_Size) VALUES (?, ?, ?, ?)', [id, name, manufacturer, material, size], (error, result) => {
+                    if (error) throw error;
+                    response.status(201).send('Added Mechanical Pencil to Gallery!.\n');
+                });
+            });
+        }
+        else if (type == "fountainPen") {
+            pool.query('SELECT * FROM (SELECT FP_ID FROM FountainP ORDER BY FP_ID DESC) AS A LIMIT 1', (error, result) => {
+                const id = result[0].FP_ID + 1;
+                const material = request.body.material;
+                const inkType = request.body.inkType;
+                pool.query('INSERT INTO FountainP (FP_ID, FP_Name, FP_Manufacturer, FP_Material, FP_Ink_Type) VALUES (?, ?, ?, ?)', [id, name, manufacturer, material, inkType], (error, result) => {
+                    if (error) throw error;
+                    response.status(201).send('Added Fountain Pen to Gallery!.\n');
+                });
+            });
+        }
+        else if (type == "cartridgePen") {
+            pool.query('SELECT * FROM (SELECT CP_ID FROM CartridgeP ORDER BY CP_ID DESC) AS A LIMIT 1', (error, result) => {
+                const id = result[0].CP_ID + 1;
+                const material = request.body.material;
+                pool.query('INSERT INTO CartridgeP (CP_ID, CP_Name, CP_Manufacturer, CP_Material) VALUES (?, ?, ?, ?)', [id, name, manufacturer, material], (error, result) => {
+                    if (error) throw error;
+                    response.status(201).send('Added Cartridge Pen to Gallery!.\n');
+                });
+            });
+        }
+        else if (type == "woodPencil") {
+            pool.query('SELECT * FROM (SELECT WP_ID FROM WoodP ORDER BY WP_ID DESC) AS A LIMIT 1', (error, result) => {
+                const id = result[0].WP_ID + 1;
+                const material = request.body.material;
+                pool.query('INSERT INTO WoodP (WP_ID, WP_Name, WP_Manufacturer, WP_Material) VALUES (?, ?, ?, ?)', [id, name, manufacturer, material], (error, result) => {
+                    if (error) throw error;
+                    response.status(201).send('Added Wood Pencil to Gallery!.\n');
+                });
+            });
+        }
+    });
+
+
+
+
+
 
     // ************Mechanical P**********
     //list all Mechanical Pencils [COMPLETE]
