@@ -107,7 +107,7 @@ Homepage is /
 					"stats": object
 				}
 
-		POST (Create an Item and Add to user's collection)
+		POST (Create an item and add to user's collection)
 			desired input:
 				{
 			   basicAtts: {
@@ -118,7 +118,7 @@ Homepage is /
 			   stats: object
 				}
 
-		DELETE (Delete an Item and Add to user's collection)
+		DELETE (Delete an item)
 			desired input:
 				{
 					"itemId": int,

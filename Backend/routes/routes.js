@@ -150,7 +150,7 @@ const router = app => {
             });
     });
 
-    //Add to implement collection (using a string)
+    //Add to implement collection (using a string) (BROKEN)
     app.post('/ImpColl/:id/add', (request, res) => {
         const iid = request.params.id;
         const target = request.body.target;
@@ -252,7 +252,7 @@ const router = app => {
             });
     });
 
-    //Add to other collection (using a string) [UNTESTED]
+    //Add to other collection (using a string) [UNTESTED] (BROKEN)
     app.post('/OthColl/:id/add', (request, res) => {
         const id = request.params.id;
         const target = request.body.target;
@@ -484,9 +484,6 @@ const router = app => {
             });
         }
     });
-
-
-
 
 
 
