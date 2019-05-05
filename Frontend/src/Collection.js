@@ -21,15 +21,16 @@ class Collection extends Component {
       basicAtts: {
         itemId: 0,
         itemName: '',
+        type: '',
         manufacturer: ''
       },
       itemClosed: true,
       itemEditing: false,
       addingNewItem: false,
       items: [
-        {itemId: 1, itemName: 'pen', manufacturer: 'man1'},
-        {itemId: 2, itemName: 'pencil', manufacturer: 'man2'},
-        {itemId: 3, itemName: 'mechanical pencil', manufacturer: 'man3'}
+        {itemId: 1, itemName: 'pen', manufacturer: 'man1', type: 'type1'},
+        {itemId: 2, itemName: 'pencil', manufacturer: 'man2', type: 'type2'},
+        {itemId: 3, itemName: 'mechanical pencil', manufacturer: 'man3', type: 'type3'}
       ],
       stats: {},
       mechanicalPencils : true,
@@ -117,7 +118,7 @@ class Collection extends Component {
     const base = 'http://172.20.27.214:3002';
     const path = '/users/'+id+'/collection';
     return axios.get(base + path, {
-      mechP : this.state.mechanicalPencils,
+      mechanicalPencils : this.state.mechanicalPencils,
       fountainPens : this.state.fountainPens,
       cartridgePens : this.state.cartridgePens,
       woodPencils : this.state.woodPencils,
@@ -209,10 +210,8 @@ class Collection extends Component {
     // const base = 'http://172.20.27.214:3002';
     // const path = '/users/'+id+'/collection';
     // return axios.put(base + path, {
-    //   itemId: this.state.itemId
-    //   //type
-    //   //generalAtts
-    //   //Item-Specific Atts
+    //   basicAtts: this.state.basicAtts,
+    //   stats: this.state.stats
     // })
     // .then(response => console.log(response));
 
