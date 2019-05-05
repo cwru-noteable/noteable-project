@@ -3,10 +3,14 @@ Homepage is /
 ********USERS********
 	/users
 		GET (show all users)
-	
-		POST (create new user, autocreates U_ID and 2 collections) 
-			{"U_Name": <string>,
-			}
+
+		POST (create new user, autocreates U_ID and both collections)
+			current input:
+				{"U_Name": <string>,
+				}
+			desired input:
+				{"username": <string>,
+				}
 
 	/users/:id
 		GET (display user and collection IDs)
@@ -21,26 +25,113 @@ Homepage is /
 
 	/users/:id/collection
 		GET(Display collection, takes booleans per category)
-			{"mechP": bool,
-			"fountainPens": bool,
-			"cartridgePens": bool,
-			"woodPencils": bool,
-			"lead": bool,
-			"ink": bool,
-			"penCartridge": bool,
-			"utility": bool,
-			}
+			input:
+				{"mechP": bool,
+				"fountainPens": bool,
+				"cartridgePens": bool,
+				"woodPencils": bool,
+				"lead": bool,
+				"ink": bool,
+				"penCartridge": bool,
+				"utility": bool,
+				}
+			desired input:
+				{"mechanicalPencil": bool,
+				"fountainPens": bool,
+				"cartridgePens": bool,
+				"woodPencils": bool,
+				"lead": bool,
+				"ink": bool,
+				"penCartridge": bool,
+				"utility": bool,
+				"replacements" bool
+				}
+
+********GALLERY********
+
+	/gallery
+		PUT (edit an existing item)
+			desired input:
+				{
+				 basicAtts: {
+					itemId: int,
+					itenName: string,
+					type: string,
+					manufacturer: string
+				 },
+				 stats: object
+				}
+
+********GENERAL COLLECTION*******
+
+	/collection/:u_name
+		GET (Display collection, takes booleans per category)
+			input:
+				{"mechP": bool,
+				"fountainPens": bool,
+				"cartridgePens": bool,
+				"woodPencils": bool,
+				"lead": bool,
+				"ink": bool,
+				"penCartridge": bool,
+				"utility": bool,
+				}
+			desired input:
+				{"mechanicalPencil": bool,
+				"fountainPens": bool,
+				"cartridgePens": bool,
+				"woodPencils": bool,
+				"lead": bool,
+				"ink": bool,
+				"penCartridge": bool,
+				"utility": bool,
+				"replacements" bool
+				}
+
+	/collection/:u_name/item
+		GET (Display information for single item given ID)
+			desired input:
+				{
+					"itemId": int,
+					"type": string
+				}
+			desired output:
+				{
+					"itemId": string,
+					"itemName": string,
+					"manufacturer": string,
+					"stats": object
+				}
+
+		POST (Create an Item and Add to user's collection)
+			desired input:
+				{
+			   basicAtts: {
+				 	itemId: int,
+					itenName: string,
+					type: string,
+					manufacturer: string
+				 },
+			   stats: object
+				}
+
+		DELETE (Delete an Item and Add to user's collection)
+			desired input:
+				{
+					"itemId": int,
+					"type": string
+				}
 
 ********IMPLEMENT COLLECTION********
 
 	/ImpColl
 		GET (display list of collections)
-		
+
 		POST (Create new)
 		{IC_ID: int,
 		U_ID: int,
 		}
-	
+
 	/ImpColl/:id
 		GET (list of items)
 
@@ -50,9 +141,9 @@ Homepage is /
 			}
 
 		DELETE (delete referenced item)
- 
+
 ********OTHER COLLECTION********
-    
+
 	/OthColl
 		GET (list of collections)
 
@@ -68,14 +159,14 @@ Homepage is /
 			{OC_ID: int,
 			U_ID: int,
 			}
-		
+
 		DELETE
 
 ********Mechanical P********
-    
+
 	/MechP
 		GET (list of items)
-		
+
 		POST (Create new)
 			{MP_ID: int,
 			MP_Name: <string>,
@@ -91,14 +182,14 @@ Homepage is /
 			MP_Lead_Size: double,
 			MP_Manufacturer: <string>,
 			}
-		
+
 		DELETE (removes item)
 
 ********Fountain P********
 
 	/FountP
 		GET (list of items)
-		
+
 		POST (Create new)
 			{FP_ID: int,
 			FP_Name: <string>,
@@ -106,7 +197,7 @@ Homepage is /
 			FP_Ink_Type: <string>,
 			MP_Manufacturer: <string>,
 			}
-		
+
 	/FountP:id
 		PUT (update item)
 			{FP_Name: <string>,
@@ -114,14 +205,14 @@ Homepage is /
 			FP_Ink_Type: <string>,
 			FP_Manufacturer: <string>,
 			}
-		
-		DELETE (removes item)    
-    
+
+		DELETE (removes item)
+
 ********Cartridge P********
-    
+
 	/CartP
 		GET (list of items)
-		
+
 		POST (Create new)
 			{CP_ID: int,
 			CP_Name: <string>,
@@ -130,20 +221,20 @@ Homepage is /
 			}
 
 	/CartP:id
-		PUT (update item) 
+		PUT (update item)
 			{CP_Name: <string>,
 			CP_Material: <string>,
 			CP_Manufacturer: <string>,
 			}
-		
+
 		DELETE (removes item)
 
 
 ********Wood P********
-        
+
 	/WoodP
 		GET (list of items)
-		
+
 		POST (Create new)
 			{WP_ID: int,
 			WP_Name: <string>,
@@ -157,14 +248,14 @@ Homepage is /
 			WP_Material: <string>,
 			WP_Manufacturer: <string>,
 			}
-		
+
 		DELETE (removes item)
 
 ********Lead********
-    
+
 	/Lead
 		GET (list of items)
-		
+
 		POST (Create new)
 			{L_ID: int,
 			L_Name: <string>,
@@ -182,10 +273,10 @@ Homepage is /
 		DELETE (removes item)
 
 ********Replacements********
-        
+
 	/Repl
 		GET (list of items)
-		
+
 		POST (Create new)
 			{R_ID: int,
 			R_Name: <string>,
@@ -194,19 +285,19 @@ Homepage is /
 			}
 
 	/Repl:id
-		PUT (update item) 
+		PUT (update item)
 			{R_Name: <string>,
 			R_Type: <string>,
 			R_Manufacturer: <string>,
 			}
-		
+
 		DELETE (removes item)
-		
+
 ********Ink********
-    
+
 	/Ink
 		GET (list of items)
-		
+
 		POST (Create new)
 			{I_ID: int,
 			I_Name: <string>,
@@ -220,14 +311,14 @@ Homepage is /
 			I_Color: <string>,
 			I_Manufacturer: <string>,
 			}
-		
+
 		DELETE (removes item)
-		
+
 ********Pen Cartridge********
-    
+
 	/PenC
 		GET (list of items)
-		
+
 		POST (Create new)
 			{PC_ID: int,
 			PC_Name: <string>,
@@ -243,10 +334,10 @@ Homepage is /
 		DELETE (removes item)
 
 ********Utility********
-    
+
 	/Utility
 		GET (list of items)
-		
+
 		POST (Create new)
 			{U_ID: int,
 			U_Name: <string>,
