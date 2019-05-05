@@ -160,7 +160,7 @@ const router = app => {
                 var targid = response[0].MP_ID;
                 pool.query('INSERT INTO IC_MP (IC_ID, MP_ID) VALUES (?, ?)', [iid, targid], (error, result) => {
                     if (error) throw error;
-                    res.send('Collection updated successfully.\n');
+                    res.send('Added Mechanical Pencil to Collection!\n');
                 });
             });
         }
@@ -194,7 +194,7 @@ const router = app => {
 
         }
         else {
-            response.send({message: 'Category not found.'});
+            res.send({message: 'Category not found.'});
         }
     });
  
@@ -250,6 +250,64 @@ const router = app => {
                 if (error) throw error;
                 response.send(result);
             });
+    });
+
+    //Add to other collection (using a string) [UNTESTED]
+    app.post('/OthColl/:id/add', (request, res) => {
+        const iid = request.params.id;
+        const target = request.body.target;
+        const name = request.body.name;
+        if (target == "Lead") {
+            pool.query('SELECT L_ID FROM Lead WHERE L_Name = ?', name, (error, response) => {
+                var targid = response[0].L_ID;
+                pool.query('INSERT INTO OC_L (OC_ID, L_ID) VALUES (?, ?)', [iid, targid], (error, result) => {
+                    if (error) throw error;
+                    res.send('Added Lead to Collection!.\n');
+                });
+            });
+        }
+        else if (target == "Replacements") {
+            pool.query('SELECT R_ID FROM Replacements WHERE R_Name = ?', name, (error, response) => {
+                var targid = response[0].FP_ID;
+                pool.query('INSERT INTO OC_R (OC_ID, R_ID) VALUES (?, ?)', [iid, targid], (error, response) => {
+                    if (error) throw error;
+                    res.send("Added Replacement to Collection!");
+                });
+            });
+        }
+        else if (target == "Ink") {
+            pool.query('SELECT I_ID FROM Ink WHERE I_Name = ?', name, (error, response) => {
+                var targid = response[0].WP_ID;
+                pool.query('INSERT INTO OC_I (OC_ID, I_ID) VALUES (?, ?)', [iid, targid], (error, response) => {
+                    if (error) throw error;
+                    res.send("Added Ink to Collection!");
+                });
+            });
+
+        }
+        else if (target == "Pen_Cartridge") {
+            pool.query('SELECT PC_ID FROM Pen_Cartridge WHERE PC_Name = ?', name, (error, response) => {
+                var targid = response[0].PC_ID;
+                pool.query('INSERT INTO OC_PC (OC_ID, PC_ID) VALUES (?, ?)', [iid, targid], (error, response) => {
+                    if (error) throw error;
+                    res.send("Added Pen Cartridge to Collection!");
+                });
+            });
+
+        }
+        else if (target == "Utility") {
+            pool.query('SELECT U_ID FROM Utility WHERE U_Name = ?', name, (error, response) => {
+                var targid = response[0].U_ID;
+                pool.query('INSERT INTO OC_U (OC_ID, U_ID) VALUES (?, ?)', [iid, targid], (error, response) => {
+                    if (error) throw error;
+                    res.send("Added Utility to Collection!");
+                });
+            });
+
+        }
+        else {
+            res.send({ message: 'Category not found.' });
+        }
     });
 
     // ************Mechanical P**********
