@@ -487,33 +487,35 @@ const router = app => {
 
     // ************Collections**********
     app.get('/collection/:u_name', (request, response) => {
-        pool.query('SELECT IC_ID, OC_ID FROM user WHERE U_Name = ?', request.params.u_name, (request, response) => {
-            const iid = response[0].IC_ID;
-            const oid = response[0].OC_ID;
-            query = '(SELECT FountainP.FP_Name, FountainP.FP_ID, FountainP.FP_Manufacturer FROM (Implement_Collection natural join IC_FP natural join FountainP)WHERE Implement_Collection.IC_ID = -1)'
-            if (request.body.fountainPens)
-                query = query + 'UNION ALL (SELECT FountainP.FP_Name, FountainP.FP_ID, FountainP.FP_Manufacturer FROM (Implement_Collection natural join IC_FP natural join FountainP) WHERE Implement_Collection.IC_ID = ' + iid + ')';
-            if (request.body.cartridgePens)
-                query = query + 'UNION ALL (SELECT CartridgeP.CP_Name, CartridgeP.CP_ID, CartridgeP.CP_Manufacturer FROM (Implement_Collection natural join IC_CP natural join CartridgeP) WHERE Implement_Collection.IC_ID = ' + iid + ')';
-            if (request.body.mechanicalPencils)
-                query = query + 'UNION ALL (SELECT MechanicalP.MP_Name, MechanicalP.MP_ID, MechanicalP.MP_Manufacturer FROM (Implement_Collection natural join IC_MP natural join MechanicalP) WHERE Implement_Collection.IC_ID = ' + iid + ')';
-            if (request.body.woodPencils)
-                query = query + 'UNION ALL (SELECT WoodP.WP_Name, WoodP.WP_ID, WoodP.WP_Manufacturer FROM (Implement_Collection natural join IC_WP natural join WoodP) WHERE Implement_Collection.IC_ID = ' + iid + ')';
-            if (request.body.lead)
-                query = query + 'UNION ALL (SELECT Lead.L_Name, Lead.L_ID, Lead.L_Manufacturer FROM (Other_Collection natural join OC_L natural join Lead) WHERE Other_Collection.OC_ID = ' + oid + ')';
-            if (request.body.replacements)
-                query = query + 'UNION ALL (SELECT Replacements.R_Name, Replacements.R_ID, Replacements.R_Manufacturer FROM (Other_Collection natural join OC_R natural join Replacements) WHERE Other_Collection.OC_ID = ' + oid + ')';
-            if (request.body.ink)
-                query = query + ' UNION ALL (SELECT Ink.I_Name, Ink.I_ID, Ink.I_Manufacturer FROM (Other_Collection natural join OC_I natural join Ink) WHERE Other_Collection.OC_ID = ' + oid + ')';
-            if (request.body.penCartridge)
-                query = query + 'UNION ALL (SELECT Pen_Cartridge.PC_Name, Pen_Cartridge.PC_ID, Pen_Cartridge.PC_Manufacturer FROM (Other_Collection natural join OC_PC natural join Pen_Cartridge) WHERE Other_Collection.OC_ID = ' + oid + ')';
-            if (request.body.utility)
-                query = query + 'UNION ALL (SELECT Utility.U_Name, Utility.U_ID, Utility.U_Manufacturer FROM (Other_Collection natural join OC_U natural join Utility) WHERE Other_Collection.OC_ID = ' + oid + ')';
-            pool.query(query,
-                (error, result) => {
+        pool.query('SELECT U_ID FROM user where U_Name = ?', request.params.u_name, (request, response) => {
+            const uid = response[0].U_ID;
+            pool.query('SELECT IC_ID, OC_ID FROM user WHERE U_ID = ?', uid, (request, response) => {
+                const iid = response[0].IC_ID;
+                const oid = response[0].OC_ID;
+                query = '(SELECT FountainP.FP_Name, FountainP.FP_ID, FountainP.FP_Manufacturer FROM (Implement_Collection natural join IC_FP natural join FountainP)WHERE Implement_Collection.IC_ID = -1)'
+                if (request.body.fountainPens)
+                    query = query + 'UNION ALL (SELECT FountainP.FP_Name, FountainP.FP_ID, FountainP.FP_Manufacturer FROM (Implement_Collection natural join IC_FP natural join FountainP) WHERE Implement_Collection.IC_ID = ' + iid + ')';
+                if (request.body.cartridgePens)
+                    query = query + 'UNION ALL (SELECT CartridgeP.CP_Name, CartridgeP.CP_ID, CartridgeP.CP_Manufacturer FROM (Implement_Collection natural join IC_CP natural join CartridgeP) WHERE Implement_Collection.IC_ID = ' + iid + ')';
+                if (request.body.mechanicalPencils)
+                    query = query + 'UNION ALL (SELECT MechanicalP.MP_Name, MechanicalP.MP_ID, MechanicalP.MP_Manufacturer FROM (Implement_Collection natural join IC_MP natural join MechanicalP) WHERE Implement_Collection.IC_ID = ' + iid + ')';
+                if (request.body.woodPencils)
+                    query = query + 'UNION ALL (SELECT WoodP.WP_Name, WoodP.WP_ID, WoodP.WP_Manufacturer FROM (Implement_Collection natural join IC_WP natural join WoodP) WHERE Implement_Collection.IC_ID = ' + iid + ')';
+                if (request.body.lead)
+                    query = query + 'UNION ALL (SELECT Lead.L_Name, Lead.L_ID, Lead.L_Manufacturer FROM (Other_Collection natural join OC_L natural join Lead) WHERE Other_Collection.OC_ID = ' + oid + ')';
+                if (request.body.replacements)
+                    query = query + 'UNION ALL (SELECT Replacements.R_Name, Replacements.R_ID, Replacements.R_Manufacturer FROM (Other_Collection natural join OC_R natural join Replacements) WHERE Other_Collection.OC_ID = ' + oid + ')';
+                if (request.body.ink)
+                    query = query + ' UNION ALL (SELECT Ink.I_Name, Ink.I_ID, Ink.I_Manufacturer FROM (Other_Collection natural join OC_I natural join Ink) WHERE Other_Collection.OC_ID = ' + oid + ')';
+                if (request.body.penCartridge)
+                    query = query + 'UNION ALL (SELECT Pen_Cartridge.PC_Name, Pen_Cartridge.PC_ID, Pen_Cartridge.PC_Manufacturer FROM (Other_Collection natural join OC_PC natural join Pen_Cartridge) WHERE Other_Collection.OC_ID = ' + oid + ')';
+                if (request.body.utility)
+                    query = query + 'UNION ALL (SELECT Utility.U_Name, Utility.U_ID, Utility.U_Manufacturer FROM (Other_Collection natural join OC_U natural join Utility) WHERE Other_Collection.OC_ID = ' + oid + ')';
+                pool.query(query, (error, result) => {
                     if (error) throw error;
                     response.send(result);
                 });
+            });
         });
     });
 
@@ -529,20 +531,6 @@ const router = app => {
         //todo, remove item from collection
     });
     /*
-     	/collection/:u_name
-		GET (Display collection, takes booleans per category) (TODO)
-			input:
-				{"mechanicalPencil": bool,
-				"fountainPens": bool,
-				"cartridgePens": bool,
-				"woodPencils": bool,
-				"lead": bool,
-				"ink": bool,
-				"penCartridge": bool,
-				"utility": bool,
-				"replacements" bool
-				}
-
 	    /collection/:u_name/item
 		GET (Display information for single item given ID)
 			desired input:
