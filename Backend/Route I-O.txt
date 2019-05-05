@@ -64,7 +64,7 @@ Homepage is /
 					stats: object
 				}
 
-		PUT (edit an existing item) (TODO)
+		PUT (edit an existing item)
 			input:
 				{
 				 basicAtts: {
