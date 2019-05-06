@@ -282,6 +282,7 @@ const router = app => {
 
     // ************GALLERY**********
     app.get('/gallery', (request, response) => {
+        var aggregate = [];
         pool.query('SELECT * FROM (Implement_Collection natural join IC_FP natural join FountainP)', (error, result) => {
             var frontend = result.map((item, i) => ({
                 basicAtts: {
@@ -346,7 +347,7 @@ const router = app => {
                         for (i = 0; i < frontend.length; i++) {
                             if (request.query.woodPencils == 'true') aggregate.push(frontend[i]);
                         }
-                        pool.query('select * from (Other_Collection natural join OC_L natural join Lead) WHERE Other_Collection.OC_ID = ?', oid, (error, result) => {
+                        pool.query('select * from (Other_Collection natural join OC_L natural join Lead)', (error, result) => {
                             frontend = result.map((item, i) => ({
                                 basicAtts: {
                                     itemName: item.L_Name,
@@ -406,7 +407,7 @@ const router = app => {
                                         for (i = 0; i < frontend.length; i++) {
                                             if (request.query.penCartridge == 'true') aggregate.push(frontend[i]);
                                         }
-                                        pool.query('select * from (Other_Collection natural join OC_U natural join Utility) where Other_Collection.OC_ID = ?', oid, (error, result) => {
+                                        pool.query('select * from (Other_Collection natural join OC_U natural join Utility)', (error, result) => {
                                             frontend = result.map((item, i) => ({
                                                 basicAtts: {
                                                     itemName: item.U_Name,

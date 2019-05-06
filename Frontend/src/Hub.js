@@ -25,7 +25,7 @@ class Hub extends Component {
           <div className="content">
             <Route exact path={'/hub/:username'} render={(props) => <Home username={this.props.username}/>}/>
             <Route path={'/hub/:username/collections'} render={(props) => <Collection username={this.props.username}/>}/>
-            <Route path={'/hub/:username/gallery'} component={Gallery}/>
+            <Route path={'/hub/:username/gallery'} render={(props) => <Gallery username={this.props.username}/>}/>
           </div>
         </div>
       </HashRouter>
