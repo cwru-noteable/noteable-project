@@ -45,14 +45,7 @@ class Collection extends Component {
       itemClosed: true,
       itemEditing: false,
       addingNewItem: false,
-      items: [
-        {basicAtts:{itemId: 1, itemName: 'pen', manufacturer: 'man1', type: 'cartridgePen'},
-        stats: {material: 'plastic'}},
-        {basicAtts:{itemId: 2, itemName: 'pencil', manufacturer: 'man2', type: 'woodPencil'},
-        stats: {material: 'wood'}},
-        {basicAtts:{itemId: 3, itemName: 'mechanical pencil', manufacturer: 'man3', type: 'mechanicalPencil'},
-        stats: {material: 'metal', leadSize: 4}}
-      ],
+      items: [],
       mechanicalPencils : true,
       fountainPens : true,
       cartridgePens : true,

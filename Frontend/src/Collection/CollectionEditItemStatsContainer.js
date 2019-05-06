@@ -22,7 +22,6 @@ class CollectionEditItemStatsContainer extends Component {
 
   render() {
 
-    console.log('test');
     switch (this.props.type) {
       case "cartridgePen":
         return(<CollectionEditCartridgePenStats stats={this.props.stats} onInputChange= {this.onInputChange}/>);

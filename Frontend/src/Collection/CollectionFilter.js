@@ -75,8 +75,6 @@ class CollectionFilter extends Component {
   }
 
   onFilterInputChange(event) {
-    console.log(event.target.name);
-    console.log(event.target.checked);
     this.props.onFilterInputChange(event.target.name, event.target.checked);
   }
 }

@@ -100,7 +100,6 @@ class CollectionAddItemView extends Component {
         [name]: value
       }, () => {this.props.onInputChange("newItem", this.state);});
     }
-    console.log(this.state);
   }
 
   onInputChangeEvent(event) {
