@@ -45,14 +45,7 @@ class Collection extends Component {
       itemClosed: true,
       itemEditing: false,
       addingNewItem: false,
-      items: [
-        {basicAtts:{itemId: 1, itemName: 'pen', manufacturer: 'man1', type: 'cartridgePen'},
-        stats: {material: 'plastic'}},
-        {basicAtts:{itemId: 2, itemName: 'pencil', manufacturer: 'man2', type: 'woodPencil'},
-        stats: {material: 'wood'}},
-        {basicAtts:{itemId: 3, itemName: 'mechanical pencil', manufacturer: 'man3', type: 'mechanicalPencil'},
-        stats: {material: 'metal', leadSize: 4}}
-      ],
+      items: [],
       mechanicalPencils : true,
       fountainPens : true,
       cartridgePens : true,
@@ -141,8 +134,7 @@ class Collection extends Component {
   loadFilteredCollection() {
     const path = '/collection/' + this.props.username;
     const url = base + ':' + port + path;
-    // axios.defaults.headers.common['Access-Control-Allow-Origin'] = 'value'
-
+    console.debug('GET filtered collection for',this.props.username);
     return axios.get(url, {
       params: {
         "mechanicalPencils": this.state.mechanicalPencils,
@@ -197,16 +189,19 @@ class Collection extends Component {
       // TODO after delete, GET items and send to item list.
       //
       // Deleting Item
-      // const base = 'http://172.20.27.214:3002';
-      // const path = '/collection/'+this.props.username+'/item';
-      // return axios.delete(base + path, {
-      //   itemId: this.state.item.basicAtts.itemId,
-      //   type: this.state.item.basicAtts.type
-      // })
-      // .then(response => console.log(response));
+      const path = '/collection/' + this.props.username + '/item';
+      const url = base + ':' + port + path;
+      console.debug('DELETE item',this.state.item.basicAtts.itemId,'of type',this.state.item.basicAtts.type);
+      return axios.delete(url, {
+        params: {
+          itemId: this.state.item.basicAtts.itemId,
+          type: this.state.item.basicAtts.type
+        }
+      })
+      .then(response => console.log(response));
 
       //Reloading
-      // this.loadFilteredCollection();
+      this.loadFilteredCollection();
 
       this.onCloseItem();
   }
@@ -215,6 +210,7 @@ class Collection extends Component {
     // TODO UPDATE with info.
     // axios.
 
+    console.debug('PUT item',this.state.newItem);
     const path = '/gallery';
     const url = base + ':' + port + path;
     return axios.put(url, this.state.newItem)
@@ -236,6 +232,7 @@ class Collection extends Component {
 
     const path = '/collection/' + this.props.username + '/item';
     const url = base + ':' + port + path;
+    console.debug('POST item',this.state.newItem);
     return axios.post(url, this.state.newItem)
     .then(response => console.log(response));
 
