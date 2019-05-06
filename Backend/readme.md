@@ -5,7 +5,7 @@
 * request
 * bodyParser
 ```
-npm install express mysql request bodyparser
+npm install express mysql request body-parser
 ```
 ## Architecture
 * Built on ExpressJS backend run RESTfully. 
