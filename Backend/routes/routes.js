@@ -68,35 +68,6 @@ const router = app => {
 		});
     });
 
-    //display a user's collection [COMPLETE] (deprecated in favor of /collection/:u_name)
-    app.get('/users/:id/collection', (request, response) => {
-		const id = request.params.id;
-	    query = '(SELECT FountainP.FP_Name, FountainP.FP_ID, FountainP.FP_Manufacturer FROM (Implement_Collection natural join IC_FP natural join FountainP)WHERE Implement_Collection.IC_ID = -1)'
-        if (request.body.fountainPens)
-            query = query + 'UNION ALL (SELECT FountainP.FP_Name, FountainP.FP_ID, FountainP.FP_Manufacturer FROM (Implement_Collection natural join IC_FP natural join FountainP) WHERE Implement_Collection.IC_ID = ?)';
-        if (request.body.cartridgePens)
-            query = query + 'UNION ALL (SELECT CartridgeP.CP_Name, CartridgeP.CP_ID, CartridgeP.CP_Manufacturer FROM (Implement_Collection natural join IC_CP natural join CartridgeP) WHERE Implement_Collection.IC_ID = ?)';
-        if (request.body.mechanicalPencils)
-            query = query + 'UNION ALL (SELECT MechanicalP.MP_Name, MechanicalP.MP_ID, MechanicalP.MP_Manufacturer FROM (Implement_Collection natural join IC_MP natural join MechanicalP) WHERE Implement_Collection.IC_ID = ?)';
-        if (request.body.woodPencils)
-            query = query + 'UNION ALL (SELECT WoodP.WP_Name, WoodP.WP_ID, WoodP.WP_Manufacturer FROM (Implement_Collection natural join IC_WP natural join WoodP) WHERE Implement_Collection.IC_ID = ?)';
-        if (request.body.lead)
-            query = query + 'UNION ALL (SELECT Lead.L_Name, Lead.L_ID, Lead.L_Manufacturer FROM (Other_Collection natural join OC_L natural join Lead) WHERE Other_Collection.OC_ID = ?)';
-        if (request.body.replacements)
-            query = query + 'UNION ALL (SELECT Replacements.R_Name, Replacements.R_ID, Replacements.R_Manufacturer FROM (Other_Collection natural join OC_R natural join Replacements) WHERE Other_Collection.OC_ID = ?)';
-        if (request.body.ink)
-            query = query + ' UNION ALL (SELECT Ink.I_Name, Ink.I_ID, Ink.I_Manufacturer FROM (Other_Collection natural join OC_I natural join Ink) WHERE Other_Collection.OC_ID = ?)';
-        if (request.body.penCartridge)
-            query = query + 'UNION ALL (SELECT Pen_Cartridge.PC_Name, Pen_Cartridge.PC_ID, Pen_Cartridge.PC_Manufacturer FROM (Other_Collection natural join OC_PC natural join Pen_Cartridge) WHERE Other_Collection.OC_ID = ?)';
-        if (request.body.utility)
-            query = query + 'UNION ALL (SELECT Utility.U_Name, Utility.U_ID, Utility.U_Manufacturer FROM (Other_Collection natural join OC_U natural join Utility) WHERE Other_Collection.OC_ID = ?)';
-            pool.query(query, [id, id, id, id, id, id, id, id, id],
-                (error, result) => {
-                    if (error) throw error;
-                    response.send(result);
-                });
-    });
-
     // ************IMPLEMENT COLLECTION ****************
 
     //get table of users to implement collections [COMPLETE]
@@ -426,7 +397,7 @@ const router = app => {
         }
         else if (type == "replacements") {
             const rtype = request.body.stats.replacementType;
-            pool.query('UPDATE Replacements SET R_Name = ?, R_Manufacturer = ?, R_Type = ? WHERE R_ID = ?', [name, manufacturer, rtype, id], (error, result) => {                if (error) throw error;
+            pool.query('UPDATE Replacements SET R_Name = ?, R_Manufacturer = ?, R_Type = ? WHERE R_ID = ?', [name, manufacturer, rtype, id], (error, result) => {
                 if (error) throw error;
                 response.status(200).send('Updated Replacement!\n');
             });
@@ -485,17 +456,117 @@ const router = app => {
     });
 
     // ************Collections**********
-    app.get('/collection/:u_name', (request, response) => {
+    app.get('/collection/:username', (request, response) => {
+        var aggregate = [];
+        pool.query('select u_id from user where u_name = ?', request.params.username, (error, result) => {
+            const uid = result[0].U_ID;
+            pool.query('SELECT IC_ID, OC_ID FROM user WHERE U_ID = ?', uid, (error, result) => {
+                const iid = result[0].IC_ID;
+                const oid = result[0].OC_ID;
+                if (request.body.fountainPens) {
+                    pool.query('SELECT FountainP.FP_Name, FountainP.FP_ID, FountainP.FP_Manufacturer FROM (Implement_Collection natural join IC_FP natural join FountainP) WHERE Implement_Collection.IC_ID = ?)', iid, (error, result) => {
+                        for (i = 0; i < result.length; i++) {
+                            result.map((item, i) => ({
+                                basicAtts: {
+                                    itemName: item.FP_Name,
+                                    itemId: item.FP_ID,
+                                    manufacturer: item.FP_Manufacturer,
+                                    type: "fountainPen",
+                                    stats: {
+                                        material: item.FP_Material,
+                                        inkType: item.FP_Ink_Type,
+                                    }
+                                }
+                            }));
+                        }
+                        aggregate.push(result);
+                    });
+                }
+                if (request.body.cartridgePens) {
+                    pool.query('SELECT SELECT CartridgeP.CP_Name, CartridgeP.CP_ID, CartridgeP.CP_Manufacturer FROM (Implement_Collection natural join IC_CP natural join CartridgeP) WHERE Implement_Collection.IC_ID = ?)', iid, (error, result) => {
+                        for (i = 0; i < result.length; i++) {
+                            result.map((item, i) => ({
+                                basicAtts: {
+                                    itemName: item.CP_Name,
+                                    itemId: item.CP_ID,
+                                    manufacturer: item.CP_Manufacturer,
+                                    type: "cartridgePen",
+                                    stats: {
+                                        material: item.CP_Material,
+                                    }
+                                }
+                            }));
+                        }
+                        aggregate.push(result);
+                    });
+                }
+                if (request.body.mechanicalPencils) {
+                    pool.query('SELECT MechanicalP.MP_Name, MechanicalP.MP_ID, MechanicalP.MP_Manufacturer FROM (Implement_Collection natural join IC_MP natural join MechanicalP) WHERE Implement_Collection.IC_ID = ?)', iid, (error, result) => {
+                        for (i = 0; i < result.length; i++) {
+                            result.map((item, i) => ({
+                                basicAtts: {
+                                    itemName: item.MP_Name,
+                                    itemId: item.MP_ID,
+                                    manufacturer: item.MP_Manufacturer,
+                                    type: "mechanicalPencil",
+                                    stats: {
+                                        material: item.MP_Material,
+                                        leadSize: item.MP_Lead_Size,
+                                    }
+                                }
+                            }));
+                        }
+                        aggregate.push(result);
+                    });
+                }
+                if (request.body.woodPencils) {
+                    pool.query('SELECT MechanicalP.MP_Name, MechanicalP.MP_ID, MechanicalP.MP_Manufacturer FROM (Implement_Collection natural join IC_MP natural join MechanicalP) WHERE Implement_Collection.IC_ID = ?)', iid, (error, result) => {
+                        for (i = 0; i < result.length; i++) {
+                            result.map((item, i) => ({
+                                basicAtts: {
+                                    itemName: item.MP_Name,
+                                    itemId: item.MP_ID,
+                                    manufacturer: item.MP_Manufacturer,
+                                    type: "mechanicalPencil",
+                                    stats: {
+                                        material: item.MP_Material,
+                                        leadSize: item.MP_Lead_Size,
+                                    }
+                                }
+                            }));
+                        }
+                        aggregate.push(result);
+                    });
+                }
+                if (request.body.lead) {
+
+                }
+                if (request.body.ink) {
+
+                }
+                if (request.body.replacements) {
+
+                }
+                if (request.body.penCartridge) {
+
+                }
+                if (request.body.utility) {
+
+                }
+                if (error) throw error;
+                response.send(aggregate);
+            });
+        });
+    });
+
+    /*OLD SHITTY TRASH
+     * app.get('/collection/:u_name', (request, response) => {
         pool.query('SELECT U_ID FROM user WHERE U_Name = ?', request.params.u_name, (error, result) => {
             const uid = result[0].U_ID;
             pool.query('SELECT IC_ID, OC_ID FROM user WHERE U_ID = ?', uid, (error, result) => {
                 const iid = result[0].IC_ID;
                 const oid = result[0].OC_ID;
                 query = '(SELECT FountainP.FP_Name, FountainP.FP_ID, FountainP.FP_Manufacturer FROM (Implement_Collection natural join IC_FP natural join FountainP)WHERE Implement_Collection.IC_ID = -1)'
-                if (request.body.fountainPens)
-                    query = query + 'UNION ALL (SELECT FountainP.FP_Name, FountainP.FP_ID, FountainP.FP_Manufacturer FROM (Implement_Collection natural join IC_FP natural join FountainP) WHERE Implement_Collection.IC_ID = ' + iid + ')';
-                if (request.body.cartridgePens)
-                    query = query + 'UNION ALL (SELECT CartridgeP.CP_Name, CartridgeP.CP_ID, CartridgeP.CP_Manufacturer FROM (Implement_Collection natural join IC_CP natural join CartridgeP) WHERE Implement_Collection.IC_ID = ' + iid + ')';
                 if (request.body.mechanicalPencils)
                     query = query + 'UNION ALL (SELECT MechanicalP.MP_Name, MechanicalP.MP_ID, MechanicalP.MP_Manufacturer FROM (Implement_Collection natural join IC_MP natural join MechanicalP) WHERE Implement_Collection.IC_ID = ' + iid + ')';
                 if (request.body.woodPencils)
@@ -516,7 +587,7 @@ const router = app => {
                 });
             });
         });
-    });
+    });*/
 
     app.get('/collection/:u_name/item', (request, response) => {
         //todo, get specific item
@@ -534,7 +605,6 @@ const router = app => {
                             material: item.MP_Material,
                             leadSize: item.MP_Lead_Size,
                         }
-
                     }
                 }));
                 response.send(result);
