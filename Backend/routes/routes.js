@@ -458,7 +458,7 @@ const router = app => {
     // ************Collections**********
     app.get('/collection/:username', (request, response) => {
         var aggregate = [];
-        pool.query('select u_id from user where u_name = ?', request.params.username, (error, result) => {
+        pool.query('select U_ID from user where U_Name = ?', request.params.username, (error, result) => {
             const uid = result[0].U_ID;
             pool.query('SELECT IC_ID, OC_ID FROM user WHERE U_ID = ?', uid, (error, result) => {
                 const iid = result[0].IC_ID;
