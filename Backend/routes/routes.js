@@ -29,7 +29,7 @@ const router = app => {
                 var oid = result[0].OC_ID + 1;
                 pool.query('SELECT * FROM (SELECT IC_ID FROM Implement_Collection ORDER BY IC_ID DESC) AS A LIMIT 1', (error, result) => {
                     var iid = result[0].IC_ID + 1;
-                    pool.query('INSERT INTO Implement_Collection VALUES(?,null);INSERT INTO Other_Collection VALUES(?,null);INSERT INTO user VALUES(?,?,?,?);UPDATE Other_Collection SET U_ID = ? WHERE OC_ID = ?;UPDATE Implement_Collection SET U_ID = ? WHERE IC_ID = ?;', [iid, oid, uid, request.body.U_Name, iid, oid, uid, oid, uid, iid],
+                    pool.query('INSERT INTO Implement_Collection VALUES(?,null);INSERT INTO Other_Collection VALUES(?,null);INSERT INTO user VALUES(?,?,?,?);UPDATE Other_Collection SET U_ID = ? WHERE OC_ID = ?;UPDATE Implement_Collection SET U_ID = ? WHERE IC_ID = ?;', [iid, oid, uid, request.body.username, iid, oid, uid, oid, uid, iid],
                         (error, result) => {
                             if (error) throw error;
                             response.status(201).send
@@ -69,7 +69,7 @@ const router = app => {
 		});
     });
 
-    //display a user's collection [COMPLETE]
+    //display a user's collection [COMPLETE] (deprecated in favor of /collection/:u_name)
     app.get('/users/:id/collection', (request, response) => {
 		const id = request.params.id;
 	    query = '(SELECT FountainP.FP_Name, FountainP.FP_ID, FountainP.FP_Manufacturer FROM (Implement_Collection natural join IC_FP natural join FountainP)WHERE Implement_Collection.IC_ID = -1)'
@@ -77,7 +77,7 @@ const router = app => {
             query = query + 'UNION ALL (SELECT FountainP.FP_Name, FountainP.FP_ID, FountainP.FP_Manufacturer FROM (Implement_Collection natural join IC_FP natural join FountainP) WHERE Implement_Collection.IC_ID = ?)';
         if (request.body.cartridgePens)
             query = query + 'UNION ALL (SELECT CartridgeP.CP_Name, CartridgeP.CP_ID, CartridgeP.CP_Manufacturer FROM (Implement_Collection natural join IC_CP natural join CartridgeP) WHERE Implement_Collection.IC_ID = ?)';
-        if (request.body.mechP)
+        if (request.body.mechanicalPencils)
             query = query + 'UNION ALL (SELECT MechanicalP.MP_Name, MechanicalP.MP_ID, MechanicalP.MP_Manufacturer FROM (Implement_Collection natural join IC_MP natural join MechanicalP) WHERE Implement_Collection.IC_ID = ?)';
         if (request.body.woodPencils)
             query = query + 'UNION ALL (SELECT WoodP.WP_Name, WoodP.WP_ID, WoodP.WP_Manufacturer FROM (Implement_Collection natural join IC_WP natural join WoodP) WHERE Implement_Collection.IC_ID = ?)';
@@ -150,7 +150,7 @@ const router = app => {
             });
     });
 
-    //Add to implement collection (using a string)
+    //Add to implement collection (using a string) (BROKEN)
     app.post('/ImpColl/:id/add', (request, res) => {
         const iid = request.params.id;
         const target = request.body.target;
@@ -252,7 +252,7 @@ const router = app => {
             });
     });
 
-    //Add to other collection (using a string) [UNTESTED]
+    //Add to other collection (using a string) [UNTESTED] (BROKEN)
     app.post('/OthColl/:id/add', (request, res) => {
         const id = request.params.id;
         const target = request.body.target;
@@ -316,33 +316,33 @@ const router = app => {
     });
 
     app.post('/gallery', (request, response) => {
-        const type = request.body.type;
-        const name = request.body.name;
-        const manufacturer = request.body.manufacturer;
-        if (type == "Lead") {
+        const type = request.body.basicAtts.type;
+        const name = request.body.basicAtts.ItemName;
+        const manufacturer = request.body.basicAtts.manufacturer;
+        if (type == "lead") {
             pool.query('SELECT * FROM (SELECT L_ID FROM Lead ORDER BY L_ID DESC) AS A LIMIT 1', (error, result) => {
                 const id = result[0].L_ID + 1;
-                const size = request.body.size;
-                pool.query('INSERT INTO Lead (L_ID, L_Name, L_Manufacturer, L_Size, ) VALUES (?, ?, ?, ?)', [id, name, manufacturer, size], (error, result) => {
+                const size = request.body.stats.size;
+                pool.query('INSERT INTO Lead (L_ID, L_Name, L_Manufacturer, L_Size) VALUES (?, ?, ?, ?)', [id, name, manufacturer, size], (error, result) => {
                     if (error) throw error;
                     response.status(201).send('Added Lead to Gallery!.\n');
                 });
             });
         }
-        else if (type == "Replacements") {
+        else if (type == "replacements") {
             pool.query('SELECT * FROM (SELECT R_ID FROM Replacements ORDER BY R_ID DESC) AS A LIMIT 1', (error, result) => {
                 const id = result[0].R_ID + 1;
-                const rtype = request.body.replacementType;
+                const rtype = request.body.stats.replacementType;
                 pool.query('INSERT INTO Replacements (R_ID, R_Name, R_Manufacturer, R_Type) VALUES (?, ?, ?, ?)', [id, name, manufacturer, rtype], (error, result) => {
                     if (error) throw error;
                     response.status(201).send('Added Replacement to Gallery!.\n');
                 });
             });
         }
-        else if (type == "Ink") {
+        else if (type == "ink") {
             pool.query('SELECT * FROM (SELECT I_ID FROM Ink ORDER BY I_ID DESC) AS A LIMIT 1', (error, result) => {
                 const id = result[0].I_ID + 1;
-                const color = request.body.color;
+                const color = request.body.stats.color;
                 pool.query('INSERT INTO Ink (I_ID, I_Name, I_Manufacturer, I_Color) VALUES (?, ?, ?, ?)', [id, name, manufacturer, color], (error, result) => {
                     if (error) throw error;
                     response.status(201).send('Added Ink to Gallery!.\n');
@@ -352,17 +352,17 @@ const router = app => {
         else if (type == "penCartridge") {
             pool.query('SELECT * FROM (SELECT PC_ID FROM Pen_Cartridge ORDER BY PC_ID DESC) AS A LIMIT 1', (error, result) => {
                 const id = result[0].PC_ID + 1;
-                const pcType = request.body.cartridgeType;
+                const pcType = request.body.stats.cartridgeType;
                 pool.query('INSERT INTO Pen_Cartridge (PC_ID, PC_Name, PC_Manufacturer, PC_Type) VALUES (?, ?, ?, ?)', [id, name, manufacturer, pcType], (error, result) => {
                     if (error) throw error;
                     response.status(201).send('Added Pen Cartridge to Gallery!.\n');
                 });
             });
         }
-        else if (type == "Utility") {
+        else if (type == "utility") {
             pool.query('SELECT * FROM (SELECT U_ID FROM Utility ORDER BY U_ID DESC) AS A LIMIT 1', (error, result) => {
                 const id = result[0].UC_ID + 1;
-                const uType = request.body.utilityType;
+                const uType = request.body.stats.utilityType;
                 pool.query('INSERT INTO Utility (U_ID, U_Name, U_Manufacturer, U_Type) VALUES (?, ?, ?, ?)', [id, name, manufacturer, pcType], (error, result) => {
                     if (error) throw error;
                     response.status(201).send('Added Utility to Gallery!.\n');
@@ -372,8 +372,8 @@ const router = app => {
         else if (type == "mechanicalPencil") {
             pool.query('SELECT * FROM (SELECT MP_ID FROM MechanicalP ORDER BY MP_ID DESC) AS A LIMIT 1', (error, result) => {
                 const id = result[0].MP_ID + 1;
-                const material = request.body.material;
-                const size = request.body.leadSize;
+                const material = request.body.stats.material;
+                const size = request.body.stats.leadSize;
                 pool.query('INSERT INTO MechanicalP (MP_ID, MP_Name, MP_Manufacturer, MP_Material, MP_Lead_Size) VALUES (?, ?, ?, ?)', [id, name, manufacturer, material, size], (error, result) => {
                     if (error) throw error;
                     response.status(201).send('Added Mechanical Pencil to Gallery!.\n');
@@ -383,8 +383,8 @@ const router = app => {
         else if (type == "fountainPen") {
             pool.query('SELECT * FROM (SELECT FP_ID FROM FountainP ORDER BY FP_ID DESC) AS A LIMIT 1', (error, result) => {
                 const id = result[0].FP_ID + 1;
-                const material = request.body.material;
-                const inkType = request.body.inkType;
+                const material = request.body.stats.material;
+                const inkType = request.body.stats.inkType;
                 pool.query('INSERT INTO FountainP (FP_ID, FP_Name, FP_Manufacturer, FP_Material, FP_Ink_Type) VALUES (?, ?, ?, ?)', [id, name, manufacturer, material, inkType], (error, result) => {
                     if (error) throw error;
                     response.status(201).send('Added Fountain Pen to Gallery!.\n');
@@ -394,7 +394,7 @@ const router = app => {
         else if (type == "cartridgePen") {
             pool.query('SELECT * FROM (SELECT CP_ID FROM CartridgeP ORDER BY CP_ID DESC) AS A LIMIT 1', (error, result) => {
                 const id = result[0].CP_ID + 1;
-                const material = request.body.material;
+                const material = request.body.stats.material;
                 pool.query('INSERT INTO CartridgeP (CP_ID, CP_Name, CP_Manufacturer, CP_Material) VALUES (?, ?, ?, ?)', [id, name, manufacturer, material], (error, result) => {
                     if (error) throw error;
                     response.status(201).send('Added Cartridge Pen to Gallery!.\n');
@@ -404,7 +404,7 @@ const router = app => {
         else if (type == "woodPencil") {
             pool.query('SELECT * FROM (SELECT WP_ID FROM WoodP ORDER BY WP_ID DESC) AS A LIMIT 1', (error, result) => {
                 const id = result[0].WP_ID + 1;
-                const material = request.body.material;
+                const material = request.body.stats.material;
                 pool.query('INSERT INTO WoodP (WP_ID, WP_Name, WP_Manufacturer, WP_Material) VALUES (?, ?, ?, ?)', [id, name, manufacturer, material], (error, result) => {
                     if (error) throw error;
                     response.status(201).send('Added Wood Pencil to Gallery!.\n');
@@ -413,10 +413,299 @@ const router = app => {
         }
     });
 
+    app.put('/gallery', (request, response) => {
+        const type = request.body.basicAtts.type;
+        const name = request.body.basicAtts.itemName;
+        const manufacturer = request.body.basicAtts.manufacturer;
+        const id = request.body.basicAtts.itemID;
+        if (type == "lead") {
+            const size = request.body.stats.size;
+            pool.query('UPDATE Lead SET L_Name = ?, L_Manufacturer = ?, L_Size = ? WHERE L_ID = ?', [name, manufacturer, size, id], (error, result) => {
+                if (error) throw error;
+                response.status(200).send('Updated Lead!\n');
+            });
+        }
+        else if (type == "replacements") {
+            const rtype = request.body.stats.replacementType;
+            pool.query('UPDATE Replacements SET R_Name = ?, R_Manufacturer = ?, R_Type = ? WHERE R_ID = ?', [name, manufacturer, rtype, id], (error, result) => {                if (error) throw error;
+                if (error) throw error;
+                response.status(200).send('Updated Replacement!\n');
+            });
+        }
+        else if (type == "ink") {
+            const color = request.body.stats.color;
+            pool.query('UPDATE Ink SET I_Name = ?, I_Manufacturer = ?, I_Color = ? WHERE I_ID = ?', [name, manufacturer, color, id], (error, result) => {
+                if (error) throw error;
+                response.status(200).send('Updated Ink!\n');
+            });
+        }
+        else if (type == "penCartridge") {
+            const pcType = request.body.stats.cartridgeType;
+            pool.query('UPDATE Pen_Cartridge SET PC_Name = ?, PC_Manufacturer = ?, PC_Type = ? WHERE PC_ID = ?', [name, manufacturer, pcType, id], (error, result) => {
+                if (error) throw error;
+                response.status(200).send('Updated Pen Cartridge!\n');
+            });
+        }
+        else if (type == "utility") {
+            const uType = request.body.stats.utilityType;
+            pool.query('UPDATE Utility SET U_Name = ?, U_Manufacturer = ?, U_Type = ? WHERE U_ID = ?', [name, manufacturer, uType, id], (error, result) => {
+                if (error) throw error;
+                response.status(200).send('Updated Utility!\n');
+            });
+        }
+        else if (type == "mechanicalPencil") {
+            const material = request.body.stats.material;
+            const size = request.body.stats.leadSize;
+            pool.query('UPDATE MechanicalP SET MP_Name = ?, MP_Manufacturer = ?, MP_Material = ?, MP_Lead_Size = ? WHERE PC_ID = ?', [name, manufacturer, material, size, id], (error, result) => {
+                if (error) throw error;
+                response.status(200).send('Updated Mechanical Pencil!\n');
+            });
+        }
+        else if (type == "fountainPen") {
+            const material = request.body.stats.material;
+            const inkType = request.body.stats.inkType;
+            pool.query('UPDATE FountainP SET FP_Name = ?, FP_Manufacturer = ?, FP_Material = ?, FP_Ink_Type = ? WHERE FP_ID = ?', [name, manufacturer, material, inkType, id], (error, result) => {
+                if (error) throw error;
+                response.status(200).send('Updated Fountain Pen!\n');
+            });
+        }
+        else if (type == "cartridgePen") {
+            const material = request.body.stats.material;
+            pool.query('UPDATE CartridgeP SET CP_Name = ?, CP_Manufacturer = ?, CP_Material = ?, WHERE CP_ID = ?', [name, manufacturer, material, id], (error, result) => {
+                if (error) throw error;
+                response.status(200).send('Updated Cartridge Pen!\n');
+            });
+        }
+        else if (type == "woodPencil") {
+            const material = request.body.stats.material;
+            pool.query('UPDATE WoodP SET WP_Name = ?, WP_Manufacturer = ?, WP_Material = ?, WHERE WP_ID = ?', [name, manufacturer, material, id], (error, result) => {
+                if (error) throw error;
+                response.status(200).send('Updated Wood Pencil!\n');
+            });
+        }
+    });
 
+    // ************Collections**********
+    app.get('/collection/:u_name', (request, response) => {
+        pool.query('SELECT U_ID FROM user WHERE U_Name = ?', request.params.u_name, (request, response) => {
+            const uid = response[0].U_ID;
+            pool.query('SELECT IC_ID, OC_ID FROM user WHERE U_ID = ?', uid, (request, response) => {
+                const iid = response[0].IC_ID;
+                const oid = response[0].OC_ID;
+                query = '(SELECT FountainP.FP_Name, FountainP.FP_ID, FountainP.FP_Manufacturer FROM (Implement_Collection natural join IC_FP natural join FountainP)WHERE Implement_Collection.IC_ID = -1)'
+                if (request.body.fountainPens)
+                    query = query + 'UNION ALL (SELECT FountainP.FP_Name, FountainP.FP_ID, FountainP.FP_Manufacturer FROM (Implement_Collection natural join IC_FP natural join FountainP) WHERE Implement_Collection.IC_ID = ' + iid + ')';
+                if (request.body.cartridgePens)
+                    query = query + 'UNION ALL (SELECT CartridgeP.CP_Name, CartridgeP.CP_ID, CartridgeP.CP_Manufacturer FROM (Implement_Collection natural join IC_CP natural join CartridgeP) WHERE Implement_Collection.IC_ID = ' + iid + ')';
+                if (request.body.mechanicalPencils)
+                    query = query + 'UNION ALL (SELECT MechanicalP.MP_Name, MechanicalP.MP_ID, MechanicalP.MP_Manufacturer FROM (Implement_Collection natural join IC_MP natural join MechanicalP) WHERE Implement_Collection.IC_ID = ' + iid + ')';
+                if (request.body.woodPencils)
+                    query = query + 'UNION ALL (SELECT WoodP.WP_Name, WoodP.WP_ID, WoodP.WP_Manufacturer FROM (Implement_Collection natural join IC_WP natural join WoodP) WHERE Implement_Collection.IC_ID = ' + iid + ')';
+                if (request.body.lead)
+                    query = query + 'UNION ALL (SELECT Lead.L_Name, Lead.L_ID, Lead.L_Manufacturer FROM (Other_Collection natural join OC_L natural join Lead) WHERE Other_Collection.OC_ID = ' + oid + ')';
+                if (request.body.replacements)
+                    query = query + 'UNION ALL (SELECT Replacements.R_Name, Replacements.R_ID, Replacements.R_Manufacturer FROM (Other_Collection natural join OC_R natural join Replacements) WHERE Other_Collection.OC_ID = ' + oid + ')';
+                if (request.body.ink)
+                    query = query + ' UNION ALL (SELECT Ink.I_Name, Ink.I_ID, Ink.I_Manufacturer FROM (Other_Collection natural join OC_I natural join Ink) WHERE Other_Collection.OC_ID = ' + oid + ')';
+                if (request.body.penCartridge)
+                    query = query + 'UNION ALL (SELECT Pen_Cartridge.PC_Name, Pen_Cartridge.PC_ID, Pen_Cartridge.PC_Manufacturer FROM (Other_Collection natural join OC_PC natural join Pen_Cartridge) WHERE Other_Collection.OC_ID = ' + oid + ')';
+                if (request.body.utility)
+                    query = query + 'UNION ALL (SELECT Utility.U_Name, Utility.U_ID, Utility.U_Manufacturer FROM (Other_Collection natural join OC_U natural join Utility) WHERE Other_Collection.OC_ID = ' + oid + ')';
+                pool.query(query, (error, result) => {
+                    if (error) throw error;
+                    response.send(result);
+                });
+            });
+        });
+    });
 
+    app.get('/collection/:u_name/item', (request, response) => {
+        //todo, get specific item
+        const id = request.body.itemID;
+        const type = request.body.type;
+        if (type == "mechanicalPencil") {
+            pool.query('select * from MechanicalP where MP_ID = ?', id, (error, result) => {
+                if (error) throw error;
+                result.map((item, i) => ({
+                    basicAtts: {
+                        itemName: item.MP_Name,
+                        itemId: item.MP_ID,
+                        manufacturer: item.MP_Manufacturer,
+                        stats: {
+                            material: item.MP_Material,
+                            leadSize: item.MP_Lead_Size,
+                        }
 
+                    }
+                }));
+                response.send(result);
+            });
+        }
+        else if (type == "woodPencil") {
+            pool.query('select * from WoodP where WP_ID = ?', id, (error, result) => {
+                if (error) throw error;
+                result.map((item, i) => ({
+                    basicAtts: {
+                        itemName: item.WP_Name,
+                        itemId: item.WP_ID,
+                        manufacturer: item.WP_Manufacturer,
+                        stats: {
+                            material: item.WP_Material,
+                        }
 
+                    }
+                }));
+                response.send(result);
+            });
+        }
+        else if (type == "fountainPen") {
+            pool.query('select * from FountainP where FP_ID = ?', id, (error, result) => {
+                if (error) throw error;
+                result.map((item, i) => ({
+                    basicAtts: {
+                        itemName: item.FP_Name,
+                        itemId: item.FP_ID,
+                        manufacturer: item.FP_Manufacturer,
+                        stats: {
+                            material: item.FP_Material,
+                            inkType: item.FP_Ink_Type,
+                        }
+                    }
+                }));
+                response.send(result);
+            });
+        }
+        else if (type == "cartridgePen") {
+            pool.query('select * from CartridgeP where CP_ID = ?', id, (error, result) => {
+                if (error) throw error;
+                result.map((item, i) => ({
+                    basicAtts: {
+                        itemName: item.CP_Name,
+                        itemId: item.CP_ID,
+                        manufacturer: item.CP_Manufacturer,
+                        stats: {
+                            material: item.CP_Material,
+                        }
+                    }
+                }));
+                response.send(result);
+            });
+        }
+        else if (type == "ink") {
+            pool.query('select * from Ink where I_ID = ?', id, (error, result) => {
+                if (error) throw error;
+                result.map((item, i) => ({
+                    basicAtts: {
+                        itemName: item.I_Name,
+                        itemId: item.I_ID,
+                        manufacturer: item.I_Manufacturer,
+                        stats: {
+                            color: item.I_Color,
+                        }
+
+                    }
+                }));
+                response.send(result);
+            });
+        }
+        else if (type == "lead") {
+            pool.query('select * from Lead where L_ID = ?', id, (error, result) => {
+                if (error) throw error;
+                result.map((item, i) => ({
+                    basicAtts: {
+                        itemName: item.L_Name,
+                        itemId: item.L_ID,
+                        manufacturer: item.L_Manufacturer,
+                        stats: {
+                            leadSize: item.L_Size,
+                        }
+
+                    }
+                }));
+                response.send(result);
+            });
+        }
+        else if (type == "replacements") {
+            pool.query('select * from Replacements where R_ID = ?', id, (error, result) => {
+                if (error) throw error;
+                result.map((item, i) => ({
+                    basicAtts: {
+                        itemName: item.R_Name,
+                        itemId: item.R_ID,
+                        manufacturer: item.R_Manufacturer,
+                        stats: {
+                            replacementType: item.R_Type,
+                        }
+
+                    }
+                }));
+                response.send(result);
+            });
+        }
+        else if (type == "utility") {
+            pool.query('select * from Utility where U_ID = ?', id, (error, result) => {
+                if (error) throw error;
+                result.map((item, i) => ({
+                    basicAtts: {
+                        itemName: item.U_Name,
+                        itemId: item.U_ID,
+                        manufacturer: item.U_Manufacturer,
+                        stats: {
+                            utilityType: item.U_Type,
+                        }
+
+                    }
+                }));
+                response.send(result);
+            });
+        }
+        else if (type == "penCartridge") {
+            pool.query('select * from Pen_Cartridge where PC_ID = ?', id, (error, result) => {
+                if (error) throw error;
+                result.map((item, i) => ({
+                    basicAtts: {
+                        itemName: item.PC_Name,
+                        itemId: item.PC_ID,
+                        manufacturer: item.PC_Manufacturer,
+                        stats: {
+                            cartridgeType: item.PC_Type,
+                        }
+
+                    }
+                }));
+                response.send(result);
+            });
+        }
+    });
+
+    app.post('/collection/:u_name/item', (request, response) => {
+        //todo, create item and add immediately (see npp)
+    });
+
+    app.delete('/collection/:u_name/item', (request, response) => {
+        //todo, remove item from collection
+    });
+    /*
+	    /collection/:u_name/item
+
+		POST (Create an item and add to user's collection)
+			desired input:
+				{
+			   basicAtts: {
+					itemName: string,
+					type: string,
+					manufacturer: string
+				 },
+			   stats: object
+				}
+
+		DELETE (Delete an item from user's collection)
+			desired input:
+				{
+					"itemId": int,
+					"type": string
+				}
+     */
 
     // ************Mechanical P**********
     //list all Mechanical Pencils [COMPLETE]

@@ -26,16 +26,6 @@ Homepage is /
 	/users/:id/collection
 		GET(Display collection, takes booleans per category)
 			input:
-				{"mechP": bool,
-				"fountainPens": bool,
-				"cartridgePens": bool,
-				"woodPencils": bool,
-				"lead": bool,
-				"ink": bool,
-				"penCartridge": bool,
-				"utility": bool,
-				}
-			desired input:
 				{"mechanicalPencil": bool,
 				"fountainPens": bool,
 				"cartridgePens": bool,
@@ -50,24 +40,9 @@ Homepage is /
 ********GALLERY********
 
 	/gallery
-		PUT (edit an existing item)
-			desired input:
-				{
-				 basicAtts: {
-					itemId: int,
-					itenName: string,
-					type: string,
-					manufacturer: string
-				 },
-				 stats: object
-				}
-
-********GENERAL COLLECTION*******
-
-	/collection/:u_name
-		GET (Display collection, takes booleans per category)
+		GET (Get list of al items)
 			input:
-				{"mechP": bool,
+				{"mechanicalPencil": bool,
 				"fountainPens": bool,
 				"cartridgePens": bool,
 				"woodPencils": bool,
@@ -75,8 +50,37 @@ Homepage is /
 				"ink": bool,
 				"penCartridge": bool,
 				"utility": bool,
+				"replacements" bool
 				}
-			desired input:
+
+		POST (create a new item)
+			input:
+				{
+					basicAtts: {
+						itemName: string,
+						type: string,
+						manufacturer: string,
+					},
+					stats: object
+				}
+
+		PUT (edit an existing item)
+			input:
+				{
+				 basicAtts: {
+						itemId: int,
+						itemName: string,
+						type: string,
+						manufacturer: string,
+				 },
+				 stats: object
+				}
+
+********GENERAL COLLECTION******* (TODO)
+
+	/collection/:u_name
+		GET (Display collection, takes booleans per category) (TODO)
+			input:
 				{"mechanicalPencil": bool,
 				"fountainPens": bool,
 				"cartridgePens": bool,
@@ -90,12 +94,12 @@ Homepage is /
 
 	/collection/:u_name/item
 		GET (Display information for single item given ID)
-			desired input:
+			input:
 				{
 					"itemId": int,
 					"type": string
 				}
-			desired output:
+			output:
 				{
 					"itemId": string,
 					"itemName": string,
@@ -103,18 +107,18 @@ Homepage is /
 					"stats": object
 				}
 
-		POST (Create an Item and Add to user's collection)
+		POST (Create an item and add to user's collection)
 			desired input:
 				{
 			   basicAtts: {
-					itenName: string,
+					itemName: string,
 					type: string,
 					manufacturer: string
 				 },
 			   stats: object
 				}
 
-		DELETE (Delete an Item and Add to user's collection)
+		DELETE (Delete an item from user's collection)
 			desired input:
 				{
 					"itemId": int,
