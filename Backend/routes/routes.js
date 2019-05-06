@@ -463,7 +463,7 @@ const router = app => {
             pool.query('SELECT IC_ID, OC_ID FROM user WHERE U_ID = ?', uid, (error, result) => {
                 const iid = result[0].IC_ID;
                 const oid = result[0].OC_ID;
-                pool.query('SELECT * FROM (Implement_Collection natural join IC_FP natural join FountainP) WHERE Implement_Collection.IC_ID = ?)', iid, (error, result) => {
+                pool.query('SELECT * FROM (Implement_Collection natural join IC_FP natural join FountainP) WHERE Implement_Collection.IC_ID = ?', iid, (error, result) => {
                     for (i = 0; i < result.length; i++) {
                         result.map((item, i) => ({
                             basicAtts: {
@@ -479,7 +479,7 @@ const router = app => {
                         }));
                     }
                     if (request.body.fountainPens) aggregate.push(result);
-                    pool.query('SELECT * FROM (Implement_Collection natural join IC_CP natural join CartridgeP) WHERE Implement_Collection.IC_ID = ?)', iid, (error, result) => {
+                    pool.query('SELECT * FROM (Implement_Collection natural join IC_CP natural join CartridgeP) WHERE Implement_Collection.IC_ID = ?', iid, (error, result) => {
                         for (i = 0; i < result.length; i++) {
                             result.map((item, i) => ({
                                 basicAtts: {
@@ -494,7 +494,7 @@ const router = app => {
                             }));
                         }
                         if (request.body.cartridgePens) aggregate.push(result);
-                        pool.query('SELECT * FROM (Implement_Collection natural join IC_MP natural join MechanicalP) WHERE Implement_Collection.IC_ID = ?)', iid, (error, result) => {
+                        pool.query('SELECT * FROM (Implement_Collection natural join IC_MP natural join MechanicalP) WHERE Implement_Collection.IC_ID = ?', iid, (error, result) => {
                             for (i = 0; i < result.length; i++) {
                                 result.map((item, i) => ({
                                     basicAtts: {
@@ -510,7 +510,7 @@ const router = app => {
                                 }));
                             }
                             if (request.body.mechanicalPencils) aggregate.push(result);
-                            pool.query('SELECT * FROM (Implement_Collection natural join IC_WP natural join WoodP) WHERE Implement_Collection.IC_ID = ?)', iid, (error, result) => {
+                            pool.query('SELECT * FROM (Implement_Collection natural join IC_WP natural join WoodP) WHERE Implement_Collection.IC_ID = ?', iid, (error, result) => {
                                 for (i = 0; i < result.length; i++) {
                                     result.map((item, i) => ({
                                         basicAtts: {
@@ -609,9 +609,6 @@ const router = app => {
                         });
                     });
                 });
-                if (request.body.utility) {
-
-                }
                 if (error) throw error;
                 response.send(aggregate);
             });

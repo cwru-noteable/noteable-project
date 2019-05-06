@@ -3,7 +3,10 @@
     "",
     "\\Backend",
     "\\Backend\\data",
-    "\\Backend\\routes"
+    "\\Backend\\routes",
+    "\\Frontend",
+    "\\Frontend\\src",
+    "\\Frontend\\src\\Collection"
   ],
   "SelectedNode": "\\Backend\\routes\\routes.js",
   "PreviewInSolutionExplorer": false
