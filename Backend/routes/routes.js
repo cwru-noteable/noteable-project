@@ -312,7 +312,7 @@ const router = app => {
                     }
                 }));
                 for (i = 0; i < frontend.length; i++) {
-                           
+
                     if (request.query.cartridgePens == 'true') aggregate.push(frontend[i]);
                 }
                 pool.query('SELECT * FROM (Implement_Collection natural join IC_MP natural join MechanicalP)', (error, result) => {
@@ -617,9 +617,7 @@ const router = app => {
         console.log("Body");
         console.log(request.body);
         console.log();*/
-        console.log("Query");
-        console.log(request.query);
-        console.log();
+        console.log("GET on /collection/"+request.params.username+" Query:", request.query);
         var aggregate = [];
         pool.query('select U_ID from user where U_Name = ?', request.params.username, (error, result) => {
             const uid = result[0].U_ID;
@@ -767,9 +765,9 @@ const router = app => {
                                                         }
                                                     }
                                                     if (error) throw error;
-                                                    console.log("Aggregate result");
-                                                    console.log(aggregate);
-                                                    console.log();
+                                                    console.debug("Aggregate result");
+                                                    console.debug(aggregate);
+                                                    console.debug();
                                                     response.send(aggregate);
                                                 });
                                             });
@@ -1093,8 +1091,8 @@ const router = app => {
     });
 
     app.delete('/collection/:u_name/item', (request, response) => {
-        const id = request.body.itemID;
-        const type = request.body.type;
+        const id = request.query.itemID;
+        const type = request.query.type;
         pool.query('select U_ID from user where U_Name = ?', request.params.u_name, (error, result) => {
             const uid = result[0].U_ID;
             if (type == "mechanicalPencil") {
