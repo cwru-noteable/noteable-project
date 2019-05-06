@@ -5,10 +5,7 @@ Homepage is /
 		GET (show all users)
 
 		POST (create new user, autocreates U_ID and both collections)
-			current input:
-				{"U_Name": <string>,
-				}
-			desired input:
+			input:
 				{"username": <string>,
 				}
 
