@@ -15,7 +15,7 @@ class CollectionItem extends Component {
   render() {
     const items = []
     return (
-      <div class='itemDiv'>
+      <div className='itemDiv'>
         <h3>{this.props.item.basicAtts.itemName}</h3>
         <button onClick={this.onViewItem}>View</button>
       </div>

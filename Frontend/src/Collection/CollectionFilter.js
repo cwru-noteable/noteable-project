@@ -5,7 +5,6 @@ class CollectionFilter extends Component {
   constructor(props) {
     super(props);
 
-    this.onFilter = this.onFilter.bind(this);
     this.onFilterInputChange = this.onFilterInputChange.bind(this);
   }
 
@@ -18,73 +17,68 @@ class CollectionFilter extends Component {
           <h3>Mechanical Pencils</h3>
           <input type='checkbox'
             name={'mechanicalPencils'}
-            value={this.props.mechanicalPencils}
+            checked={this.props.mechanicalPencils}
             onChange={this.onFilterInputChange}/>
 
           <h3>Fountain Pens</h3>
           <input type='checkbox'
             name={'fountainPens'}
-            value={this.props.fountainPens}
+            checked={this.props.fountainPens}
             onChange={this.onFilterInputChange}/>
 
           <h3>Cartidge Pens</h3>
           <input type='checkbox'
             name={'cartridgePens'}
-            value={this.props.cartridgePens}
+            checked={this.props.cartridgePens}
             onChange={this.onFilterInputChange}/>
 
           <h3>Wood Pencils</h3>
           <input type='checkbox'
             name={'woodPencils'}
-            value={this.props.woodPencils}
+            checked={this.props.woodPencils}
             onChange={this.onFilterInputChange}/>
 
           <h2>Other</h2>
           <h3>Lead</h3>
           <input type='checkbox'
             name={'lead'}
-            value={this.props.lead}
+            checked={this.props.lead}
             onChange={this.onFilterInputChange}/>
 
           <h3>Replacements</h3>
           <input type='checkbox'
             name={'replacements'}
-            value={this.props.replacements}
+            checked={this.props.replacements}
             onChange={this.onFilterInputChange}/>
 
           <h3>Ink</h3>
           <input type='checkbox'
             name={'ink'}
-            value={this.props.ink}
+            checked={this.props.ink}
             onChange={this.onFilterInputChange}/>
 
           <h3>Pen Cartidge</h3>
           <input type='checkbox'
             name={'penCartridge'}
-            value={this.props.penCartridge}
+            checked={this.props.penCartridge}
             onChange={this.onFilterInputChange}/>
 
           <h3>Utility</h3>
           <input type='checkbox'
             name={'utility'}
-            value={this.props.utility}
+            checked={this.props.utility}
             onChange={this.onFilterInputChange}/>
 
 
 
         </form>
-        <button onClick={this.onFilter}>Refresh</button>
 
       </div>
     );
   }
 
-  onFilter() {
-    // TODO is submit even needed???
-  }
-
   onFilterInputChange(event) {
-    this.props.onFilterInputChange(event.target.name, event.target.value);
+    this.props.onFilterInputChange(event.target.name, event.target.checked);
   }
 }
 

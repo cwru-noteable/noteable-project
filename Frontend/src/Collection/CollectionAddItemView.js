@@ -29,11 +29,11 @@ class CollectionAddItemView extends Component {
   render() {
     return (
       <form onSubmit={this.onSaveNewItem}>
-        <div class="leftDiv">
+        <div className="leftDiv">
           <input type='submit' value='Add'/>
         </div>
-        <div class='rightDiv'>
-          <div class="leftDiv">
+        <div className='rightDiv'>
+          <div className="leftDiv">
             <h2>Name:<input type='text'
               name={'itemName'}
               value={this.state.basicAtts.itemName}
@@ -59,7 +59,7 @@ class CollectionAddItemView extends Component {
             <CollectionAddItemContainer onInputChange={this.onInputChange} type={this.state.basicAtts.type}/>
 
           </div>
-          <div class="rightDiv">
+          <div className="rightDiv">
             <button onClick={this.onCancelAddItem}>Cancel</button>
           </div>
         </div>
@@ -91,12 +91,12 @@ class CollectionAddItemView extends Component {
             ...prevState.basicAtts,
             [name]: value
           }
-      }), () => {this.props.onInputChange("item", this.state);});
+      }), () => {this.props.onInputChange("newItem", this.state);});
     }
     else {
       this.setState({
         [name]: value
-      }, () => {this.props.onInputChange("item", this.state);});
+      }, () => {this.props.onInputChange("newItem", this.state);});
     }
     console.log(this.state);
   }

@@ -14,10 +14,10 @@ class CollectionList extends Component {
 
 
     return (
-      <div class='normalDiv'>
+      <div className='normalDiv'>
         <h2>Collection List</h2>
         <ul>
-        {this.props.items.map((item, i) => (<li class='item'> <CollectionItem
+        {this.props.items.map((item, i) => (<li className='item' key={i}> <CollectionItem
           onViewItem={this.onViewItem}
           item={item}
           username={this.props.username}

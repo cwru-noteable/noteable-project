@@ -59,6 +59,8 @@ class Collection extends Component {
       utility : true,
     };
 
+    this.onFilterInputChange = this.onFilterInputChange.bind(this);
+
     this.onViewItem = this.onViewItem.bind(this);
     this.onCloseItem = this.onCloseItem.bind(this);
     this.onEditItem = this.onEditItem.bind(this);
@@ -76,14 +78,14 @@ class Collection extends Component {
 
   render() {
     //TODO: GET list of items.
-    this.loadFilteredCollection(2);
+    this.loadFilteredCollection();
 
     return (
       <div className='container'>
         <div className = 'collectionViewDiv'>
           <div className = 'leftDiv'>
             <CollectionFilter
-              onFilterInputChange={this.onInputChange}
+              onFilterInputChange={this.onFilterInputChange}
               mechanicalPencils={this.state.mechanicalPencils}
               fountainPens={this.state.fountainPens}
               cartridgePens={this.state.cartridgePens}
@@ -129,25 +131,30 @@ class Collection extends Component {
     );
   }
 
-  loadFilteredCollection(id) {
-    // const base = 'http://172.20.27.214:3002';
-    // const path = '/users/'+id+'/collection';
-    // return axios.get(base + path, {
-    //   mechanicalPencils : this.state.mechanicalPencils,
-    //   fountainPens : this.state.fountainPens,
-    //   cartridgePens : this.state.cartridgePens,
-    //   woodPencils : this.state.woodPencils,
-    //   lead : this.state.lead,
-    //   replacements : this.state.replacements,
-    //   ink : this.state.ink,
-    //   penCartridge : this.state.penCartridge,
-    //   utility : this.state.utility,
-    // })
-    // .then(response => console.log(response));
+  loadFilteredCollection() {
+    const port = '3002';
+    const base = 'http://172.20.17.194:'+port;
+    const path = '/collection/' + this.props.username;
+    return axios.get(base + path, {
+      mechanicalPencils : this.state.mechanicalPencils,
+      fountainPens : this.state.fountainPens,
+      cartridgePens : this.state.cartridgePens,
+      woodPencils : this.state.woodPencils,
+      lead : this.state.lead,
+      replacements : this.state.replacements,
+      ink : this.state.ink,
+      penCartridge : this.state.penCartridge,
+      utility : this.state.utility,
+    })
+    .then(response => console.log(response));
   }
 
   onAddNewItem() {
-    this.setState({addingNewItem: true});
+    this.setState({
+      addingNewItem: true,
+      itemClosed: true,
+      itemEditing: false,
+    });
   }
 
   onViewItem(item) {
@@ -173,15 +180,16 @@ class Collection extends Component {
     });
   }
 
-  onDeleteItem(id) {
+  onDeleteItem() {
       // TODO DELETE item.
       // TODO after delete, GET items and send to item list.
-
+      //
       // Deleting Item
       // const base = 'http://172.20.27.214:3002';
-      // const path = '/users/'+id+'/collection';
+      // const path = '/collection/'+this.props.username+'/item';
       // return axios.delete(base + path, {
-      //   itemId: this.state.itemId
+      //   itemId: this.state.item.basicAtts.itemId,
+      //   type: this.state.item.basicAtts.type
       // })
       // .then(response => console.log(response));
 
@@ -197,12 +205,7 @@ class Collection extends Component {
 
     // const base = 'http://172.20.27.214:3002';
     // const path = '/users/'+id+'/collection';
-    // return axios.put(base + path, {
-    //   itemId: this.state.itemId
-    //   //type
-    //   //generalAtts
-    //   //Item-Specific Atts
-    // })
+    // return axios.put(base + path, this.state.newItem)
     // .then(response => console.log(response));
 
     this.setState({
@@ -220,11 +223,8 @@ class Collection extends Component {
     //TODO POST with item info.
 
     // const base = 'http://172.20.27.214:3002';
-    // const path = '/users/'+id+'/collection';
-    // return axios.put(base + path, {
-    //   basicAtts: this.state.basicAtts,
-    //   stats: this.state.stats
-    // })
+    // const path = '/collection/'+this.props.username+'/item';
+    // return axios.put(base + path, newItem)
     // .then(response => console.log(response));
 
     this.setState({
@@ -235,8 +235,13 @@ class Collection extends Component {
   onInputChange(name, value) {
     this.setState({
       [name]: value
-    }, () => {console.log(value);});
+    });
+  }
 
+  onFilterInputChange(name, value) {
+    this.setState({
+      [name]: value
+    }, () => {this.loadFilteredCollection()});
   }
 
 }

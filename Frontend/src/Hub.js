@@ -10,9 +10,6 @@ import Collection from "./Collection/Collection";
 import Gallery from "./Gallery";
  
 class Hub extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   render() {
     return (

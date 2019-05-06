@@ -20,12 +20,12 @@ class CollectionItemView extends Component {
     if (!this.props.itemEditing){
       return (
         <div>
-          <div class="leftDiv">
+          <div className="leftDiv">
             <button onClick={this.onEditItem}>Edit</button>
             <button onClick={this.onDeleteItem}>Delete</button>
           </div>
-          <div class='rightDiv'>
-            <div class="leftDiv">
+          <div className='rightDiv'>
+            <div className="leftDiv">
               <h1>{this.props.item.basicAtts.itemName}</h1>
               <h2>ID: {this.props.item.basicAtts.itemId}</h2>
               <h2>Type: {this.props.item.basicAtts.type}</h2>
@@ -35,7 +35,7 @@ class CollectionItemView extends Component {
                 stats={this.props.item.stats}
               />
             </div>
-            <div class="rightDiv">
+            <div className="rightDiv">
               <button onClick={this.onCloseItem}>Close</button>
             </div>
           </div>
@@ -45,11 +45,11 @@ class CollectionItemView extends Component {
     else {
       return (
         <form onSubmit={this.onSaveItem}>
-          <div class="leftDiv">
+          <div className="leftDiv">
             <input type='submit' value='Save'/>
           </div>
-          <div class='rightDiv'>
-            <div class="leftDiv">
+          <div className='rightDiv'>
+            <div className="leftDiv">
               <h1>Name:</h1>
               <input
                 type='text'
@@ -70,7 +70,7 @@ class CollectionItemView extends Component {
                 onInputChange={this.onInputChange}
               />
             </div>
-            <div class="rightDiv">
+            <div className="rightDiv">
               <button onClick={this.onCloseItem}>Close</button>
             </div>
           </div>

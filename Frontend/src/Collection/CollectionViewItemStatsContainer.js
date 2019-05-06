@@ -20,7 +20,6 @@ class CollectionViewItemStatsContainer extends Component {
 
   render() {
 
-    console.log('test');
     switch (this.props.type) {
       case "cartridgePen":
         return(<CollectionViewCartridgePenStats stats= {this.props.stats}/>);
