@@ -189,14 +189,16 @@ class Collection extends Component {
       // TODO DELETE item.
       // TODO after delete, GET items and send to item list.
       //
-      // Deleting Item
-      // const base = 'http://172.20.27.214:3002';
-      // const path = '/collection/'+this.props.username+'/item';
-      // return axios.delete(base + path, {
-      //   itemId: this.state.item.basicAtts.itemId,
-      //   type: this.state.item.basicAtts.type
-      // })
-      // .then(response => console.log(response));
+      Deleting Item
+      const base = 'http://172.20.27.214:3002';
+      const path = '/collection/'+this.props.username+'/item';
+      return axios.delete(base + path, {
+        params: {
+          itemId: this.state.item.basicAtts.itemId,
+          type: this.state.item.basicAtts.type
+        }
+      })
+      .then(response => console.log(response));
 
       //Reloading
       // this.loadFilteredCollection();

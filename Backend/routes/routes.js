@@ -282,7 +282,7 @@ const router = app => {
 
     // ************GALLERY**********
     app.get('/gallery', (request, response) => {
-        
+
         pool.query('SELECT * FROM (Implement_Collection natural join IC_FP natural join FountainP)', (error, result) => {
             var frontend = result.map((item, i) => ({
                 basicAtts: {
@@ -313,7 +313,7 @@ const router = app => {
                     }
                 }));
                 for (i = 0; i < frontend.length; i++) {
-                           
+
                     if (request.query.cartridgePens) aggregate.push(frontend[i]);
                 }
                 pool.query('SELECT * FROM (Implement_Collection natural join IC_MP natural join MechanicalP)', (error, result) => {
@@ -658,7 +658,7 @@ const router = app => {
                             }
                         }));
                         for (i = 0; i < frontend.length; i++) {
-                           
+
                             if (request.query.cartridgePens) aggregate.push(frontend[i]);
                         }
                         pool.query('SELECT * FROM (Implement_Collection natural join IC_MP natural join MechanicalP) WHERE Implement_Collection.IC_ID = ?', iid, (error, result) => {
@@ -1096,8 +1096,8 @@ const router = app => {
     });
 
     app.delete('/collection/:u_name/item', (request, response) => {
-        const id = request.body.itemID;
-        const type = request.body.type;
+        const id = request.query.itemID;
+        const type = request.query.type;
         pool.query('select U_ID from user where U_Name = ?', request.params.u_name, (error, result) => {
             const uid = result[0].U_ID;
             if (type == "mechanicalPencil") {
