@@ -4,6 +4,9 @@
 * mySQL
 * request
 * bodyParser
+```
+npm install express mysql request bodyparser
+```
 ## Architecture
 * Built on ExpressJS backend run RESTfully. 
 * app.js ties into routes.js, which pulls config from data/config.js
