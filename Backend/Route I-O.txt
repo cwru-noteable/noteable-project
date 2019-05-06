@@ -4,7 +4,7 @@ Homepage is /
 	/users
 		GET (show all users)
 
-		POST (create new user, autocreates U_ID and both collections)
+		POST (create new user if none exists, autocreates U_ID and both collections)
 			input:
 				{"username": <string>,
 				}

@@ -22,21 +22,29 @@ const router = app => {
 
     // add a user [COMPLETE]
     app.post('/users', (request, response) => {
-        pool.query('SELECT * FROM (SELECT U_ID FROM user ORDER BY U_ID DESC) AS A LIMIT 1', (error, result) => {
-            var uid = result[0].U_ID + 1;
-            pool.query('SELECT * FROM (SELECT OC_ID FROM Other_Collection ORDER BY OC_ID DESC) AS A LIMIT 1', (error, result) => {
-                var oid = result[0].OC_ID + 1;
-                pool.query('SELECT * FROM (SELECT IC_ID FROM Implement_Collection ORDER BY IC_ID DESC) AS A LIMIT 1', (error, result) => {
-                    var iid = result[0].IC_ID + 1;
-                    pool.query('INSERT INTO Implement_Collection VALUES(?,null);INSERT INTO Other_Collection VALUES(?,null);INSERT INTO user VALUES(?,?,?,?);UPDATE Other_Collection SET U_ID = ? WHERE OC_ID = ?;UPDATE Implement_Collection SET U_ID = ? WHERE IC_ID = ?;', [iid, oid, uid, request.body.username, iid, oid, uid, oid, uid, iid],
-                        (error, result) => {
-                            if (error) throw error;
-                            response.status(201).send
-                                ('User added with new collections!\n');
+        try {
+            pool.query('SELECT U_Name FROM user WHERE U_Name = ?', request.body.username, (error, response) => {
+                if (error) throw error;
+                response.send(response);
+            });
+        }
+        catch (err){
+            pool.query('SELECT * FROM (SELECT U_ID FROM user ORDER BY U_ID DESC) AS A LIMIT 1', (error, result) => {
+                var uid = result[0].U_ID + 1;
+                pool.query('SELECT * FROM (SELECT OC_ID FROM Other_Collection ORDER BY OC_ID DESC) AS A LIMIT 1', (error, result) => {
+                    var oid = result[0].OC_ID + 1;
+                    pool.query('SELECT * FROM (SELECT IC_ID FROM Implement_Collection ORDER BY IC_ID DESC) AS A LIMIT 1', (error, result) => {
+                        var iid = result[0].IC_ID + 1;
+                        pool.query('INSERT INTO Implement_Collection VALUES(?,null);INSERT INTO Other_Collection VALUES(?,null);INSERT INTO user VALUES(?,?,?,?);UPDATE Other_Collection SET U_ID = ? WHERE OC_ID = ?;UPDATE Implement_Collection SET U_ID = ? WHERE IC_ID = ?;', [iid, oid, uid, request.body.username, iid, oid, uid, oid, uid, iid],
+                            (error, result) => {
+                                if (error) throw error;
+                                response.status(201).send
+                                    ('User added with new collections!\n');
+                            });
                     });
                 });
             });
-        });
+        }
 	});
 
     //edit a user [COMPLETE]
