@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from 'axios';
 import ReactDOM from "react-dom";
+import cloneDeep from 'lodash/cloneDeep';
 
 import CollectionList from './CollectionList'
 import CollectionFilter from './CollectionFilter'
@@ -18,21 +19,35 @@ class Collection extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      basicAtts: {
-        itemId: 0,
-        itemName: '',
-        type: '',
-        manufacturer: ''
+      item: {
+        basicAtts: {
+          itemId: 0,
+          itemName: '',
+          type: '',
+          manufacturer: ''
+        },
+        stats: {}
+      },
+      newItem: {
+        basicAtts: {
+          itemId: 0,
+          itemName: '',
+          type: '',
+          manufacturer: ''
+        },
+        stats: {}
       },
       itemClosed: true,
       itemEditing: false,
       addingNewItem: false,
       items: [
-        {itemId: 1, itemName: 'pen', manufacturer: 'man1', type: 'type1'},
-        {itemId: 2, itemName: 'pencil', manufacturer: 'man2', type: 'type2'},
-        {itemId: 3, itemName: 'mechanical pencil', manufacturer: 'man3', type: 'type3'}
+        {basicAtts:{itemId: 1, itemName: 'pen', manufacturer: 'man1', type: 'cartridgePen'},
+        stats: {material: 'plastic'}},
+        {basicAtts:{itemId: 2, itemName: 'pencil', manufacturer: 'man2', type: 'woodPencil'},
+        stats: {material: 'wood'}},
+        {basicAtts:{itemId: 3, itemName: 'mechanical pencil', manufacturer: 'man3', type: 'mechanicalPencil'},
+        stats: {material: 'metal', leadSize: 4}}
       ],
-      stats: {},
       mechanicalPencils : true,
       fountainPens : true,
       cartridgePens : true,
@@ -64,9 +79,9 @@ class Collection extends Component {
     this.loadFilteredCollection(2);
 
     return (
-      <div class='container'>
-        <div class = 'collectionViewDiv'>
-          <div class = 'leftDiv'>
+      <div className='container'>
+        <div className = 'collectionViewDiv'>
+          <div className = 'leftDiv'>
             <CollectionFilter
               onFilterInputChange={this.onInputChange}
               mechanicalPencils={this.state.mechanicalPencils}
@@ -80,11 +95,11 @@ class Collection extends Component {
               utility={this.state.utility}
             />
           </div>
-          <div class = 'rightDiv'>
-            <div class = 'rightDiv'>
+          <div className = 'rightDiv'>
+            <div className = 'rightDiv'>
               <button onClick={this.onAddNewItem}>Add Item</button>
             </div>
-            <div class='leftDiv'>
+            <div className='leftDiv'>
               <CollectionList
                 onViewItem={this.onViewItem}
                 username={this.props.username}
@@ -93,7 +108,7 @@ class Collection extends Component {
             </div>
           </div>
         </div>
-        <div class='itemViewDiv'>
+        <div className='itemViewDiv'>
           <CollectionItemViewContainer
             onCancelAddItem={this.onCancelAddItem}
             onSaveNewItem={this.onSaveNewItem}
@@ -106,7 +121,8 @@ class Collection extends Component {
             itemEditing={this.state.itemEditing}
             addingNewItem={this.state.addingNewItem}
             username={this.props.username}
-            basicAtts={this.state.basicAtts}
+            item={this.state.item}
+            newItem={this.state.newItem}
           />
           </div>
       </div>
@@ -114,21 +130,20 @@ class Collection extends Component {
   }
 
   loadFilteredCollection(id) {
-    console.log('hi');
-    const base = 'http://172.20.27.214:3002';
-    const path = '/users/'+id+'/collection';
-    return axios.get(base + path, {
-      mechanicalPencils : this.state.mechanicalPencils,
-      fountainPens : this.state.fountainPens,
-      cartridgePens : this.state.cartridgePens,
-      woodPencils : this.state.woodPencils,
-      lead : this.state.lead,
-      replacements : this.state.replacements,
-      ink : this.state.ink,
-      penCartridge : this.state.penCartridge,
-      utility : this.state.utility,
-    })
-    .then(response => console.log(response));
+    // const base = 'http://172.20.27.214:3002';
+    // const path = '/users/'+id+'/collection';
+    // return axios.get(base + path, {
+    //   mechanicalPencils : this.state.mechanicalPencils,
+    //   fountainPens : this.state.fountainPens,
+    //   cartridgePens : this.state.cartridgePens,
+    //   woodPencils : this.state.woodPencils,
+    //   lead : this.state.lead,
+    //   replacements : this.state.replacements,
+    //   ink : this.state.ink,
+    //   penCartridge : this.state.penCartridge,
+    //   utility : this.state.utility,
+    // })
+    // .then(response => console.log(response));
   }
 
   onAddNewItem() {
@@ -137,11 +152,8 @@ class Collection extends Component {
 
   onViewItem(item) {
     this.setState({
-      basicAtts: {
-        itemId: item.itemId,
-        itemName: item.itemName,
-        manufacturer: item.manufacturer
-      },
+      item: item,
+      newItem: cloneDeep(item),
       itemClosed: false,
       itemEditing: false,
       addingNewItem: false,

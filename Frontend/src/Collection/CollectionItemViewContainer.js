@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import axios from 'axios';
 import ReactDOM from "react-dom";
 
-import CollectionAddItemView from './CollectionAddItemView'
-import CollectionItemView from './CollectionItemView'
+import CollectionAddItemView from './CollectionAddItemView';
+import CollectionItemView from './CollectionItemView';
 
 
 import {
@@ -55,7 +55,8 @@ class CollectionItemViewContainer extends Component {
           onDeleteItem={this.onDeleteItem}
           onInputChange={this.onInputChange}
           itemEditing={this.props.itemEditing}
-          username={this.props.username}
+          item={this.props.item}
+          newItem={this.props.newItem}
           basicAtts={this.props.basicAtts}
         />
       );

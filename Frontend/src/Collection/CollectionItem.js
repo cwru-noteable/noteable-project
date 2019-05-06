@@ -16,7 +16,7 @@ class CollectionItem extends Component {
     const items = []
     return (
       <div class='itemDiv'>
-        <h3>{this.props.item.itemName}</h3>
+        <h3>{this.props.item.basicAtts.itemName}</h3>
         <button onClick={this.onViewItem}>View</button>
       </div>
     );
