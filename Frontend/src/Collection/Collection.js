@@ -23,6 +23,7 @@ class Collection extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      init: false,
       item: {
         basicAtts: {
           itemId: 0,
@@ -81,9 +82,11 @@ class Collection extends Component {
   }
 
   render() {
-    //TODO: GET list of items.
-    this.loadFilteredCollection();
 
+    if (!this.state.init) {
+      this.setState({init: true}, () => this.loadFilteredCollection());
+    }
+    //TODO: GET list of items.
     return (
       <div className='container'>
         <div className = 'collectionViewDiv'>
@@ -153,7 +156,9 @@ class Collection extends Component {
         "utility" : this.state.utility,
       }
     })
-    .then(response => console.log(response));
+    .then(response => this.setState({
+      items: response.data
+    }));
   }
 
   onAddNewItem() {
@@ -210,10 +215,10 @@ class Collection extends Component {
     // TODO UPDATE with info.
     // axios.
 
-    // const base = 'http://172.20.27.214:3002';
-    // const path = '/users/'+id+'/collection';
-    // return axios.put(base + path, this.state.newItem)
-    // .then(response => console.log(response));
+    const path = '/gallery';
+    const url = base + ':' + port + path;
+    return axios.put(url, this.state.newItem)
+    .then(response => console.log(response));
 
     this.setState({
       itemEditing: false,

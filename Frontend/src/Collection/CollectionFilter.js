@@ -68,9 +68,6 @@ class CollectionFilter extends Component {
             name={'utility'}
             checked={this.props.utility}
             onChange={this.onFilterInputChange}/>
-
-
-
         </form>
 
       </div>
@@ -78,6 +75,8 @@ class CollectionFilter extends Component {
   }
 
   onFilterInputChange(event) {
+    console.log(event.target.name);
+    console.log(event.target.checked);
     this.props.onFilterInputChange(event.target.name, event.target.checked);
   }
 }

@@ -486,35 +486,41 @@ const router = app => {
 
     // ************Collections**********
     app.get('/collection/:u_name', (request, response) => {
-        console.log(request.query);
         pool.query('SELECT U_ID FROM user WHERE U_Name = ?', request.params.u_name, (error, result) => {
             const uid = result[0].U_ID;
             pool.query('SELECT IC_ID, OC_ID FROM user WHERE U_ID = ?', uid, (error, result) => {
                 const iid = result[0].IC_ID;
                 const oid = result[0].OC_ID;
                 query = '(SELECT FountainP.FP_Name, FountainP.FP_ID, FountainP.FP_Manufacturer FROM (Implement_Collection natural join IC_FP natural join FountainP)WHERE Implement_Collection.IC_ID = -1)'
-                if (request.query.fountainPens)
+                if (request.query.fountainPens === "true")
                     query = query + 'UNION ALL (SELECT FountainP.FP_Name, FountainP.FP_ID, FountainP.FP_Manufacturer FROM (Implement_Collection natural join IC_FP natural join FountainP) WHERE Implement_Collection.IC_ID = ' + iid + ')';
-                if (request.query.cartridgePens)
+                if (request.query.cartridgePens === "true")
                     query = query + 'UNION ALL (SELECT CartridgeP.CP_Name, CartridgeP.CP_ID, CartridgeP.CP_Manufacturer FROM (Implement_Collection natural join IC_CP natural join CartridgeP) WHERE Implement_Collection.IC_ID = ' + iid + ')';
-                if (request.query.mechanicalPencils)
+                if (request.query.mechanicalPencils === "true")
                     query = query + 'UNION ALL (SELECT MechanicalP.MP_Name, MechanicalP.MP_ID, MechanicalP.MP_Manufacturer FROM (Implement_Collection natural join IC_MP natural join MechanicalP) WHERE Implement_Collection.IC_ID = ' + iid + ')';
-                if (request.query.woodPencils)
+                if (request.query.woodPencils === "true")
                     query = query + 'UNION ALL (SELECT WoodP.WP_Name, WoodP.WP_ID, WoodP.WP_Manufacturer FROM (Implement_Collection natural join IC_WP natural join WoodP) WHERE Implement_Collection.IC_ID = ' + iid + ')';
-                if (request.query.lead)
+                if (request.query.lead === "true")
                     query = query + 'UNION ALL (SELECT Lead.L_Name, Lead.L_ID, Lead.L_Manufacturer FROM (Other_Collection natural join OC_L natural join Lead) WHERE Other_Collection.OC_ID = ' + oid + ')';
-                if (request.query.replacements)
+                if (request.query.replacements === "true")
                     query = query + 'UNION ALL (SELECT Replacements.R_Name, Replacements.R_ID, Replacements.R_Manufacturer FROM (Other_Collection natural join OC_R natural join Replacements) WHERE Other_Collection.OC_ID = ' + oid + ')';
-                if (request.query.ink)
+                if (request.query.ink === "true")
                     query = query + 'UNION ALL (SELECT Ink.I_Name, Ink.I_ID, Ink.I_Manufacturer FROM (Other_Collection natural join OC_I natural join Ink) WHERE Other_Collection.OC_ID = ' + oid + ')';
-                if (request.query.penCartridge)
+                if (request.query.penCartridge === "true")
                     query = query + 'UNION ALL (SELECT Pen_Cartridge.PC_Name, Pen_Cartridge.PC_ID, Pen_Cartridge.PC_Manufacturer FROM (Other_Collection natural join OC_PC natural join Pen_Cartridge) WHERE Other_Collection.OC_ID = ' + oid + ')';
-                if (request.query.utility)
+                if (request.query.utility === "true")
                     query = query + 'UNION ALL (SELECT Utility.U_Name, Utility.U_ID, Utility.U_Manufacturer FROM (Other_Collection natural join OC_U natural join Utility) WHERE Other_Collection.OC_ID = ' + oid + ')';
                 pool.query(query, (error, result) => {
                     if (error) throw error;
-                    console.log(result);
-                    response.send(result);
+
+                    const newResult = result.map((item, i) => ({
+                      basicAtts: {
+                        itemName: item.FP_Name,
+                        itemId: item.FP_ID,
+                        manufacturer: item.FP_Manufacturer,
+                      }
+                    }))
+                    response.send(newResult);
                 });
             });
         });
