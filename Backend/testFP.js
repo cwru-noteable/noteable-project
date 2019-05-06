@@ -12,7 +12,7 @@ const json = {
     "utility": false,
 };
 
-request.post({
+request.get({
     url: 'http://localhost:3002/collections/Zubair',
     body: json,
     json: true,
