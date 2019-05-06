@@ -1,13 +1,12 @@
 import React, { Component } from "react";
 import axios from 'axios';
 
+import CollectionEditItemStatsContainer from './CollectionEditItemStatsContainer';
+import CollectionViewItemStatsContainer from './CollectionViewItemStatsContainer';
+
 class CollectionItemView extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      newBasicAtts: props.basicAtts
-    };
 
     this.onCloseItem = this.onCloseItem.bind(this);
     this.onEditItem = this.onEditItem.bind(this);
@@ -16,7 +15,6 @@ class CollectionItemView extends Component {
     this.onInputChange = this.onInputChange.bind(this);
     this.onInputChangeEvent = this.onInputChangeEvent.bind(this);
   }
-
 
   render() {
     if (!this.props.itemEditing){
@@ -28,9 +26,14 @@ class CollectionItemView extends Component {
           </div>
           <div class='rightDiv'>
             <div class="leftDiv">
-              <h1>{this.props.basicAtts.itemName}</h1>
-              <h2>ID: {this.props.basicAtts.itemId}</h2>
-              <h2>Type: {this.props.basicAtts.type}</h2>
+              <h1>{this.props.item.basicAtts.itemName}</h1>
+              <h2>ID: {this.props.item.basicAtts.itemId}</h2>
+              <h2>Type: {this.props.item.basicAtts.type}</h2>
+              <h2>Manufacturer: {this.props.item.basicAtts.manufacturer}</h2>
+              <CollectionViewItemStatsContainer
+                type={this.props.item.basicAtts.type}
+                stats={this.props.item.stats}
+              />
             </div>
             <div class="rightDiv">
               <button onClick={this.onCloseItem}>Close</button>
@@ -51,16 +54,21 @@ class CollectionItemView extends Component {
               <input
                 type='text'
                 name={'itemName'}
-                value={this.state.newBasicAtts.itemName}
+                value={this.props.newItem.basicAtts.itemName}
                 onChange={this.onInputChangeEvent}/>
-              <h2>ID: {this.state.newBasicAtts.itemId}</h2>
-              <h2>Type: {this.props.basicAtts.type}</h2>
+              <h2>ID: {this.props.newItem.basicAtts.itemId}</h2>
+              <h2>Type: {this.props.newItem.basicAtts.type}</h2>
               <h2>Manufacturer:</h2>
               <input
                 type='text'
                 name={'manufacturer'}
-                value={this.state.newBasicAtts.manufacturer}
+                value={this.props.newItem.basicAtts.manufacturer}
                 onChange={this.onInputChangeEvent}/>
+              <CollectionEditItemStatsContainer
+                type={this.props.newItem.basicAtts.type}
+                stats={this.props.newItem.stats}
+                onInputChange={this.onInputChange}
+              />
             </div>
             <div class="rightDiv">
               <button onClick={this.onCloseItem}>Close</button>
@@ -73,10 +81,7 @@ class CollectionItemView extends Component {
   }
 
   onCloseItem() {
-    this.setState({
-      newBasicAtts: this.props.basicAtts
-    }, this.props.onCloseItem());
-
+    this.props.onCloseItem();
   }
 
   onEditItem() {
@@ -98,23 +103,25 @@ class CollectionItemView extends Component {
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
 
-
-    this.setState((prevState) => ({
-      ...prevState,
-      newBasicAtts: {
-        ...prevState.newBasicAtts,
-        [name]: value
-      }
-    }), () => {this.props.onInputChange("item", this.state);});
+    this.onInputChange(name, value);
   }
 
   onInputChange(name, value) {
-    this.state.name = value;
-    this.setState({
-      [name]: value
-    }, () => {this.props.onInputChange("item", this.state);});
 
 
+    const newItem = this.props.newItem;
+    var updatedItem = newItem;
+    if (name === "itemId" || name === "itemName" || name === "type" || name === "manufacturer") {
+      updatedItem.basicAtts = {
+          ...updatedItem.basicAtts,
+          [name]: value
+        };
+    }
+    else {
+      updatedItem.stats = value;
+    }
+
+    this.props.onInputChange("newItem", updatedItem);
   }
 
 }

@@ -6,13 +6,12 @@ import {
   HashRouter
 } from "react-router-dom";
 import Home from "./Home";
-import Collection from "./Collection";
+import Collection from "./Collection/Collection";
 import Gallery from "./Gallery";
  
 class Hub extends Component {
   constructor(props) {
     super(props);
-    console.log(this.props.username);
   }
 
   render() {

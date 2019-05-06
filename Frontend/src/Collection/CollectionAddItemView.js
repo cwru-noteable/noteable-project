@@ -38,6 +38,10 @@ class CollectionAddItemView extends Component {
               name={'itemName'}
               value={this.state.basicAtts.itemName}
               onChange={this.onInputChangeEvent}/></h2>
+            <h3>Manufacturer:<input type='text'
+              name={'manufacturer'}
+              value={this.state.basicAtts.manufacturer}
+              onChange={this.onInputChangeEvent}/></h3>
 
             <h3>Type:</h3>
             <select value={this.state.basicAtts.type} onChange={this.onDropdownChange}>
@@ -64,9 +68,8 @@ class CollectionAddItemView extends Component {
   }
 
   onDropdownChange(event) {
-    this.setState({
-      type: event.target.value,
-    });
+    const val = event.target.value;
+    this.onInputChange("type", val);
   }
 
   onCancelAddItem() {
@@ -77,11 +80,25 @@ class CollectionAddItemView extends Component {
     this.props.onSaveNewItem();
   }
 
+
+
   onInputChange(name, value) {
-    this.setState({
-      [name]: value
-    }, () => {this.props.onInputChange("item", this.state);});
-    console.log(name + ': ' + value)
+
+    if (name === "itemName" || name === "manufacturer" || name === "type") {
+      this.setState((prevState) => ({
+        ...prevState,
+          basicAtts: {
+            ...prevState.basicAtts,
+            [name]: value
+          }
+      }), () => {this.props.onInputChange("item", this.state);});
+    }
+    else {
+      this.setState({
+        [name]: value
+      }, () => {this.props.onInputChange("item", this.state);});
+    }
+    console.log(this.state);
   }
 
   onInputChangeEvent(event) {
