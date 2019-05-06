@@ -151,42 +151,42 @@ const router = app => {
     });
 
     //Add to implement collection (using a string) (BROKEN)
-    app.post('/ImpColl/:id/add', (request, res) => {
+    app.post('/ImpColl/:id/add', (request, response) => {
         const iid = request.params.id;
         const target = request.body.target;
         const name = request.body.name;
         if (target == "MechanicalP") {
-            pool.query('SELECT MP_ID FROM MechanicalP WHERE MP_Name = ?', name, (error, response) => {
-                var targid = response[0].MP_ID;
+            pool.query('SELECT MP_ID FROM MechanicalP WHERE MP_Name = ?', name, (error, result) => {
+                var targid = result[0].MP_ID;
                 pool.query('INSERT INTO IC_MP (IC_ID, MP_ID) VALUES (?, ?)', [iid, targid], (error, result) => {
                     if (error) throw error;
-                    res.send('Added Mechanical Pencil to Collection!\n');
+                    response.send('Added Mechanical Pencil to Collection!\n');
                 });
             });
         }
         else if (target == "FountainP") {
-            pool.query('SELECT FP_ID FROM FountainP WHERE FP_Name = ?', name, (error, response) => {
-                var targid = response[0].FP_ID;
-                pool.query('INSERT INTO IC_FP (IC_ID, FP_ID) VALUES (?, ?)', [iid, targid], (error, response) => {
+            pool.query('SELECT FP_ID FROM FountainP WHERE FP_Name = ?', name, (error, result) => {
+                var targid = result[0].FP_ID;
+                pool.query('INSERT INTO IC_FP (IC_ID, FP_ID) VALUES (?, ?)', [iid, targid], (error, result) => {
                     if (error) throw error;
-                    res.send("Added Fountain Pen to Collection!");
+                    response.send("Added Fountain Pen to Collection!");
                 });
             });
         }
         else if (target == "WoodP") {
-            pool.query('SELECT WP_ID FROM WoodP WHERE WP_Name = ?', name, (error, response) => {
-                var targid = response[0].WP_ID;
-                pool.query('INSERT INTO IC_WP (IC_ID, WP_ID) VALUES (?, ?)', [iid, targid], (error, response) => {
+            pool.query('SELECT WP_ID FROM WoodP WHERE WP_Name = ?', name, (error, result) => {
+                var targid = result[0].WP_ID;
+                pool.query('INSERT INTO IC_WP (IC_ID, WP_ID) VALUES (?, ?)', [iid, targid], (error, result) => {
                     if (error) throw error;
-                    res.send("Added Wood Pencil to Collection!");
+                    response.send("Added Wood Pencil to Collection!");
                 });
             });
 
         }
         else if (target == "CartridgeP") {
-            pool.query('SELECT CP_ID FROM CartridgeP WHERE CP_Name = ?', name, (error, response) => {
-                var targid = response[0].CP_ID;
-                pool.query('INSERT INTO IC_CP (IC_ID, CP_ID) VALUES (?, ?)', [iid, targid], (error, response) => {
+            pool.query('SELECT CP_ID FROM CartridgeP WHERE CP_Name = ?', name, (error, result) => {
+                var targid = result[0].CP_ID;
+                pool.query('INSERT INTO IC_CP (IC_ID, CP_ID) VALUES (?, ?)', [iid, targid], (error, result) => {
                     if (error) throw error;
                     res.send("Added Cartridge Pen to Collection!");
                 });
@@ -194,7 +194,7 @@ const router = app => {
 
         }
         else {
-            res.send({message: 'Category not found.'});
+            response.send({message: 'Category not found.'});
         }
     });
 
@@ -253,60 +253,60 @@ const router = app => {
     });
 
     //Add to other collection (using a string) [UNTESTED] (BROKEN)
-    app.post('/OthColl/:id/add', (request, res) => {
+    app.post('/OthColl/:id/add', (request, response) => {
         const id = request.params.id;
         const target = request.body.target;
         const name = request.body.name;
         if (target == "Lead") {
-            pool.query('SELECT L_ID FROM Lead WHERE L_Name = ?', name, (error, response) => {
-                var targid = response[0].L_ID;
+            pool.query('SELECT L_ID FROM Lead WHERE L_Name = ?', name, (error, result) => {
+                var targid = result[0].L_ID;
                 pool.query('INSERT INTO OC_L (OC_ID, L_ID) VALUES (?, ?)', [id, targid], (error, result) => {
                     if (error) throw error;
-                    res.send('Added Lead to Collection!.\n');
+                    response.send('Added Lead to Collection!.\n');
                 });
             });
         }
         else if (target == "Replacements") {
-            pool.query('SELECT R_ID FROM Replacements WHERE R_Name = ?', name, (error, response) => {
-                var targid = response[0].FP_ID;
-                pool.query('INSERT INTO OC_R (OC_ID, R_ID) VALUES (?, ?)', [id, targid], (error, response) => {
+            pool.query('SELECT R_ID FROM Replacements WHERE R_Name = ?', name, (error, result) => {
+                var targid = result[0].FP_ID;
+                pool.query('INSERT INTO OC_R (OC_ID, R_ID) VALUES (?, ?)', [id, targid], (error, result) => {
                     if (error) throw error;
-                    res.send("Added Replacement to Collection!");
+                    response.send("Added Replacement to Collection!");
                 });
             });
         }
         else if (target == "Ink") {
-            pool.query('SELECT I_ID FROM Ink WHERE I_Name = ?', name, (error, response) => {
-                var targid = response[0].WP_ID;
-                pool.query('INSERT INTO OC_I (OC_ID, I_ID) VALUES (?, ?)', [id, targid], (error, response) => {
+            pool.query('SELECT I_ID FROM Ink WHERE I_Name = ?', name, (error, result) => {
+                var targid = result[0].WP_ID;
+                pool.query('INSERT INTO OC_I (OC_ID, I_ID) VALUES (?, ?)', [id, targid], (error, result) => {
                     if (error) throw error;
-                    res.send("Added Ink to Collection!");
+                    response.send("Added Ink to Collection!");
                 });
             });
 
         }
         else if (target == "Pen_Cartridge") {
-            pool.query('SELECT PC_ID FROM Pen_Cartridge WHERE PC_Name = ?', name, (error, response) => {
-                var targid = response[0].PC_ID;
-                pool.query('INSERT INTO OC_PC (OC_ID, PC_ID) VALUES (?, ?)', [id, targid], (error, response) => {
+            pool.query('SELECT PC_ID FROM Pen_Cartridge WHERE PC_Name = ?', name, (error, result) => {
+                var targid = result[0].PC_ID;
+                pool.query('INSERT INTO OC_PC (OC_ID, PC_ID) VALUES (?, ?)', [id, targid], (error, result) => {
                     if (error) throw error;
-                    res.send("Added Pen Cartridge to Collection!");
+                    response.send("Added Pen Cartridge to Collection!");
                 });
             });
 
         }
         else if (target == "Utility") {
-            pool.query('SELECT U_ID FROM Utility WHERE U_Name = ?', name, (error, response) => {
-                var targid = response[0].U_ID;
-                pool.query('INSERT INTO OC_U (OC_ID, U_ID) VALUES (?, ?)', [id, targid], (error, response) => {
+            pool.query('SELECT U_ID FROM Utility WHERE U_Name = ?', name, (error, result) => {
+                var targid = result[0].U_ID;
+                pool.query('INSERT INTO OC_U (OC_ID, U_ID) VALUES (?, ?)', [id, targid], (error, result) => {
                     if (error) throw error;
-                    res.send("Added Utility to Collection!");
+                    response.send("Added Utility to Collection!");
                 });
             });
 
         }
         else {
-            res.send({ message: 'Category not found.' });
+            response.send({ message: 'Category not found.'});
         }
     });
 
@@ -487,11 +487,11 @@ const router = app => {
 
     // ************Collections**********
     app.get('/collection/:u_name', (request, response) => {
-        pool.query('SELECT U_ID FROM user WHERE U_Name = ?', request.params.u_name, (request, response) => {
-            const uid = response[0].U_ID;
-            pool.query('SELECT IC_ID, OC_ID FROM user WHERE U_ID = ?', uid, (request, response) => {
-                const iid = response[0].IC_ID;
-                const oid = response[0].OC_ID;
+        pool.query('SELECT U_ID FROM user WHERE U_Name = ?', request.params.u_name, (error, result) => {
+            const uid = result[0].U_ID;
+            pool.query('SELECT IC_ID, OC_ID FROM user WHERE U_ID = ?', uid, (error, result) => {
+                const iid = result[0].IC_ID;
+                const oid = result[0].OC_ID;
                 query = '(SELECT FountainP.FP_Name, FountainP.FP_ID, FountainP.FP_Manufacturer FROM (Implement_Collection natural join IC_FP natural join FountainP)WHERE Implement_Collection.IC_ID = -1)'
                 if (request.body.fountainPens)
                     query = query + 'UNION ALL (SELECT FountainP.FP_Name, FountainP.FP_ID, FountainP.FP_Manufacturer FROM (Implement_Collection natural join IC_FP natural join FountainP) WHERE Implement_Collection.IC_ID = ' + iid + ')';
@@ -683,7 +683,92 @@ const router = app => {
     });
 
     app.delete('/collection/:u_name/item', (request, response) => {
-        //todo, remove item from collection
+        const id = request.body.itemID;
+        const type = request.body.type;
+        pool.query('select U_ID from user where U_Name = ?', request.params.u_name, (error, result) => {
+            const uid = result[0].U_ID;
+            if (type == "mechanicalPencil") {
+                pool.query('select IC_ID from user where U_ID = ?', uid, (error, result) => {
+                    const iid = result[0].IC_ID;
+                    pool.query('delete from IC_MP where IC_ID = ? AND MP_ID = ?', [iid, id], (error, result) => {
+                        if (error) throw error;
+                        response.send("Mechanical Pencil removed from collection.\n");
+                    });
+                });
+            }
+            else if (type == "woodPencil") {
+                pool.query('select IC_ID from user where U_ID = ?', uid, (error, result) => {
+                    const iid = result[0].IC_ID;
+                    pool.query('delete from IC_WP where IC_ID = ? AND WP_ID = ?', [iid, id], (error, result) => {
+                        if (error) throw error;
+                        response.send("Wood Pencil removed from collection.\n");
+                    });
+                });
+            }
+            else if (type == "cartridgePen") {
+                pool.query('select IC_ID from user where U_ID = ?', uid, (error, result) => {
+                    const iid = result[0].IC_ID;
+                    pool.query('delete from IC_CP where IC_ID = ? AND CP_ID = ?', [iid, id], (error, result) => {
+                        if (error) throw error;
+                        response.send("Cartridge Pen removed from collection.\n");
+                    });
+                });
+            }
+            else if (type == "fountainPen") {
+                pool.query('select IC_ID from user where U_ID = ?', uid, (error, result) => {
+                    const iid = result[0].IC_ID;
+                    pool.query('delete from IC_FP where IC_ID = ? AND FP_ID = ?', [iid, id], (error, result) => {
+                        if (error) throw error;
+                        response.send("Fountain Pen removed from collection.\n");
+                    });
+                });
+            }
+            else if (type == "lead") {
+                pool.query('select OC_ID from user where U_ID = ?', uid, (error, result) => {
+                    const oid = result[0].OC_ID;
+                    pool.query('delete from OC_L where OC_ID = ? AND L_ID = ?', [oid, id], (error, result) => {
+                        if (error) throw error;
+                        response.send("Lead removed from collection.\n");
+                    });
+                });
+            }
+            else if (type == "ink") {
+                pool.query('select OC_ID from user where U_ID = ?', uid, (error, result) => {
+                    const oid = result[0].OC_ID;
+                    pool.query('delete from OC_I where OC_ID = ? AND I_ID = ?', [oid, id], (error, result) => {
+                        if (error) throw error;
+                        response.send("Ink removed from collection.\n");
+                    });
+                });
+            }
+            else if (type == "utility") {
+                pool.query('select OC_ID from user where U_ID = ?', uid, (error, result) => {
+                    const oid = result[0].OC_ID;
+                    pool.query('delete from OC_U where OC_ID = ? AND U_ID = ?', [oid, id], (error, result) => {
+                        if (error) throw error;
+                        response.send("Utility removed from collection.\n");
+                    });
+                });
+            }
+            else if (type == "replacement") {
+                pool.query('select OC_ID from user where U_ID = ?', uid, (error, result) => {
+                    const oid = result[0].OC_ID;
+                    pool.query('delete from OC_R where OC_ID = ? AND R_ID = ?', [oid, id], (error, result) => {
+                        if (error) throw error;
+                        response.send("Replacement removed from collection.\n");
+                    });
+                });
+            }
+            else if (type == "penCartridge") {
+                pool.query('select OC_ID from user where U_ID = ?', uid, (error, result) => {
+                    const oid = result[0].OC_ID;
+                    pool.query('delete from OC_PC where OC_ID = ? AND PC_ID = ?', [oid, id], (error, result) => {
+                        if (error) throw error;
+                        response.send("Pen Cartridge removed from collection.\n");
+                    });
+                });
+            }
+        });
     });
     /*
 	    /collection/:u_name/item
@@ -699,12 +784,6 @@ const router = app => {
 			   stats: object
 				}
 
-		DELETE (Delete an item from user's collection)
-			desired input:
-				{
-					"itemId": int,
-					"type": string
-				}
      */
 
     // ************Mechanical P**********
