@@ -134,7 +134,6 @@ class Collection extends Component {
   loadFilteredCollection() {
     const path = '/collection/' + this.props.username;
     const url = base + ':' + port + path;
-    // axios.defaults.headers.common['Access-Control-Allow-Origin'] = 'value'
 
     return axios.get(url, {
       params: {
@@ -189,10 +188,10 @@ class Collection extends Component {
       // TODO DELETE item.
       // TODO after delete, GET items and send to item list.
       //
-      Deleting Item
-      const base = 'http://172.20.27.214:3002';
-      const path = '/collection/'+this.props.username+'/item';
-      return axios.delete(base + path, {
+      // Deleting Item
+      const path = '/collection/' + this.props.username + '/item';
+      const url = base + ':' + port + path;
+      return axios.delete(url, {
         params: {
           itemId: this.state.item.basicAtts.itemId,
           type: this.state.item.basicAtts.type
@@ -201,7 +200,7 @@ class Collection extends Component {
       .then(response => console.log(response));
 
       //Reloading
-      // this.loadFilteredCollection();
+      this.loadFilteredCollection();
 
       this.onCloseItem();
   }
