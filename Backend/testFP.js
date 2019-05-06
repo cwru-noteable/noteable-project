@@ -3,13 +3,13 @@ const request = require('request');
 const json = {
     "mechanicalPencils": true,
     "fountainPens": true,
-    "cartridgePens": false,
-    "woodPencils": false,
-    "lead": false,
+    "cartridgePens": true,
+    "woodPencils": true,
+    "lead": true,
     "replacements": true,
-    "ink": false,
+    "ink": true,
     "penCartridge": true,
-    "utility": false,
+    "utility": true,
 };
 
 request.get({

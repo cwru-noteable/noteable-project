@@ -457,6 +457,12 @@ const router = app => {
 
     // ************Collections**********
     app.get('/collection/:username', (request, response) => {
+        console.log("Params:");
+        console.log(request.params + "\n");
+        console.log("Body");
+        console.log(request.body + "\n");
+        console.log("Query");
+        console.log(request.query + "\n");
         var aggregate = [];
         pool.query('select U_ID from user where U_Name = ?', request.params.username, (error, result) => {
             const uid = result[0].U_ID;
@@ -464,142 +470,148 @@ const router = app => {
                 const iid = result[0].IC_ID;
                 const oid = result[0].OC_ID;
                 pool.query('SELECT * FROM (Implement_Collection natural join IC_FP natural join FountainP) WHERE Implement_Collection.IC_ID = ?', iid, (error, result) => {
-                    for (i = 0; i < result.length; i++) {
-                        result.map((item, i) => ({
+                    var frontend = result.map((item, i) => ({
+                        basicAtts: {
+                            itemName: item.FP_Name,
+                            itemId: item.FP_ID,
+                            manufacturer: item.FP_Manufacturer,
+                            type: "fountainPen",
+                            stats: {
+                                material: item.FP_Material,
+                                inkType: item.FP_Ink_Type,
+                            }
+                        }
+                    }));
+                    for (i = 0; i < frontend.length; i++) {
+                        if (request.body.fountainPens) aggregate.push(frontend[i]);
+
+                    }
+                    pool.query('SELECT * FROM (Implement_Collection natural join IC_CP natural join CartridgeP) WHERE Implement_Collection.IC_ID = ?', iid, (error, result) => {
+                        frontend = result.map((item, i) => ({
                             basicAtts: {
-                                itemName: item.FP_Name,
-                                itemId: item.FP_ID,
-                                manufacturer: item.FP_Manufacturer,
-                                type: "fountainPen",
+                                itemName: item.CP_Name,
+                                itemId: item.CP_ID,
+                                manufacturer: item.CP_Manufacturer,
+                                type: "cartridgePen",
                                 stats: {
-                                    material: item.FP_Material,
-                                    inkType: item.FP_Ink_Type,
+                                    material: item.CP_Material,
                                 }
                             }
                         }));
-                    }
-                    if (request.body.fountainPens) aggregate.push(result);
-                    pool.query('SELECT * FROM (Implement_Collection natural join IC_CP natural join CartridgeP) WHERE Implement_Collection.IC_ID = ?', iid, (error, result) => {
-                        for (i = 0; i < result.length; i++) {
-                            result.map((item, i) => ({
+                        for (i = 0; i < frontend.length; i++) {
+                           
+                            if (request.body.cartridgePens) aggregate.push(frontend[i]);
+                        }
+                        pool.query('SELECT * FROM (Implement_Collection natural join IC_MP natural join MechanicalP) WHERE Implement_Collection.IC_ID = ?', iid, (error, result) => {
+                            frontend = result.map((item, i) => ({
                                 basicAtts: {
-                                    itemName: item.CP_Name,
-                                    itemId: item.CP_ID,
-                                    manufacturer: item.CP_Manufacturer,
-                                    type: "cartridgePen",
+                                    itemName: item.MP_Name,
+                                    itemId: item.MP_ID,
+                                    manufacturer: item.MP_Manufacturer,
+                                    type: "mechanicalPencil",
                                     stats: {
-                                        material: item.CP_Material,
+                                        material: item.MP_Material,
+                                        leadSize: item.MP_Lead_Size,
                                     }
                                 }
                             }));
-                        }
-                        if (request.body.cartridgePens) aggregate.push(result);
-                        pool.query('SELECT * FROM (Implement_Collection natural join IC_MP natural join MechanicalP) WHERE Implement_Collection.IC_ID = ?', iid, (error, result) => {
-                            for (i = 0; i < result.length; i++) {
-                                result.map((item, i) => ({
+                            for (i = 0; i < frontend.length; i++) {
+                                if (request.body.mechanicalPencils) aggregate.push(frontend[i]);
+                            }
+                            pool.query('SELECT * FROM (Implement_Collection natural join IC_WP natural join WoodP) WHERE Implement_Collection.IC_ID = ?', iid, (error, result) => {
+                                frontend = result.map((item, i) => ({
                                     basicAtts: {
-                                        itemName: item.MP_Name,
-                                        itemId: item.MP_ID,
-                                        manufacturer: item.MP_Manufacturer,
-                                        type: "mechanicalPencil",
+                                        itemName: item.WP_Name,
+                                        itemId: item.WP_ID,
+                                        manufacturer: item.WP_Manufacturer,
+                                        type: "woodPencil",
                                         stats: {
-                                            material: item.MP_Material,
-                                            leadSize: item.MP_Lead_Size,
+                                            material: item.WP_Material,
                                         }
                                     }
                                 }));
-                            }
-                            if (request.body.mechanicalPencils) aggregate.push(result);
-                            pool.query('SELECT * FROM (Implement_Collection natural join IC_WP natural join WoodP) WHERE Implement_Collection.IC_ID = ?', iid, (error, result) => {
-                                for (i = 0; i < result.length; i++) {
-                                    result.map((item, i) => ({
+                                for (i = 0; i < frontend.length; i++) {
+                                    if (request.body.woodPencils) aggregate.push(frontend[i]);
+                                }
+                                pool.query('select * from (Other_Collection natural join OC_L natural join Lead) WHERE Other_Collection.OC_ID = ?', oid, (error, result) => {
+                                    frontend = result.map((item, i) => ({
                                         basicAtts: {
-                                            itemName: item.WP_Name,
-                                            itemId: item.WP_ID,
-                                            manufacturer: item.WP_Manufacturer,
-                                            type: "woodPencil",
+                                            itemName: item.L_Name,
+                                            itemId: item.L_ID,
+                                            manufacturer: item.L_Manufacturer,
+                                            type: "lead",
                                             stats: {
-                                                material: item.WP_Material,
+                                                size: item.L_Size,
                                             }
                                         }
                                     }));
-                                }
-                                if (request.body.woodPencils) aggregate.push(result);
-                                pool.query('select * from (Other_Collection natural join OC_L natural join Lead) WHERE Other_Collection.OC_ID = ?', oid, (error, result) => {
-                                    for (i = 0; i < result.length; i++) {
-                                        result.map((item, i) => ({
+                                    for (i = 0; i < frontend.length; i++) {
+                                        if (request.body.lead) aggregate.push(frontend[i]);
+                                    }
+                                    pool.query('select * from (Other_Collection natural join OC_I natural join Ink) where Other_Collection.OC_ID = ?', oid, (error, result) => {
+                                        frontend = result.map((item, i) => ({
                                             basicAtts: {
-                                                itemName: item.L_Name,
-                                                itemId: item.L_ID,
-                                                manufacturer: item.L_Manufacturer,
-                                                type: "lead",
+                                                itemName: item.I_Name,
+                                                itemId: item.I_ID,
+                                                manufacturer: item.I_Manufacturer,
+                                                type: "ink",
                                                 stats: {
-                                                    size: item.L_Size,
+                                                    color: item.I_Color,
                                                 }
                                             }
                                         }));
-                                    }
-                                    if (request.body.lead) aggregate.push(result);
-                                    pool.query('select * from (Other_Collection natural join OC_I natural join Ink) where Other_Collection.OC_ID = ?', oid, (error, result) => {
-                                        for (i = 0; i < result.length; i++) {
-                                            result.map((item, i) => ({
+                                        for (i = 0; i < frontend.length; i++) {
+                                            if (request.body.ink) aggregate.push(frontend[i]);
+                                        }
+                                        pool.query('select * from (Other_Collection natural join OC_R natural join Replacements) where Other_Collection.OC_ID = ?', oid, (error, result) => {
+                                            frontend = result.map((item, i) => ({
                                                 basicAtts: {
-                                                    itemName : item.I_Name,
-                                                    itemId: item.I_ID,
-                                                    manufacturer: item.I_Manufacturer,
-                                                    type: "ink",
+                                                    itemName: item.R_Name,
+                                                    itemId: item.R_ID,
+                                                    manufacturer: item.R_Manufacturer,
+                                                    type: "replacements",
                                                     stats: {
-                                                        color: item.I_Color,
+                                                        replacementType: item.R_Type,
                                                     }
                                                 }
                                             }));
-                                        }
-                                        if (request.body.ink) aggregate.push(result);
-                                        pool.query('select * from (Other_Collection natural join OC_R natural join Replacements) where Other_Collection.OC_ID = ?', oid, (error, result) => {
-                                            for (i = 0; i < result.length; i++) {
-                                                result.map((item, i) => ({
+                                            for (i = 0; i < frontend.length; i++) {
+                                                if (request.body.replacements) aggregate.push(frontend[i]);
+                                            }
+                                            pool.query('select * from (Other_Collection natural join OC_PC natural join Pen_Cartridge) where Other_Collection.OC_ID = ?', oid, (error, result) => {
+                                               frontend = result.map((item, i) => ({
                                                     basicAtts: {
-                                                        itemName : item.R_Name,
-                                                        itemId: item.R_ID,
-                                                        manufacturer: item.R_Manufacturer,
-                                                        type: "replacements",
+                                                        itemName: item.PC_Name,
+                                                        itemId: item.PC_ID,
+                                                        manufacturer: item.PC_Manufacturer,
+                                                        type: "penCartridge",
                                                         stats: {
-                                                            replacementType: item.R_Type,
+                                                            cartridgeType: item.PC_Type,
                                                         }
                                                     }
                                                 }));
-                                            }
-                                            if (request.body.replacements) aggregate.push(result);
-                                            pool.query('select * from (Other_Collection natural join OC_PC natural join Pen_Cartridge) where Other_Collection.OC_ID = ?', oid, (error, result) => {
-                                                for (i = 0; i < result.length; i++) {
-                                                    result.map((item, i) => ({
+                                                for (i = 0; i < frontend.length; i++) {
+                                                    if (request.body.penCartridge) aggregate.push(frontend[i]);
+                                                }
+                                                pool.query('select * from (Other_Collection natural join OC_U natural join Utility) where Other_Collection.OC_ID = ?', oid, (error, result) => {
+                                                    frontend = result.map((item, i) => ({
                                                         basicAtts: {
-                                                            itemName : item.PC_Name,
-                                                            itemId: item.PC_ID,
-                                                            manufacturer: item.PC_Manufacturer,
-                                                            type: "penCartridge",
+                                                            itemName: item.U_Name,
+                                                            itemId: item.U_ID,
+                                                            manufacturer: item.U_Manufacturer,
+                                                            type: "utility",
                                                             stats: {
-                                                                cartridgeType: item.PC_Type,
+                                                                utilityType: item.U_Type,
                                                             }
                                                         }
                                                     }));
-                                                }
-                                                if (request.body.penCartridge) aggregate.push(result);
-                                                pool.query('select * from (Other_Collection natural join OC_U natural join Utility) where Other_Collection.OC_ID = ?', oid, (error, result) => {
-                                                    for (i = 0; i < result.length; i++) {
-                                                        result.map((item, i) => ({
-                                                            basicAtts: {
-                                                                itemName : item.U_Name,
-                                                                itemId: item.U_ID,
-                                                                manufacturer: item.U_Manufacturer,
-                                                                type: "utility",
-                                                                stats: {
-                                                                    utilityType: item.U_Type,
-                                                                }
-                                                            }
-                                                        }));
+                                                    if (request.body.utility) {
+                                                        for (i = 0; i < frontend.length; i++) {
+                                                            aggregate.push(frontend[i]);
+                                                        }
                                                     }
-                                                    if (request.body.utility) aggregate.push(result);
+                                                    if (error) throw error;
+                                                    response.send(aggregate);
                                                 });
                                             });
                                         });
@@ -609,8 +621,6 @@ const router = app => {
                         });
                     });
                 });
-                if (error) throw error;
-                response.send(aggregate);
             });
         });
     });
