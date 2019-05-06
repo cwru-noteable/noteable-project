@@ -23,9 +23,10 @@ const router = app => {
     // add a user [COMPLETE]
     app.post('/users', (request, response) => {
         try {
-            pool.query('SELECT U_Name FROM user WHERE U_Name = ?', request.body.username, (error, response) => {
+            pool.query('SELECT U_Name FROM user WHERE U_Name = ?', request.body.username, (error, result) => {
                 if (error) throw error;
-                response.send(response);
+                if (result == []) throw error;
+                response.send(result);
             });
         }
         catch (err){
