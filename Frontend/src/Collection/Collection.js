@@ -134,7 +134,7 @@ class Collection extends Component {
   loadFilteredCollection() {
     const path = '/collection/' + this.props.username;
     const url = base + ':' + port + path;
-
+    console.debug('GET filtered collection for',this.props.username);
     return axios.get(url, {
       params: {
         "mechanicalPencils": this.state.mechanicalPencils,
@@ -191,6 +191,7 @@ class Collection extends Component {
       // Deleting Item
       const path = '/collection/' + this.props.username + '/item';
       const url = base + ':' + port + path;
+      console.debug('DELETE item',this.state.item.basicAtts.itemId,'of type',this.state.item.basicAtts.type);
       return axios.delete(url, {
         params: {
           itemId: this.state.item.basicAtts.itemId,
@@ -209,6 +210,7 @@ class Collection extends Component {
     // TODO UPDATE with info.
     // axios.
 
+    console.debug('PUT item',this.state.newItem);
     const path = '/gallery';
     const url = base + ':' + port + path;
     return axios.put(url, this.state.newItem)
@@ -230,6 +232,7 @@ class Collection extends Component {
 
     const path = '/collection/' + this.props.username + '/item';
     const url = base + ':' + port + path;
+    console.debug('POST item',this.state.newItem);
     return axios.post(url, this.state.newItem)
     .then(response => console.log(response));
 
