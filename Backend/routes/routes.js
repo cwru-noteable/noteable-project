@@ -680,6 +680,76 @@ const router = app => {
 
     app.post('/collection/:u_name/item', (request, response) => {
         //todo, create item and add immediately (see npp)
+        const name = request.body.basicAtts.itemName;
+        const type = request.body.basicAtts.type;
+        const manufacturer = request.body.basicAtts.manufacturer;
+        pool.query('select U_ID from user where U_Name = ?', request.params.u_name, (error, result) => {
+            const uid = result[0].U_ID;
+            if (type == "mechanicalPencil") {
+                const material = request.body.stats.material;
+                const size = request.body.stats.leadSize;
+                pool.query('select IC_ID from user where U_ID = ?', uid, (error, result) => {
+                    const iid = result[0].IC_ID;
+                    pool.query('SELECT * FROM(SELECT MP_ID FROM MechanicalP ORDER BY MP_ID DESC) AS A LIMIT 1', (error, result) => {
+                        const id = result[0].MP_ID + 1;
+                        pool.query('insert into MechanicalP (MP_ID, MP_Name, MP_Manufacturer, MP_Material, MP_Size) values (?, ?, ?, ?, ?)', [id, name, manufacturer, material, size], (error, result) => {
+                            pool.query('insert into IC_MP (IC_ID, MP_ID) values (?, ?)', [iid, id], (error, result) => {
+                                if (error) throw error;
+                                response.send("Mechanical Pencil created and added!\n");
+                            });
+                        });
+                    });
+                });
+            }
+            else if (type == "woodPencil") {
+                pool.query('select IC_ID from user where U_ID = ?', uid, (error, result) => {
+                    const iid = result[0].IC_ID;
+
+                });
+            }
+            else if (type == "cartridgePen") {
+                pool.query('select IC_ID from user where U_ID = ?', uid, (error, result) => {
+                    const iid = result[0].IC_ID;
+
+                });
+            }
+            else if (type == "fountainPen") {
+                pool.query('select IC_ID from user where U_ID = ?', uid, (error, result) => {
+                    const iid = result[0].IC_ID;
+
+                });
+            }
+            else if (type == "lead") {
+                pool.query('select OC_ID from user where U_ID = ?', uid, (error, result) => {
+                    const oid = result[0].OC_ID;
+
+                });
+            }
+            else if (type == "ink") {
+                pool.query('select OC_ID from user where U_ID = ?', uid, (error, result) => {
+                    const oid = result[0].OC_ID;
+
+                });
+            }
+            else if (type == "utility") {
+                pool.query('select OC_ID from user where U_ID = ?', uid, (error, result) => {
+                    const oid = result[0].OC_ID;
+
+                });
+            }
+            else if (type == "replacement") {
+                pool.query('select OC_ID from user where U_ID = ?', uid, (error, result) => {
+                    const oid = result[0].OC_ID;
+
+                });
+            }
+            else if (type == "penCartridge") {
+                pool.query('select OC_ID from user where U_ID = ?', uid, (error, result) => {
+                    const oid = result[0].OC_ID;
+
+                });
+            }            
+        });
     });
 
     app.delete('/collection/:u_name/item', (request, response) => {
@@ -784,7 +854,7 @@ const router = app => {
 			   stats: object
 				}
 
-     */
+;.     */
 
     // ************Mechanical P**********
     //list all Mechanical Pencils [COMPLETE]
