@@ -282,7 +282,6 @@ const router = app => {
 
     // ************GALLERY**********
     app.get('/gallery', (request, response) => {
-        
         pool.query('SELECT * FROM (Implement_Collection natural join IC_FP natural join FountainP)', (error, result) => {
             var frontend = result.map((item, i) => ({
                 basicAtts: {
@@ -297,7 +296,7 @@ const router = app => {
                 }
             }));
             for (i = 0; i < frontend.length; i++) {
-                if (request.query.fountainPens) aggregate.push(frontend[i]);
+                if (request.query.fountainPens == 'true') aggregate.push(frontend[i]);
 
             }
             pool.query('SELECT * FROM (Implement_Collection natural join IC_CP natural join CartridgeP)', (error, result) => {
@@ -314,7 +313,7 @@ const router = app => {
                 }));
                 for (i = 0; i < frontend.length; i++) {
                            
-                    if (request.query.cartridgePens) aggregate.push(frontend[i]);
+                    if (request.query.cartridgePens == 'true') aggregate.push(frontend[i]);
                 }
                 pool.query('SELECT * FROM (Implement_Collection natural join IC_MP natural join MechanicalP)', (error, result) => {
                     frontend = result.map((item, i) => ({
@@ -330,7 +329,7 @@ const router = app => {
                         }
                     }));
                     for (i = 0; i < frontend.length; i++) {
-                        if (request.query.mechanicalPencils) aggregate.push(frontend[i]);
+                        if (request.query.mechanicalPencils == 'true') aggregate.push(frontend[i]);
                     }
                     pool.query('SELECT * FROM (Implement_Collection natural join IC_WP natural join WoodP)', (error, result) => {
                         frontend = result.map((item, i) => ({
@@ -345,7 +344,7 @@ const router = app => {
                             }
                         }));
                         for (i = 0; i < frontend.length; i++) {
-                            if (request.query.woodPencils) aggregate.push(frontend[i]);
+                            if (request.query.woodPencils == 'true') aggregate.push(frontend[i]);
                         }
                         pool.query('select * from (Other_Collection natural join OC_L natural join Lead) WHERE Other_Collection.OC_ID = ?', oid, (error, result) => {
                             frontend = result.map((item, i) => ({
@@ -360,7 +359,7 @@ const router = app => {
                                 }
                             }));
                             for (i = 0; i < frontend.length; i++) {
-                                if (request.query.lead) aggregate.push(frontend[i]);
+                                if (request.query.lead == 'true') aggregate.push(frontend[i]);
                             }
                             pool.query('select * from (Other_Collection natural join OC_I natural join Ink)', (error, result) => {
                                 frontend = result.map((item, i) => ({
@@ -375,7 +374,7 @@ const router = app => {
                                     }
                                 }));
                                 for (i = 0; i < frontend.length; i++) {
-                                    if (request.query.ink) aggregate.push(frontend[i]);
+                                    if (request.query.ink == 'true') aggregate.push(frontend[i]);
                                 }
                                 pool.query('select * from (Other_Collection natural join OC_R natural join Replacements)', (error, result) => {
                                     frontend = result.map((item, i) => ({
@@ -390,7 +389,7 @@ const router = app => {
                                         }
                                     }));
                                     for (i = 0; i < frontend.length; i++) {
-                                        if (request.query.replacements) aggregate.push(frontend[i]);
+                                        if (request.query.replacements == 'true') aggregate.push(frontend[i]);
                                     }
                                     pool.query('select * from (Other_Collection natural join OC_PC natural join Pen_Cartridge)', (error, result) => {
                                         frontend = result.map((item, i) => ({
@@ -405,7 +404,7 @@ const router = app => {
                                             }
                                         }));
                                         for (i = 0; i < frontend.length; i++) {
-                                            if (request.query.penCartridge) aggregate.push(frontend[i]);
+                                            if (request.query.penCartridge == 'true') aggregate.push(frontend[i]);
                                         }
                                         pool.query('select * from (Other_Collection natural join OC_U natural join Utility) where Other_Collection.OC_ID = ?', oid, (error, result) => {
                                             frontend = result.map((item, i) => ({
@@ -419,7 +418,7 @@ const router = app => {
                                                     }
                                                 }
                                             }));
-                                            if (request.query.utility) {
+                                            if (request.query.utility == 'true') {
                                                 for (i = 0; i < frontend.length; i++) {
                                                     aggregate.push(frontend[i]);
                                                 }
@@ -438,7 +437,6 @@ const router = app => {
                 });
             });
         });
-        //TO BE DONE (takes the same boolean from specific users)
     });
 
     app.post('/gallery', (request, response) => {
@@ -613,12 +611,12 @@ const router = app => {
 
     // ************Collections**********
     app.get('/collection/:username', (request, response) => {
-        console.log("Params:");
+        /*console.log("Params:");
         console.log(request.params);
         console.log();
         console.log("Body");
         console.log(request.body);
-        console.log();
+        console.log();*/
         console.log("Query");
         console.log(request.query);
         console.log();
@@ -635,14 +633,14 @@ const router = app => {
                             itemId: item.FP_ID,
                             manufacturer: item.FP_Manufacturer,
                             type: "fountainPen",
-                            stats: {
-                                material: item.FP_Material,
-                                inkType: item.FP_Ink_Type,
-                            }
+                        },
+                        stats: {
+                            material: item.FP_Material,
+                            inkType: item.FP_Ink_Type,
                         }
                     }));
                     for (i = 0; i < frontend.length; i++) {
-                        if (request.query.fountainPens) aggregate.push(frontend[i]);
+                        if (request.query.fountainPens == 'true') aggregate.push(frontend[i]);
 
                     }
                     pool.query('SELECT * FROM (Implement_Collection natural join IC_CP natural join CartridgeP) WHERE Implement_Collection.IC_ID = ?', iid, (error, result) => {
@@ -652,14 +650,13 @@ const router = app => {
                                 itemId: item.CP_ID,
                                 manufacturer: item.CP_Manufacturer,
                                 type: "cartridgePen",
-                                stats: {
-                                    material: item.CP_Material,
-                                }
+                            },
+                            stats: {
+                                material: item.CP_Material,
                             }
                         }));
                         for (i = 0; i < frontend.length; i++) {
-                           
-                            if (request.query.cartridgePens) aggregate.push(frontend[i]);
+                            if (request.query.cartridgePens == 'true') aggregate.push(frontend[i]);
                         }
                         pool.query('SELECT * FROM (Implement_Collection natural join IC_MP natural join MechanicalP) WHERE Implement_Collection.IC_ID = ?', iid, (error, result) => {
                             frontend = result.map((item, i) => ({
@@ -668,14 +665,14 @@ const router = app => {
                                     itemId: item.MP_ID,
                                     manufacturer: item.MP_Manufacturer,
                                     type: "mechanicalPencil",
-                                    stats: {
-                                        material: item.MP_Material,
-                                        leadSize: item.MP_Lead_Size,
-                                    }
+                                },
+                                stats: {
+                                    material: item.MP_Material,
+                                    leadSize: item.MP_Lead_Size,
                                 }
                             }));
                             for (i = 0; i < frontend.length; i++) {
-                                if (request.query.mechanicalPencils) aggregate.push(frontend[i]);
+                                if (request.query.mechanicalPencils == 'true') aggregate.push(frontend[i]);
                             }
                             pool.query('SELECT * FROM (Implement_Collection natural join IC_WP natural join WoodP) WHERE Implement_Collection.IC_ID = ?', iid, (error, result) => {
                                 frontend = result.map((item, i) => ({
@@ -684,13 +681,13 @@ const router = app => {
                                         itemId: item.WP_ID,
                                         manufacturer: item.WP_Manufacturer,
                                         type: "woodPencil",
-                                        stats: {
-                                            material: item.WP_Material,
-                                        }
+                                    },
+                                    stats: {
+                                        material: item.WP_Material,
                                     }
                                 }));
                                 for (i = 0; i < frontend.length; i++) {
-                                    if (request.query.woodPencils) aggregate.push(frontend[i]);
+                                    if (request.query.woodPencils == 'true') aggregate.push(frontend[i]);
                                 }
                                 pool.query('select * from (Other_Collection natural join OC_L natural join Lead) WHERE Other_Collection.OC_ID = ?', oid, (error, result) => {
                                     frontend = result.map((item, i) => ({
@@ -699,13 +696,13 @@ const router = app => {
                                             itemId: item.L_ID,
                                             manufacturer: item.L_Manufacturer,
                                             type: "lead",
-                                            stats: {
-                                                size: item.L_Size,
-                                            }
+                                        },
+                                        stats: {
+                                            size: item.L_Size,
                                         }
                                     }));
                                     for (i = 0; i < frontend.length; i++) {
-                                        if (request.query.lead) aggregate.push(frontend[i]);
+                                        if (request.query.lead == 'true') aggregate.push(frontend[i]);
                                     }
                                     pool.query('select * from (Other_Collection natural join OC_I natural join Ink) where Other_Collection.OC_ID = ?', oid, (error, result) => {
                                         frontend = result.map((item, i) => ({
@@ -714,13 +711,13 @@ const router = app => {
                                                 itemId: item.I_ID,
                                                 manufacturer: item.I_Manufacturer,
                                                 type: "ink",
-                                                stats: {
-                                                    color: item.I_Color,
-                                                }
+                                            },
+                                            stats: {
+                                                color: item.I_Color,
                                             }
                                         }));
                                         for (i = 0; i < frontend.length; i++) {
-                                            if (request.query.ink) aggregate.push(frontend[i]);
+                                            if (request.query.ink == 'true') aggregate.push(frontend[i]);
                                         }
                                         pool.query('select * from (Other_Collection natural join OC_R natural join Replacements) where Other_Collection.OC_ID = ?', oid, (error, result) => {
                                             frontend = result.map((item, i) => ({
@@ -729,28 +726,28 @@ const router = app => {
                                                     itemId: item.R_ID,
                                                     manufacturer: item.R_Manufacturer,
                                                     type: "replacements",
-                                                    stats: {
-                                                        replacementType: item.R_Type,
-                                                    }
+                                                },
+                                                stats: {
+                                                    replacementType: item.R_Type,
                                                 }
                                             }));
                                             for (i = 0; i < frontend.length; i++) {
-                                                if (request.query.replacements) aggregate.push(frontend[i]);
+                                                if (request.query.replacements == 'true') aggregate.push(frontend[i]);
                                             }
                                             pool.query('select * from (Other_Collection natural join OC_PC natural join Pen_Cartridge) where Other_Collection.OC_ID = ?', oid, (error, result) => {
                                                frontend = result.map((item, i) => ({
-                                                    basicAtts: {
-                                                        itemName: item.PC_Name,
-                                                        itemId: item.PC_ID,
-                                                        manufacturer: item.PC_Manufacturer,
-                                                        type: "penCartridge",
-                                                        stats: {
-                                                            cartridgeType: item.PC_Type,
-                                                        }
+                                                   basicAtts: {
+                                                       itemName: item.PC_Name,
+                                                       itemId: item.PC_ID,
+                                                       manufacturer: item.PC_Manufacturer,
+                                                       type: "penCartridge",
+                                                   },
+                                                    stats: {
+                                                        cartridgeType: item.PC_Type,
                                                     }
                                                 }));
                                                 for (i = 0; i < frontend.length; i++) {
-                                                    if (request.query.penCartridge) aggregate.push(frontend[i]);
+                                                    if (request.query.penCartridge == 'true') aggregate.push(frontend[i]);
                                                 }
                                                 pool.query('select * from (Other_Collection natural join OC_U natural join Utility) where Other_Collection.OC_ID = ?', oid, (error, result) => {
                                                     frontend = result.map((item, i) => ({
@@ -759,12 +756,12 @@ const router = app => {
                                                             itemId: item.U_ID,
                                                             manufacturer: item.U_Manufacturer,
                                                             type: "utility",
-                                                            stats: {
-                                                                utilityType: item.U_Type,
-                                                            }
+                                                        },
+                                                        stats: {
+                                                            utilityType: item.U_Type,
                                                         }
                                                     }));
-                                                    if (request.query.utility) {
+                                                    if (request.query.utility == 'true') {
                                                         for (i = 0; i < frontend.length; i++) {
                                                             aggregate.push(frontend[i]);
                                                         }
