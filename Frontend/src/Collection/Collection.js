@@ -15,6 +15,10 @@ import {
   Redirect
 } from "react-router-dom";
 
+
+const port = '3002';
+const base = 'http://localhost';
+
 class Collection extends Component {
   constructor(props) {
     super(props);
@@ -132,22 +136,22 @@ class Collection extends Component {
   }
 
   loadFilteredCollection() {
-    const port = '3002';
-    const base = 'http://localhost';
     const path = '/collection/' + this.props.username;
     const url = base + ':' + port + path;
     // axios.defaults.headers.common['Access-Control-Allow-Origin'] = 'value'
 
     return axios.get(url, {
-      mechanicalPencils : this.state.mechanicalPencils,
-      fountainPens : this.state.fountainPens,
-      cartridgePens : this.state.cartridgePens,
-      woodPencils : this.state.woodPencils,
-      lead : this.state.lead,
-      replacements : this.state.replacements,
-      ink : this.state.ink,
-      penCartridge : this.state.penCartridge,
-      utility : this.state.utility,
+      params: {
+        "mechanicalPencils": this.state.mechanicalPencils,
+        "fountainPens" : this.state.fountainPens,
+        "cartridgePens" : this.state.cartridgePens,
+        "woodPencils" : this.state.woodPencils,
+        "lead" : this.state.lead,
+        "replacements" : this.state.replacements,
+        "ink" : this.state.ink,
+        "penCartridge" : this.state.penCartridge,
+        "utility" : this.state.utility,
+      }
     })
     .then(response => console.log(response));
   }
@@ -225,10 +229,10 @@ class Collection extends Component {
   onSaveNewItem() {
     //TODO POST with item info.
 
-    // const base = 'http://172.20.27.214:3002';
-    // const path = '/collection/'+this.props.username+'/item';
-    // return axios.put(base + path, newItem)
-    // .then(response => console.log(response));
+    const path = '/collection/' + this.props.username + '/item';
+    const url = base + ':' + port + path;
+    return axios.post(url, this.state.newItem)
+    .then(response => console.log(response));
 
     this.setState({
       addingNewItem: false,
