@@ -458,11 +458,14 @@ const router = app => {
     // ************Collections**********
     app.get('/collection/:username', (request, response) => {
         console.log("Params:");
-        console.log(request.params + "\n");
+        console.log(request.params);
+        console.log();
         console.log("Body");
-        console.log(request.body + "\n");
+        console.log(request.body);
+        console.log();
         console.log("Query");
-        console.log(request.query + "\n");
+        console.log(request.query);
+        console.log();
         var aggregate = [];
         pool.query('select U_ID from user where U_Name = ?', request.params.username, (error, result) => {
             const uid = result[0].U_ID;
@@ -611,6 +614,9 @@ const router = app => {
                                                         }
                                                     }
                                                     if (error) throw error;
+                                                    console.log("Aggregate result");
+                                                    console.log(aggregate);
+                                                    console.log();
                                                     response.send(aggregate);
                                                 });
                                             });
@@ -797,7 +803,7 @@ const router = app => {
                     const iid = result[0].IC_ID;
                     pool.query('SELECT * FROM(SELECT MP_ID FROM MechanicalP ORDER BY MP_ID DESC) AS A LIMIT 1', (error, result) => {
                         const id = result[0].MP_ID + 1;
-                        pool.query('insert into MechanicalP (MP_ID, MP_Name, MP_Manufacturer, MP_Material, MP_Size) values (?, ?, ?, ?, ?)', [id, name, manufacturer, material, size], (error, result) => {
+                        pool.query('insert into MechanicalP (MP_ID, MP_Name, MP_Manufacturer, MP_Material, MP_Lead_Size) values (?, ?, ?, ?, ?)', [id, name, manufacturer, material, size], (error, result) => {
                             pool.query('insert into IC_MP (IC_ID, MP_ID) values (?, ?)', [iid, id], (error, result) => {
                                 if (error) throw error;
                                 response.send("Mechanical Pencil created and added!\n");
