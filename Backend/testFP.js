@@ -13,7 +13,7 @@ const json = {
 };
 
 request.get({
-    url: 'http://localhost:3002/collections/Zubair',
+    url: 'http://localhost:3002/collection/Zubair',
     body: json,
     json: true,
 }, function (error, response, body) {
