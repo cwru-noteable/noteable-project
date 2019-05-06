@@ -11,7 +11,7 @@ class CollectionAddItemView extends Component {
       basicAtts: {
         itemName: '',
         manufacturer: '',
-        type: ''
+        type: 'mechanicalPencil'
       },
       stats: {}
     };
@@ -28,42 +28,44 @@ class CollectionAddItemView extends Component {
 
   render() {
     return (
-      <form onSubmit={this.onSaveNewItem}>
+      <div>
         <div className="leftDiv">
-          <input type='submit' value='Add'/>
+          <button onClick={this.onSaveNewItem}>Add</button>
         </div>
-        <div className='rightDiv'>
-          <div className="leftDiv">
-            <h2>Name:<input type='text'
-              name={'itemName'}
-              value={this.state.basicAtts.itemName}
-              onChange={this.onInputChangeEvent}/></h2>
-            <h3>Manufacturer:<input type='text'
-              name={'manufacturer'}
-              value={this.state.basicAtts.manufacturer}
-              onChange={this.onInputChangeEvent}/></h3>
+        <form>
+          <div className='rightDiv'>
+            <div className="leftDiv">
+              <h2>Name:<input type='text'
+                name={'itemName'}
+                value={this.state.basicAtts.itemName}
+                onChange={this.onInputChangeEvent}/></h2>
+              <h3>Manufacturer:<input type='text'
+                name={'manufacturer'}
+                value={this.state.basicAtts.manufacturer}
+                onChange={this.onInputChangeEvent}/></h3>
 
-            <h3>Type:</h3>
-            <select value={this.state.basicAtts.type} onChange={this.onDropdownChange}>
-              <option value="mechanicalPencil">mechanicalPencil</option>
-              <option value="fountainPen">fountainPen</option>
-              <option value="cartridgePen">cartridgePen</option>
-              <option value="woodPencil">woodPencil</option>
-              <option value="lead">lead</option>
-              <option value="replacement">replacement</option>
-              <option value="ink">ink</option>
-              <option value="penCartridge">penCartridge</option>
-              <option value="utility">utility</option>
-            </select>
+              <h3>Type:</h3>
+              <select value={this.state.basicAtts.type} onChange={this.onDropdownChange}>
+                <option value="mechanicalPencil">mechanicalPencil</option>
+                <option value="fountainPen">fountainPen</option>
+                <option value="cartridgePen">cartridgePen</option>
+                <option value="woodPencil">woodPencil</option>
+                <option value="lead">lead</option>
+                <option value="replacement">replacement</option>
+                <option value="ink">ink</option>
+                <option value="penCartridge">penCartridge</option>
+                <option value="utility">utility</option>
+              </select>
 
-            <CollectionAddItemContainer onInputChange={this.onInputChange} type={this.state.basicAtts.type}/>
+              <CollectionAddItemContainer onInputChange={this.onInputChange} type={this.state.basicAtts.type}/>
 
+            </div>
+            <div className="rightDiv">
+              <button onClick={this.onCancelAddItem}>Cancel</button>
+            </div>
           </div>
-          <div className="rightDiv">
-            <button onClick={this.onCancelAddItem}>Cancel</button>
-          </div>
-        </div>
-      </form>
+        </form>
+      </div>
     );
   }
 

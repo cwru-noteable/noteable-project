@@ -15,10 +15,15 @@ import {
   Redirect
 } from "react-router-dom";
 
+
+const port = '3002';
+const base = 'http://localhost';
+
 class Collection extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      init: false,
       item: {
         basicAtts: {
           itemId: 0,
@@ -77,9 +82,11 @@ class Collection extends Component {
   }
 
   render() {
-    //TODO: GET list of items.
-    this.loadFilteredCollection();
 
+    if (!this.state.init) {
+      this.setState({init: true}, () => this.loadFilteredCollection());
+    }
+    //TODO: GET list of items.
     return (
       <div className='container'>
         <div className = 'collectionViewDiv'>
@@ -132,24 +139,26 @@ class Collection extends Component {
   }
 
   loadFilteredCollection() {
-    const port = '3002';
-    const base = 'http://localhost';
     const path = '/collection/' + this.props.username;
     const url = base + ':' + port + path;
     // axios.defaults.headers.common['Access-Control-Allow-Origin'] = 'value'
 
     return axios.get(url, {
-      mechanicalPencils : this.state.mechanicalPencils,
-      fountainPens : this.state.fountainPens,
-      cartridgePens : this.state.cartridgePens,
-      woodPencils : this.state.woodPencils,
-      lead : this.state.lead,
-      replacements : this.state.replacements,
-      ink : this.state.ink,
-      penCartridge : this.state.penCartridge,
-      utility : this.state.utility,
+      params: {
+        "mechanicalPencils": this.state.mechanicalPencils,
+        "fountainPens" : this.state.fountainPens,
+        "cartridgePens" : this.state.cartridgePens,
+        "woodPencils" : this.state.woodPencils,
+        "lead" : this.state.lead,
+        "replacements" : this.state.replacements,
+        "ink" : this.state.ink,
+        "penCartridge" : this.state.penCartridge,
+        "utility" : this.state.utility,
+      }
     })
-    .then(response => console.log(response));
+    .then(response => this.setState({
+      items: response.data
+    }));
   }
 
   onAddNewItem() {
@@ -206,10 +215,10 @@ class Collection extends Component {
     // TODO UPDATE with info.
     // axios.
 
-    // const base = 'http://172.20.27.214:3002';
-    // const path = '/users/'+id+'/collection';
-    // return axios.put(base + path, this.state.newItem)
-    // .then(response => console.log(response));
+    const path = '/gallery';
+    const url = base + ':' + port + path;
+    return axios.put(url, this.state.newItem)
+    .then(response => console.log(response));
 
     this.setState({
       itemEditing: false,
@@ -225,10 +234,10 @@ class Collection extends Component {
   onSaveNewItem() {
     //TODO POST with item info.
 
-    // const base = 'http://172.20.27.214:3002';
-    // const path = '/collection/'+this.props.username+'/item';
-    // return axios.put(base + path, newItem)
-    // .then(response => console.log(response));
+    const path = '/collection/' + this.props.username + '/item';
+    const url = base + ':' + port + path;
+    return axios.post(url, this.state.newItem)
+    .then(response => console.log(response));
 
     this.setState({
       addingNewItem: false,

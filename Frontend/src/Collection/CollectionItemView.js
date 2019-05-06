@@ -44,37 +44,39 @@ class CollectionItemView extends Component {
     }
     else {
       return (
-        <form onSubmit={this.onSaveItem}>
+        <div>
           <div className="leftDiv">
-            <input type='submit' value='Save'/>
+            <button onClick={this.onSaveItem}>Save</button>
           </div>
-          <div className='rightDiv'>
-            <div className="leftDiv">
-              <h1>Name:</h1>
-              <input
-                type='text'
-                name={'itemName'}
-                value={this.props.newItem.basicAtts.itemName}
-                onChange={this.onInputChangeEvent}/>
-              <h2>ID: {this.props.newItem.basicAtts.itemId}</h2>
-              <h2>Type: {this.props.newItem.basicAtts.type}</h2>
-              <h2>Manufacturer:</h2>
-              <input
-                type='text'
-                name={'manufacturer'}
-                value={this.props.newItem.basicAtts.manufacturer}
-                onChange={this.onInputChangeEvent}/>
-              <CollectionEditItemStatsContainer
-                type={this.props.newItem.basicAtts.type}
-                stats={this.props.newItem.stats}
-                onInputChange={this.onInputChange}
-              />
+          <form>
+            <div className='rightDiv'>
+              <div className="leftDiv">
+                <h1>Name:</h1>
+                <input
+                  type='text'
+                  name={'itemName'}
+                  value={this.props.newItem.basicAtts.itemName}
+                  onChange={this.onInputChangeEvent}/>
+                <h2>ID: {this.props.newItem.basicAtts.itemId}</h2>
+                <h2>Type: {this.props.newItem.basicAtts.type}</h2>
+                <h2>Manufacturer:</h2>
+                <input
+                  type='text'
+                  name={'manufacturer'}
+                  value={this.props.newItem.basicAtts.manufacturer}
+                  onChange={this.onInputChangeEvent}/>
+                <CollectionEditItemStatsContainer
+                  type={this.props.newItem.basicAtts.type}
+                  stats={this.props.newItem.stats}
+                  onInputChange={this.onInputChange}
+                />
+              </div>
+              <div className="rightDiv">
+                <button onClick={this.onCloseItem}>Close</button>
+              </div>
             </div>
-            <div className="rightDiv">
-              <button onClick={this.onCloseItem}>Close</button>
-            </div>
-          </div>
-        </form>
+          </form>
+        </div>
       );
     }
 
