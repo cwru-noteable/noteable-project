@@ -702,50 +702,126 @@ const router = app => {
                 });
             }
             else if (type == "woodPencil") {
+                const material = request.body.stats.material;
                 pool.query('select IC_ID from user where U_ID = ?', uid, (error, result) => {
                     const iid = result[0].IC_ID;
-
+                    pool.query('SELECT * FROM(SELECT WP_ID FROM WoodP ORDER BY WP_ID DESC) AS A LIMIT 1', (error, result) => {
+                        const id = result[0].WP_ID + 1;
+                        pool.query('insert into WoodP (WP_ID, WP_Name, WP_Manufacturer, WP_Material) values (?, ?, ?, ?)', [id, name, manufacturer, material], (error, result) => {
+                            pool.query('insert into IC_WP (IC_ID, WP_ID) values (?, ?)', [iid, id], (error, result) => {
+                                if (error) throw error;
+                                response.send("Wood Pencil created and added!\n");
+                            });
+                        });
+                    });
                 });
             }
             else if (type == "cartridgePen") {
+                const material = request.body.stats.material;
                 pool.query('select IC_ID from user where U_ID = ?', uid, (error, result) => {
                     const iid = result[0].IC_ID;
+                    pool.query('SELECT * FROM(SELECT CP_ID FROM CartridgeP ORDER BY CP_ID DESC) AS A LIMIT 1', (error, result) => {
+                        const id = result[0].CP_ID + 1;
+                        pool.query('insert into CartridgeP (CP_ID, CP_Name, CP_Manufacturer, CP_Material) values (?, ?, ?, ?)', [id, name, manufacturer, material], (error, result) => {
+                            pool.query('insert into IC_CP (IC_ID, CP_ID) values (?, ?)', [iid, id], (error, result) => {
+                                if (error) throw error;
+                                response.send("Cartridge Pen created and added!\n");
+                            });
+                        });
+                    });
 
                 });
             }
             else if (type == "fountainPen") {
+                const material = request.body.stats.material;
+                const inktype = request.body.stats.inkType;
                 pool.query('select IC_ID from user where U_ID = ?', uid, (error, result) => {
                     const iid = result[0].IC_ID;
-
+                    pool.query('SELECT * FROM(SELECT FP_ID FROM FountainP ORDER BY FP_ID DESC) AS A LIMIT 1', (error, result) => {
+                        const id = result[0].FP_ID + 1;
+                        pool.query('insert into FountainP (FP_ID, FP_Name, FP_Manufacturer, FP_Material, FP_Ink_Type) values (?, ?, ?, ?, ?)', [id, name, manufacturer, material, inktype], (error, result) => {
+                            pool.query('insert into IC_FP (IC_ID, FP_ID) values (?, ?)', [iid, id], (error, result) => {
+                                if (error) throw error;
+                                response.send("Fountain Pen created and added!\n");
+                            });
+                        });
+                    });
                 });
             }
             else if (type == "lead") {
+                const size = request.body.stats.leadSize;
                 pool.query('select OC_ID from user where U_ID = ?', uid, (error, result) => {
                     const oid = result[0].OC_ID;
-
+                    pool.query('SELECT * FROM(SELECT L_ID FROM Lead ORDER BY L_ID DESC) AS A LIMIT 1', (error, result) => {
+                        const id = result[0].L_ID + 1;
+                        pool.query('insert into Lead (L_ID, L_Name, L_Manufacturer, L_Size) values (?, ?, ?, ?)', [id, name, manufacturer, size], (error, result) => {
+                            pool.query('insert into OC_L (OC_ID, L_ID) values (?, ?)', [oid, id], (error, result) => {
+                                if (error) throw error;
+                                response.send("Lead created and added!\n");
+                            });
+                        });
+                    });
                 });
             }
             else if (type == "ink") {
+                const color = request.body.stats.color;
                 pool.query('select OC_ID from user where U_ID = ?', uid, (error, result) => {
                     const oid = result[0].OC_ID;
-
+                    pool.query('SELECT * FROM(SELECT I_ID FROM Ink ORDER BY I_ID DESC) AS A LIMIT 1', (error, result) => {
+                        const id = result[0].L_ID + 1;
+                        pool.query('insert into Ink (I_ID, I_Name, I_Manufacturer, I_Color) values (?, ?, ?, ?)', [id, name, manufacturer, color], (error, result) => {
+                            pool.query('insert into OC_I (OC_ID, I_ID) values (?, ?)', [oid, id], (error, result) => {
+                                if (error) throw error;
+                                response.send("Ink created and added!\n");
+                            });
+                        });
+                    });
                 });
             }
             else if (type == "utility") {
+                const uType = request.body.stats.utilityType;
                 pool.query('select OC_ID from user where U_ID = ?', uid, (error, result) => {
                     const oid = result[0].OC_ID;
-
+                    pool.query('SELECT * FROM(SELECT U_ID FROM Utility ORDER BY U_ID DESC) AS A LIMIT 1', (error, result) => {
+                        const id = result[0].U_ID + 1;
+                        pool.query('insert into Utility (U_ID, U_Name, U_Manufacturer, U_Type) values (?, ?, ?, ?)', [id, name, manufacturer, uType], (error, result) => {
+                            pool.query('insert into OC_U (OC_ID, U_ID) values (?, ?)', [oid, id], (error, result) => {
+                                if (error) throw error;
+                                response.send("Utility created and added!\n");
+                            });
+                        });
+                    });
                 });
             }
             else if (type == "replacement") {
+                const rType = request.body.stats.replacementType;
                 pool.query('select OC_ID from user where U_ID = ?', uid, (error, result) => {
                     const oid = result[0].OC_ID;
-
+                    pool.query('SELECT * FROM(SELECT R_ID FROM Replacements ORDER BY R_ID DESC) AS A LIMIT 1', (error, result) => {
+                        const id = result[0].R_ID + 1;
+                        pool.query('insert into Replacements (R_ID, R_Name, R_Manufacturer, R_Type) values (?, ?, ?, ?)', [id, name, manufacturer, rType], (error, result) => {
+                            pool.query('insert into OC_R (OC_ID, R_ID) values (?, ?)', [oid, id], (error, result) => {
+                                if (error) throw error;
+                                response.send("Replacement created and added!\n");
+                            });
+                        });
+                    });
                 });
             }
             else if (type == "penCartridge") {
+                const cType = request.body.stats.cartridgeType;
                 pool.query('select OC_ID from user where U_ID = ?', uid, (error, result) => {
                     const oid = result[0].OC_ID;
+                    pool.query('SELECT * FROM(SELECT PC_ID FROM Pen_Cartridge ORDER BY PC_ID DESC) AS A LIMIT 1', (error, result) => {
+                        const id = result[0].PC_ID + 1;
+                        pool.query('insert into Pen_Cartridge (PC_ID, PC_Name, PC_Manufacturer, PC_Type) values (?, ?, ?, ?)', [id, name, manufacturer, cType], (error, result) => {
+                            pool.query('insert into OC_PC (OC_ID, PC_ID) values (?, ?)', [oid, id], (error, result) => {
+                                if (error) throw error;
+                                response.send("Cartridge created and added!\n");
+                            });
+                        });
+                    });
+
 
                 });
             }            
@@ -840,21 +916,6 @@ const router = app => {
             }
         });
     });
-    /*
-	    /collection/:u_name/item
-
-		POST (Create an item and add to user's collection)
-			desired input:
-				{
-			   basicAtts: {
-					itemName: string,
-					type: string,
-					manufacturer: string
-				 },
-			   stats: object
-				}
-
-;.     */
 
     // ************Mechanical P**********
     //list all Mechanical Pencils [COMPLETE]
