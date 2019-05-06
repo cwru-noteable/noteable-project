@@ -1,12 +1,19 @@
 const request = require('request');
 
 const json = {
-    "target": "CartridgeP",
-    "name": "Preppy",
+    "mechanicalPencils": true,
+    "fountainPens": true,
+    "cartridgePens": false,
+    "woodPencils": false,
+    "lead": false,
+    "replacements": true,
+    "ink": false,
+    "penCartridge": true,
+    "utility": false,
 };
 
-request.post({
-    url: 'http://localhost:3002/ImpColl/2/add',
+request.get({
+    url: 'http://localhost:3002/collection/Zubair',
     body: json,
     json: true,
 }, function (error, response, body) {
