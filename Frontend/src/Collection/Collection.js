@@ -133,9 +133,12 @@ class Collection extends Component {
 
   loadFilteredCollection() {
     const port = '3002';
-    const base = 'http://172.20.17.194:'+port;
+    const base = 'http://localhost';
     const path = '/collection/' + this.props.username;
-    return axios.get(base + path, {
+    const url = base + ':' + port + path;
+    // axios.defaults.headers.common['Access-Control-Allow-Origin'] = 'value'
+
+    return axios.get(url, {
       mechanicalPencils : this.state.mechanicalPencils,
       fountainPens : this.state.fountainPens,
       cartridgePens : this.state.cartridgePens,
