@@ -544,7 +544,7 @@ const router = app => {
                                         for (i = 0; i < result.length; i++) {
                                             result.map((item, i) => ({
                                                 basicAtts: {
-                                                    itemName = item.I_Name,
+                                                    itemName : item.I_Name,
                                                     itemId: item.I_ID,
                                                     manufacturer: item.I_Manufacturer,
                                                     type: "ink",
@@ -559,7 +559,7 @@ const router = app => {
                                             for (i = 0; i < result.length; i++) {
                                                 result.map((item, i) => ({
                                                     basicAtts: {
-                                                        itemName = item.R_Name,
+                                                        itemName : item.R_Name,
                                                         itemId: item.R_ID,
                                                         manufacturer: item.R_Manufacturer,
                                                         type: "replacements",
@@ -574,7 +574,7 @@ const router = app => {
                                                 for (i = 0; i < result.length; i++) {
                                                     result.map((item, i) => ({
                                                         basicAtts: {
-                                                            itemName = item.PC_Name,
+                                                            itemName : item.PC_Name,
                                                             itemId: item.PC_ID,
                                                             manufacturer: item.PC_Manufacturer,
                                                             type: "penCartridge",
@@ -589,7 +589,7 @@ const router = app => {
                                                     for (i = 0; i < result.length; i++) {
                                                         result.map((item, i) => ({
                                                             basicAtts: {
-                                                                itemName = item.U_Name,
+                                                                itemName : item.U_Name,
                                                                 itemId: item.U_ID,
                                                                 manufacturer: item.U_Manufacturer,
                                                                 type: "utility",
