@@ -57,7 +57,7 @@ class CollectionFilter extends Component {
             checked={this.props.ink}
             onChange={this.onFilterInputChange}/>
 
-          <h3>Pen Cartidge</h3>
+          <h3>Pen Cartridge</h3>
           <input type='checkbox'
             name={'penCartridge'}
             checked={this.props.penCartridge}

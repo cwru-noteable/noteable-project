@@ -185,10 +185,7 @@ class Collection extends Component {
   }
 
   onDeleteItem() {
-      // TODO DELETE item.
-      // TODO after delete, GET items and send to item list.
-      //
-      // Deleting Item
+    //TODO test.
       const path = '/collection/' + this.props.username + '/item';
       const url = base + ':' + port + path;
       console.debug('DELETE item',this.state.item.basicAtts.itemId,'of type',this.state.item.basicAtts.type);
@@ -198,23 +195,24 @@ class Collection extends Component {
           type: this.state.item.basicAtts.type
         }
       })
-      .then(response => console.log(response));
-
-      //Reloading
-      this.loadFilteredCollection();
+      .then(response => {
+        console.log(response);
+        this.loadFilteredCollection();
+      });
 
       this.onCloseItem();
   }
 
   onSaveItem() {
-    // TODO UPDATE with info.
-    // axios.
 
     console.debug('PUT item',this.state.newItem);
     const path = '/gallery';
     const url = base + ':' + port + path;
     return axios.put(url, this.state.newItem)
-    .then(response => console.log(response));
+    .then(response => {
+      console.log(response);
+      this.loadFilteredCollection();
+    });
 
     this.setState({
       itemEditing: false,
@@ -228,13 +226,15 @@ class Collection extends Component {
   }
 
   onSaveNewItem() {
-    //TODO POST with item info.
 
     const path = '/collection/' + this.props.username + '/item';
     const url = base + ':' + port + path;
     console.debug('POST item',this.state.newItem);
     return axios.post(url, this.state.newItem)
-    .then(response => console.log(response));
+    .then(response => {
+      console.log(response);
+      this.loadFilteredCollection();
+    });
 
     this.setState({
       addingNewItem: false,

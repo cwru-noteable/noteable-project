@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import Home from "./Home";
 import Collection from "./Collection/Collection";
-import Gallery from "./Gallery";
+import Gallery from "./Gallery/Gallery";
  
 class Hub extends Component {
 
