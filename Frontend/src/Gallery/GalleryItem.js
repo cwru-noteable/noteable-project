@@ -9,7 +9,7 @@ class GalleryItem extends Component {
   constructor(props) {
     super(props);
 
-    this.onViewItem = this.onViewItem.bind(this);
+    // this.onViewItem = this.onViewItem.bind(this);
   }
 
   render() {
@@ -17,14 +17,13 @@ class GalleryItem extends Component {
     return (
       <div className='itemDiv'>
         <h3>{this.props.item.basicAtts.itemName}</h3>
-        <button onClick={this.onViewItem}>View</button>
       </div>
     );
   }
 
-  onViewItem() {
-    this.props.onViewItem(this.props.item);
-  }
+  // onViewItem() {
+  //   this.props.onViewItem(this.props.item);
+  // }
 
 
 

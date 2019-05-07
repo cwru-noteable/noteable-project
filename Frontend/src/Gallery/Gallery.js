@@ -25,7 +25,7 @@ class Gallery extends Component {
       utility : true,
     };
 
-    this.onViewItem = this.onViewItem.bind(this);
+    // this.onViewItem = this.onViewItem.bind(this);
     this.loadFilteredCollection = this.loadFilteredCollection.bind(this);
     this.onFilterInputChange = this.onFilterInputChange.bind(this);
 
@@ -56,7 +56,6 @@ class Gallery extends Component {
           <div className='rightDiv'>
             <div className='leftDiv'>
               <GalleryList
-                onViewItem={this.onViewItem}
                 username={this.props.username}
                 items={this.state.items}
               />
@@ -93,10 +92,6 @@ class Gallery extends Component {
     this.setState({
       [name]: value
     }, () => {this.loadFilteredCollection()});
-  }
-
-  onViewItem() {
-    //TODO
   }
 }
 

@@ -7,7 +7,7 @@ class GalleryList extends Component {
   constructor(props) {
     super(props);
 
-    this.onViewItem = this.onViewItem.bind(this);
+    // this.onViewItem = this.onViewItem.bind(this);
   }
 
   render() {
@@ -18,7 +18,6 @@ class GalleryList extends Component {
         <h2>Gallery List</h2>
         <ul>
         {this.props.items.map((item, i) => (<li className='item' key={i}> <GalleryItem
-          onViewItem={this.onViewItem}
           item={item}
           username={this.props.username}
           key={i}/></li>))}
@@ -27,9 +26,9 @@ class GalleryList extends Component {
     );
   }
 
-  onViewItem(item) {
-    this.props.onViewItem(item);
-  }
+  // onViewItem(item) {
+  //   this.props.onViewItem(item);
+  // }
 
 }
 
