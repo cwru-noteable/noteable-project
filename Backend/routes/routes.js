@@ -293,7 +293,7 @@ const router = app => {
     // ************GALLERY**********
     app.get('/gallery', (request, response) => {
         var aggregate = [];
-        pool.query('SELECT * FROM (Implement_Collection natural join IC_FP natural join FountainP)', (error, result) => {
+        pool.query('SELECT *  FROM FountainP', (error, result) => {
             var frontend = result.map((item, i) => ({
                 basicAtts: {
                     itemName: item.FP_Name,
@@ -310,7 +310,7 @@ const router = app => {
                 if (request.query.fountainPens == 'true') aggregate.push(frontend[i]);
 
             }
-            pool.query('SELECT * FROM (Implement_Collection natural join IC_CP natural join CartridgeP)', (error, result) => {
+            pool.query('SELECT * FROM CartridgeP', (error, result) => {
                 frontend = result.map((item, i) => ({
                     basicAtts: {
                         itemName: item.CP_Name,
@@ -326,7 +326,7 @@ const router = app => {
 
                     if (request.query.cartridgePens == 'true') aggregate.push(frontend[i]);
                 }
-                pool.query('SELECT * FROM (Implement_Collection natural join IC_MP natural join MechanicalP)', (error, result) => {
+                pool.query('SELECT * FROM MechanicalP', (error, result) => {
                     frontend = result.map((item, i) => ({
                         basicAtts: {
                             itemName: item.MP_Name,
@@ -342,7 +342,7 @@ const router = app => {
                     for (i = 0; i < frontend.length; i++) {
                         if (request.query.mechanicalPencils == 'true') aggregate.push(frontend[i]);
                     }
-                    pool.query('SELECT * FROM (Implement_Collection natural join IC_WP natural join WoodP)', (error, result) => {
+                    pool.query('SELECT * FROM WoodP', (error, result) => {
                         frontend = result.map((item, i) => ({
                             basicAtts: {
                                 itemName: item.WP_Name,
@@ -357,7 +357,7 @@ const router = app => {
                         for (i = 0; i < frontend.length; i++) {
                             if (request.query.woodPencils == 'true') aggregate.push(frontend[i]);
                         }
-                        pool.query('select * from (Other_Collection natural join OC_L natural join Lead)', (error, result) => {
+                        pool.query('select * from Lead', (error, result) => {
                             frontend = result.map((item, i) => ({
                                 basicAtts: {
                                     itemName: item.L_Name,
@@ -372,7 +372,7 @@ const router = app => {
                             for (i = 0; i < frontend.length; i++) {
                                 if (request.query.lead == 'true') aggregate.push(frontend[i]);
                             }
-                            pool.query('select * from (Other_Collection natural join OC_I natural join Ink)', (error, result) => {
+                            pool.query('select * from Ink', (error, result) => {
                                 frontend = result.map((item, i) => ({
                                     basicAtts: {
                                         itemName: item.I_Name,
@@ -387,7 +387,7 @@ const router = app => {
                                 for (i = 0; i < frontend.length; i++) {
                                     if (request.query.ink == 'true') aggregate.push(frontend[i]);
                                 }
-                                pool.query('select * from (Other_Collection natural join OC_R natural join Replacements)', (error, result) => {
+                                pool.query('select * from Replacements', (error, result) => {
                                     frontend = result.map((item, i) => ({
                                         basicAtts: {
                                             itemName: item.R_Name,
@@ -402,7 +402,7 @@ const router = app => {
                                     for (i = 0; i < frontend.length; i++) {
                                         if (request.query.replacements == 'true') aggregate.push(frontend[i]);
                                     }
-                                    pool.query('select * from (Other_Collection natural join OC_PC natural join Pen_Cartridge)', (error, result) => {
+                                    pool.query('select * from Pen_Cartridge', (error, result) => {
                                         frontend = result.map((item, i) => ({
                                             basicAtts: {
                                                 itemName: item.PC_Name,
@@ -417,7 +417,7 @@ const router = app => {
                                         for (i = 0; i < frontend.length; i++) {
                                             if (request.query.penCartridge == 'true') aggregate.push(frontend[i]);
                                         }
-                                        pool.query('select * from (Other_Collection natural join OC_U natural join Utility)', (error, result) => {
+                                        pool.query('select * from Utility', (error, result) => {
                                             frontend = result.map((item, i) => ({
                                                 basicAtts: {
                                                     itemName: item.U_Name,
