@@ -16,5 +16,3 @@
     * Collection
     * Gallery
     * Log Out
-## Tips
-* For quick development testing, use `python3 -m http.server [portNumber]` (`portNumber`=8000 by default) from the command line to start a little server in the current directory. You can then see the result by visiting `localhost:portNumber` from a web browser.
