@@ -1,9 +1,9 @@
 # Backend Folder
 ## Tools
-* ExpressJS
-* mySQL
-* request
-* bodyParser
+* ExpressJS (the app is built in Express)
+* mySQL (sending requests to server)
+* request (backend testing during development, not in use)
+* bodyParser (processing JSON requests)
 ## Installation
 ```
 npm install
