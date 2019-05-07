@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from "axios";
 import {
   Route,
   HashRouter,
@@ -8,6 +9,9 @@ import {
 } from "react-router-dom";
 import Hub from "./Hub";
 import Entry from "./Entry";
+
+const port = '3002';
+const base = 'http://localhost';
  
 class Main extends Component {
   constructor(props) {
@@ -43,12 +47,13 @@ class Main extends Component {
     // });
 
     // POST user
-    // const base = 'http://172.20.27.214:3002';
-    // const path = '/users';
-    // return axios.post(base + path, {
-    //   username: this.state.username
-    // })
-    // .then(response => console.log(response));
+
+    const path = '/users';
+    const url = base + ':' + port + path;
+    return axios.post(url, {
+      username: this.state.username
+    })
+    .then(response => console.log(response));
 
     withRouter(({ history }) => history.push('/hub'));
   }

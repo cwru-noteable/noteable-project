@@ -12,6 +12,7 @@ class Gallery extends Component {
     super(props);
 
     this.state = {
+      init: false,
       items: [],
       mechanicalPencils : true,
       fountainPens : true,
@@ -31,10 +32,12 @@ class Gallery extends Component {
   }
 
   render() {
+    if (!this.state.init) {
+      this.setState({init: true}, () => this.loadFilteredCollection());
+    }
+
     return (
       <div className='container'>
-        <h1>Gallery</h1>
-        <p>Look at all these wonderful items everyone has (ooh.)</p>
         <div className='collectionViewDiv'>
           <div className='leftDiv'>
             <GalleryFilter
@@ -67,7 +70,7 @@ class Gallery extends Component {
   loadFilteredCollection() {
     const path = '/gallery';
     const url = base + ':' + port + path;
-    console.debug('GET filtered collection for',this.props.username);
+    console.debug('GET filtered gallery');
     return axios.get(url, {
       params: {
         "mechanicalPencils": this.state.mechanicalPencils,
