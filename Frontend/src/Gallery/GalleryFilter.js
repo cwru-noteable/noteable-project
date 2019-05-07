@@ -26,7 +26,7 @@ class GalleryFilter extends Component {
             checked={this.props.fountainPens}
             onChange={this.onFilterInputChange}/>
 
-          <h3>Cartidge Pens</h3>
+          <h3>Cartridge Pens</h3>
           <input type='checkbox'
             name={'cartridgePens'}
             checked={this.props.cartridgePens}
