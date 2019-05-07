@@ -15,3 +15,21 @@ database, and modify information and attributes about existing items.
 
 Additionally, multiple independent users of the system can update information on an item, for example a particular model of mechanical pencil, and that updated information would be available to all
 other users.
+
+## Installation Instructions
+1. download and unzip
+2. Open 2 terminal windows (one for frontend, one for backend) and cd Frontend/ for one and cd Backend/ for the other
+
+Installing Frontend:
+`cd Frontend`
+`npm install`
+rename `/src/login.js` to `/src/Login.js` (we don't know why it doesn't preserve case)
+
+Installing Backend:
+`npm install`
+
+Running Frontend
+ `npm start`
+ 
+Running Backend
+`node app.js`
