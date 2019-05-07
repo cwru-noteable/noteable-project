@@ -21,8 +21,10 @@ other users.
 2. Open 2 terminal windows (one for frontend, one for backend) and cd Frontend/ for one and cd Backend/ for the other
 
 Installing Frontend:
-```cd Frontend
-npm install```
+```
+cd Frontend
+npm install
+```
 rename `/src/login.js` to `/src/Login.js` (we don't know why it doesn't preserve case)
 
 Installing Backend:
