@@ -15,7 +15,8 @@ class CollectionList extends Component {
 
     return (
       <div className='normalDiv'>
-        <h2>{this.props.username}'s Collection</h2>
+        <h1>{this.props.username}'s Collection</h1>
+        <h2>{this.props.items.length}/{this.props.totalCount} Items Displayed</h2>
         <ul>
         {this.props.items.map((item, i) => (<li className='item' key={i}> <CollectionItem
           onViewItem={this.onViewItem}

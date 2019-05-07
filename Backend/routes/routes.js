@@ -621,6 +621,16 @@ const router = app => {
     });
 
     // ************Collections**********
+
+    app.get('/collection/:username/totalCount', (request, response) => {
+
+        pool.query('select user.U_ID, count(distinct OC_U.U_ID)+ count(distinct OC_R.R_ID)+ count(distinct OC_L.L_ID)+ count(distinct OC_PC.PC_ID)+ count(distinct OC_I.I_ID)+ count(distinct IC_FP.FP_ID)+ count(distinct IC_CP.CP_ID)+ count(distinct IC_MP.MP_ID)+ count(distinct IC_WP.WP_ID) total_count from user left join Other_Collection on user.OC_ID = Other_Collection.OC_ID  left join OC_R on OC_R.R_ID = Other_Collection.OC_ID left join OC_L on OC_L.L_ID = Other_Collection.OC_ID left join OC_I on OC_I.I_ID = Other_Collection.OC_ID left join OC_U on OC_U.U_ID = Other_Collection.OC_ID left join OC_PC on OC_PC.PC_ID = Other_Collection.OC_ID left join Implement_Collection on user.IC_ID = Implement_Collection.IC_ID  left join IC_WP on IC_WP.IC_ID = Implement_Collection.IC_ID left join IC_MP on IC_MP.IC_ID = Implement_Collection.IC_ID  left join IC_FP on IC_FP.IC_ID = Implement_Collection.IC_ID  left join IC_CP on IC_CP.IC_ID = Implement_Collection.IC_ID where user.U_ID = ? group by user.U_ID;', request.params.username, (error, result) => {
+          if (error) throw error;
+          console.log(result);
+          response.status(200).send({collectionCount: result[0].total_count});
+        });
+    });
+
     app.get('/collection/:username', (request, response) => {
         /*console.log("Params:");
         console.log(request.params);

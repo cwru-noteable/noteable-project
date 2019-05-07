@@ -45,6 +45,7 @@ class Collection extends Component {
       itemClosed: true,
       itemEditing: false,
       addingNewItem: false,
+      totalCount: 0,
       items: [],
       mechanicalPencils : true,
       fountainPens : true,
@@ -71,7 +72,7 @@ class Collection extends Component {
     this.onCancelAddItem = this.onCancelAddItem.bind(this);
     this.loadFilteredCollection = this.loadFilteredCollection.bind(this);
 
-
+    this.loadCount = this.loadCount.bind(this);
   }
 
   render() {
@@ -105,6 +106,7 @@ class Collection extends Component {
               <CollectionList
                 onViewItem={this.onViewItem}
                 username={this.props.username}
+                totalCount={this.state.totalCount}
                 items={this.state.items}
               />
             </div>
@@ -135,7 +137,7 @@ class Collection extends Component {
     const path = '/collection/' + this.props.username;
     const url = base + ':' + port + path;
     console.debug('GET filtered collection for',this.props.username);
-    return axios.get(url, {
+    axios.get(url, {
       params: {
         "mechanicalPencils": this.state.mechanicalPencils,
         "fountainPens" : this.state.fountainPens,
@@ -151,6 +153,21 @@ class Collection extends Component {
     .then(response => this.setState({
       items: response.data
     }));
+
+    this.loadCount();
+  }
+
+  loadCount() {
+    const path = '/collection/' + this.props.username + '/totalCount';
+    const url = base + ':' + port + path;
+    console.debug('GET total count for collection for',this.props.username);
+    axios.get(url, {})
+    .then(response => {
+      this.setState({
+        totalCount: response.data.collectionCount
+      });
+      console.log(response);
+    });
   }
 
   onAddNewItem() {
