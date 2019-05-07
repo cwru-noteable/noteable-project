@@ -34,7 +34,7 @@ const router = app => {
                             var message = 'User added with new collections!';
                             if (error) {
                               if (error.code == 'ER_DUP_ENTRY') {
-                                code = 201;
+                                code = 200;
                                 message = 'Existing User Logged in!';
                               }
                               else {
