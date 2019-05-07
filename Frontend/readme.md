@@ -2,6 +2,9 @@
 ## Tools
 * **React.js** for Component Architecture.
 * **axios** for HTTP requests.
+* **react-router-dom** for routing paths to different react DOM objects.
+* **react-dom** for managing react DOM objects.
+* **lodash/cloneDeep** for deep cloning objects.
 ## Installation
 1. Rename src/login.js to src/Login.js (the capital "L" is important and gets lost in translation for some reason)
 2. `npm install`
@@ -14,7 +17,19 @@
   * Hub
     * Home
     * Collection
+      * Collection Filter
+      * Collection List
+        * Collection Item
+      * Collection Item View Container
+        * Collection Add Item View
+          * Collection Add Item Container
+            * Collection Add Item Stats
+        * Collection Item View
+          * Collection View Item Stats Container
+            * Collection View Item Stats
+          * Collection Edit Item Stats Container
+            * Collection Edit Item Stats
     * Gallery
-    * Log Out
-## Tips
-* For quick development testing, use `python3 -m http.server [portNumber]` (`portNumber`=8000 by default) from the command line to start a little server in the current directory. You can then see the result by visiting `localhost:portNumber` from a web browser.
+      * Gallery Filter
+      * Gallery List
+        * Gallery Item
