@@ -606,14 +606,14 @@ const router = app => {
         }
         else if (type == "cartridgePen") {
             const material = request.body.stats.material;
-            pool.query('UPDATE CartridgeP SET CP_Name = ?, CP_Manufacturer = ?, CP_Material = ?, WHERE CP_ID = ?', [name, manufacturer, material, id], (error, result) => {
+            pool.query('UPDATE CartridgeP SET CP_Name = ?, CP_Manufacturer = ?, CP_Material = ? WHERE CP_ID = ?', [name, manufacturer, material, id], (error, result) => {
                 if (error) throw error;
                 response.status(200).send('Updated Cartridge Pen!');
             });
         }
         else if (type == "woodPencil") {
             const material = request.body.stats.material;
-            pool.query('UPDATE WoodP SET WP_Name = ?, WP_Manufacturer = ?, WP_Material = ?, WHERE WP_ID = ?', [name, manufacturer, material, id], (error, result) => {
+            pool.query('UPDATE WoodP SET WP_Name = ?, WP_Manufacturer = ?, WP_Material = ? WHERE WP_ID = ?', [name, manufacturer, material, id], (error, result) => {
                 if (error) throw error;
                 response.status(200).send('Updated Wood Pencil!');
             });
