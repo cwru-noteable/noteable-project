@@ -10,8 +10,13 @@ const router = app => {
         });
     });
 
-    // ********USERS********
-
+/*
+██    ██ ███████ ███████ ██████  ███████
+██    ██ ██      ██      ██   ██ ██
+██    ██ ███████ █████   ██████  ███████
+██    ██      ██ ██      ██   ██      ██
+ ██████  ███████ ███████ ██   ██ ███████
+*/
     // list all users [COMPLETE]
 	app.get('/users', (request, response) => {
 		pool.query('SELECT * FROM user', (error, result) => {
@@ -78,7 +83,15 @@ const router = app => {
 		});
     });
 
-    // ************GALLERY**********
+    /*
+   ██████   █████  ██      ██      ███████ ██████  ██    ██
+  ██       ██   ██ ██      ██      ██      ██   ██  ██  ██
+  ██   ███ ███████ ██      ██      █████   ██████    ████
+  ██    ██ ██   ██ ██      ██      ██      ██   ██    ██
+   ██████  ██   ██ ███████ ███████ ███████ ██   ██    ██
+  */
+
+
     app.get('/gallery', (request, response) => {
         var aggregate = [];
         pool.query('SELECT *  FROM FountainP', (error, result) => {
@@ -408,7 +421,13 @@ const router = app => {
         }
     });
 
-    // ************Collections**********
+    /*
+   ██████  ██████  ██      ██      ███████  ██████ ████████ ██  ██████  ███    ██ ███████
+  ██      ██    ██ ██      ██      ██      ██         ██    ██ ██    ██ ████   ██ ██
+  ██      ██    ██ ██      ██      █████   ██         ██    ██ ██    ██ ██ ██  ██ ███████
+  ██      ██    ██ ██      ██      ██      ██         ██    ██ ██    ██ ██  ██ ██      ██
+   ██████  ██████  ███████ ███████ ███████  ██████    ██    ██  ██████  ██   ████ ███████
+  */
 
     app.get('/collection/:username/totalCount', (request, response) => {
         pool.query('select U_ID from user where U_Name = ?', request.params.username, (error, result) => {
