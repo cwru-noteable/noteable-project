@@ -1,5 +1,6 @@
 //get the server config from ../data/config.js
 const pool = require('../data/config');
+const usr = require('./userpromise');
 const mysql = require('mysql');
 
 //Homepage JSON message
@@ -23,7 +24,7 @@ const router = app => {
 			if (error) throw error;
 			response.send(result);
 		});
-    });
+  });
 
     // add a user [COMPLETE]
     app.post('/users', (request, response) => {
