@@ -1,9 +1,8 @@
-const port = 3306;
 const mysql = require('mysql');
 
 //connection information for server
 const config = {
-    host: 'eecslab-9.case.edu',
+    host: 'localhost',
     user: 'team_7',
     password: 'e6444a4a',
     database: 'team_7',
