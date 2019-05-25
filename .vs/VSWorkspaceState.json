@@ -2,8 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\Backend",
-    "\\Backend\\routes"
+    "\\Backend\\routes",
+    "\\Frontend"
   ],
-  "SelectedNode": "\\Backend\\routes\\routes.js",
+  "SelectedNode": "\\.gitignore",
   "PreviewInSolutionExplorer": false
 }
