@@ -27,37 +27,22 @@ const router = app => {
 
     // @todo: add a user
     app.post('/users', (request, response) => {
-        pool.query('SELECT * FROM (SELECT U_ID FROM user ORDER BY U_ID DESC) AS A LIMIT 1', (error, result) => {
-            var uid = result[0].U_ID + 1;
-            pool.query('SELECT * FROM (SELECT OC_ID FROM Other_Collection ORDER BY OC_ID DESC) AS A LIMIT 1', (error, result) => {
-                var oid = result[0].OC_ID + 1;
-                pool.query('SELECT * FROM (SELECT IC_ID FROM Implement_Collection ORDER BY IC_ID DESC) AS A LIMIT 1', (error, result) => {
-                    var iid = result[0].IC_ID + 1;
-                    pool.query('INSERT INTO Implement_Collection VALUES(?,null);INSERT INTO Other_Collection VALUES(?,null);INSERT INTO user VALUES(?,?,?,?);UPDATE Other_Collection SET U_ID = ? WHERE OC_ID = ?;UPDATE Implement_Collection SET U_ID = ? WHERE IC_ID = ?;', [iid, oid, uid, request.body.username, iid, oid, uid, oid, uid, iid],
-                        (error, result) => {
-                            var code = 201;
-                            var message = 'User added with new collections!';
-                            if (error) {
-                              if (error.code == 'ER_DUP_ENTRY') {
-                                code = 200;
-                                message = 'Existing User Logged in!';
-                              }
-                              else {
-                                throw error;
-                              }
-                            }
-                            response.status(code).send
-                                (message);
-                        });
-                });
-            });
-        });
+      pool.query('select exists(select username from Users where username=?)', [request.body.username], (error, result) => {
+        if (result[0].'exists(select username from Users where username=?)', [request.body.username]'){
+          response.status(200).send("User exists", [request.body.username]);
+        }
+        else{
+          pool.query('insert into Users (username, firstName, lastName, password) values (?, ?, ?, sha1(?))', [request.body.username, request.body.firstName, request.body.lastName, request.body.password], (error, result) => {
+            response.status(201).send("Created new user ?", [request.body.username]);
+          });
+        }
+      });
 	});
 
     //@todo: edit a user
 	app.put('/users/:id', (request, response) => {
 		const id = request.params.id;
-		pool.query('UPDATE user SET ? WHERE U_ID = ?', [request.body, id], (error, result) => {
+		pool.query('UPDATE Users SET ? WHERE userID = ?', [request.body, id], (error, result) => {
 			if(error) throw error;
 			response.send('User updated successfully.');
 		});
@@ -73,7 +58,7 @@ const router = app => {
 		});
 	});
 
-    //display a specific user [COMPLETE]
+    //@todo: display a specific user [COMPLETE]
 	app.get('/users/:id', (request, response) => {
 		const id = request.params.id;
 		pool.query('SELECT * FROM user WHERE U_ID = ?', id,
