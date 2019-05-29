@@ -17,7 +17,7 @@ const router = app => {
 ██    ██      ██ ██      ██   ██      ██
  ██████  ███████ ███████ ██   ██ ███████
 */
-    // @todo: list all users
+    //TODO: list all users
 	app.get('/users', (request, response) => {
 		pool.query('SELECT userID, username, firstName, lastName FROM Users', (error, result) => {
 			if (error) throw error;
@@ -25,7 +25,7 @@ const router = app => {
 		});
   });
 
-    // @todo: add a user
+    //TODO: add a user
     app.post('/users', (request, response) => {
       pool.query('select exists(select username from Users where username=?)', [request.body.username], (error, result) => {
         if (result[0].'exists(select username from Users where username=?)', [request.body.username]'){
@@ -39,7 +39,7 @@ const router = app => {
       });
 	});
 
-    //@todo: edit a user
+    //TODO: edit a user
 	app.put('/users/:id', (request, response) => {
 		const id = request.params.id;
 		pool.query('UPDATE Users SET ? WHERE userID = ?', [request.body, id], (error, result) => {
@@ -48,7 +48,7 @@ const router = app => {
 		});
 	});
 
-    //@todo: delete a user
+    //TODO: delete a user
 	app.delete('/users/:id', (request, response) => {
 		 const id = request.params.id;
 		pool.query('DELETE FROM user WHERE U_ID = ?', id,
@@ -58,7 +58,7 @@ const router = app => {
 		});
 	});
 
-    //@todo: display a specific user [COMPLETE]
+    //TODO: display a specific user
 	app.get('/users/:id', (request, response) => {
 		const id = request.params.id;
 		pool.query('SELECT * FROM user WHERE U_ID = ?', id,
@@ -69,6 +69,7 @@ const router = app => {
   });
 
     /*
+    /TODO: FIX THIS
    ██████   █████  ██      ██      ███████ ██████  ██    ██
   ██       ██   ██ ██      ██      ██      ██   ██  ██  ██
   ██   ███ ███████ ██      ██      █████   ██████    ████
@@ -407,6 +408,7 @@ const router = app => {
     });
 
     /*
+    /TODO: FIX THIS
    ██████  ██████  ██      ██      ███████  ██████ ████████ ██  ██████  ███    ██ ███████
   ██      ██    ██ ██      ██      ██      ██         ██    ██ ██    ██ ████   ██ ██
   ██      ██    ██ ██      ██      █████   ██         ██    ██ ██    ██ ██ ██  ██ ███████
