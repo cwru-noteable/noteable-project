@@ -17,7 +17,6 @@ const router = app => {
 ██    ██      ██ ██      ██   ██      ██
  ██████  ███████ ███████ ██   ██ ███████
 */
-    //TODO: list all users
 	app.get('/users', (request, response) => {
 		pool.query('SELECT userID, username, firstName, lastName FROM Users', (error, result) => {
 			if (error) throw error;
@@ -30,7 +29,7 @@ const router = app => {
       pool.query('select exists(select username from Users where username=?) isHere', [request.body.username], (error, result) => {
         console.log(result[0]);
         if (result[0].isHere){
-          response.status(200).send("User exists", [request.body.username]);
+          response.status(200).send("User ? exists", [request.body.username]);
         }
         else{
           pool.query('insert into Users (username, firstName, lastName, password) values (?, ?, ?, sha1(?))', [request.body.username, request.body.firstName, request.body.lastName, request.body.password], (error, result) => {
