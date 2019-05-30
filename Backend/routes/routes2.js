@@ -22,20 +22,21 @@ const router = app => {
 		pool.query('SELECT userID, username, firstName, lastName FROM Users', (error, result) => {
 			if (error) throw error;
 			response.send(result);
-		});
-  });
+      });
+    });
 
     //TODO: add a user
     app.post('/users', (request, response) => {
-      pool.query('select exists(select username from Users where username=?)', [request.body.username], (error, result) => {
-        if (result[0].'exists(select username from Users where username=?)', [request.body.username]'){
+      pool.query('select exists(select username from Users where username=?) isHere', [request.body.username], (error, result) => {
+        console.log(result[0]);
+        if (result[0].isHere){
           response.status(200).send("User exists", [request.body.username]);
         }
         else{
           pool.query('insert into Users (username, firstName, lastName, password) values (?, ?, ?, sha1(?))', [request.body.username, request.body.firstName, request.body.lastName, request.body.password], (error, result) => {
             response.status(201).send("Created new user ?", [request.body.username]);
-          });
-        }
+         });
+       }
       });
 	});
 

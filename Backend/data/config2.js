@@ -2,7 +2,7 @@ const mysql = require('mysql');
 
 //connection information for server
 const config = {
-    host: 'localhost',
+    host: 'zxm.pi',
     user: 'team_7',
     password: 'e6444a4a',
     database: 'noteable',

@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const port = 3002;
 const app = express();
-const routes = require('./routes/routes');
+const routes = require('./routes/routes2');
 
 app.use(function(req, res, next) {
     res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
