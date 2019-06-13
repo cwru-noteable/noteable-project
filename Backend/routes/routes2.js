@@ -1,6 +1,7 @@
 //get the server config from ../data/config.js
 const pool = require('../data/config2');
 const mysql = require('mysql');
+const asker = require('../modules/queries');
 
 //Homepage JSON message
 const router = app => {
@@ -428,12 +429,6 @@ const router = app => {
     });
 
     app.get('/collection/:username', (request, response) => {
-        /*console.log("Params:");
-        console.log(request.params);
-        console.log();
-        console.log("Body");
-        console.log(request.body);
-        console.log();*/
         console.log("GET on /collection/"+request.params.username+" Query:", request.query);
         var aggregate = [];
         pool.query('select U_ID from user where U_Name = ?', request.params.username, (error, result) => {
