@@ -20,7 +20,7 @@ const router = app => {
 app.get('/mechP/:id', (request, response) => {
   console.log("Arrived here");
   var frontend;
-  getMechP(request.params.id, frontend, console.log(frontend)));
+  getMechP(request.params.id, frontend, console.log(frontend));
 });
 
 function getMechP(userID, passout, callback){
