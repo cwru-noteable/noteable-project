@@ -1,7 +1,7 @@
 const pool = require('../data/config2');
 const mysql = require('mysql');
 
-var exports = module.exports{};
+var exports = module.exports;
 function getMechP(userID){
   pool.query('SELECT * FROM (Collections natural join Items natural join MechanicalP) WHERE Collections.UserID = ?'), userID, (error, result) => {
     var frontend = result.map((item, i) => ({
