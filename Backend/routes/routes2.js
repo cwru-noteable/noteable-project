@@ -20,10 +20,10 @@ const router = app => {
 var frontend;
 app.get('/mechP/:id', (request, response) => {
   console.log("Arrived here");
-  getMechP(request.params.id, logMe(frontend));
+//  getMechP(request.params.id);
 });
 
-function getMechP(userID, callback){
+function getMechP(userID){
   pool.query('SELECT * FROM (Collections natural join Items natural join MechanicalP) WHERE Collections.UserID = ?'), userID, (error, result) => {
     frontend = result.map((item, i) => ({
       basicAtts:{
@@ -37,11 +37,7 @@ function getMechP(userID, callback){
         leadSize: item.MP_Lead_Size,
       }
     }));
-    callback();
   }
-}
-function logMe(){
-  console.log(frontend);
 }
 
 
