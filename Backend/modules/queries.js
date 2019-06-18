@@ -15,4 +15,5 @@ function getMechP (userID){
               leadSize: item.MP_Lead_Size,
           }
       }));
+    }
 }
