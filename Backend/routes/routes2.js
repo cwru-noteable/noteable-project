@@ -38,7 +38,7 @@ function getMechP(userID, passout, callback){
       }
     }));
   }
-  callback();
+  callback()
 }
 
 
