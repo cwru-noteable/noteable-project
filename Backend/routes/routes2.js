@@ -37,8 +37,8 @@ function getMechP(userID, passout, callback){
         leadSize: item.MP_Lead_Size,
       }
     }));
+    callback();
   }
-  callback()
 }
 function logMe(target){
   console.log(target);
