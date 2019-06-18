@@ -10,6 +10,17 @@ const router = app => {
             message: 'Noteable: Stationery in Motion'
         });
     });
+/*
+████████ ███████ ███████ ████████
+   ██    ██      ██         ██
+   ██    █████   ███████    ██
+   ██    ██           ██    ██
+   ██    ███████ ███████    ██
+*/
+app.get('/mechP/:id', (request, response) => {
+  response.send(asker.getMechP(request.params.id));
+});
+
 
 /*
 ██    ██ ███████ ███████ ██████  ███████
