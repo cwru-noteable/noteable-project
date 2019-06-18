@@ -19,6 +19,7 @@ const router = app => {
 */
 app.get('/mechP/:id', (request, response) => {
   console.log("Arrived here");
+  console.log(getMechP(request.params.id));
   response.send(getMechP(request.params.id));
 });
 
