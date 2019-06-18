@@ -1,5 +1,5 @@
 const pool = require('../data/config2');
-const mysql = require(mysql);
+const mysql = require('mysql');
 
 function getMechP(userID){
   pool.query('SELECT * FROM (Collections natural join Items natural join MechanicalP) WHERE Collections.UserID = ?'), userID, (error, result) => {
