@@ -20,12 +20,12 @@ const router = app => {
 var frontend;
 app.get('/mechP/:id', (request, response) => {
   console.log("Arrived here");
-  getMechP(request.params.id, frontend, logMe(frontend));
+  getMechP(request.params.id, logMe(frontend));
 });
 
-function getMechP(userID, passout, callback){
+function getMechP(userID, callback){
   pool.query('SELECT * FROM (Collections natural join Items natural join MechanicalP) WHERE Collections.UserID = ?'), userID, (error, result) => {
-    passout = result.map((item, i) => ({
+    frontend = result.map((item, i) => ({
       basicAtts:{
         itemName: item.MP_Name,
         itemId: item.MP_ID,
@@ -40,8 +40,8 @@ function getMechP(userID, passout, callback){
     callback();
   }
 }
-function logMe(target){
-  console.log(target);
+function logMe(){
+  console.log(frontend);
 }
 
 
